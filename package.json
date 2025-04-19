@@ -1,0 +1,12 @@
+{
+  "name": "lowcode",
+  "private": true,
+  "description": "lowcode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["lowcode"],
+  "author": "sxy15",
+  "license": "ISC"
+}
