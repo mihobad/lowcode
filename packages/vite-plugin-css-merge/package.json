@@ -1,0 +1,35 @@
+{
+  "name": "@lowcode/vite-plugin-css-merge",
+  "version": "1.0.0",
+  "description": "vite-plugin-css-merge",
+  "type": "module",
+  "keywords": [
+    "vite-plugin-css-merge"
+  ],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": "yuanjie.dong",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "vite build -w",
+    "build:types": "tsc -p ./tsconfig.json",
+    "build:bundle": "vite build",
+    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "prepare": "pnpm build"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.8.1",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+
+  }
+}

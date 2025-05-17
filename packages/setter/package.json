@@ -1,0 +1,42 @@
+{
+  "name": "@lowcode/setter",
+  "version": "1.0.0",
+  "description": "setter",
+  "type": "module",
+  "keywords": [
+    "setter"
+  ],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": "yuanjie.dong",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "style": "dist/index.css",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "vite build -w",
+    "build:types": "tsc -p ./tsconfig.json",
+    "build:bundle": "vite build",
+    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "prepare": "pnpm build"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@lowcode/vite-plugin-css-merge": "workspace:^",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  }
+}
