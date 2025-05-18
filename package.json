@@ -6,13 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
-    "format": "pnpm biome format --write"
+    "pub:changeset": "pnpm changeset add",
+    "pub:version": "pnpm changeset version",
+    "pub:release": "pnpm changeset publish",
+    "format": "pnpm biome format --write",
+    "commit": "cz"
   },
   "keywords": [
     "lowcode"
   ],
   "author": "sxy15",
   "license": "ISC",
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
   "dependencies": {
     "rimraf": "^6.0.1",
     "typescript": "~5.8.3",
@@ -20,9 +29,14 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.4",
+    "@changesets/cli": "^2.29.4",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cz-commitlint": "^19.8.1",
     "@types/node": "^22.15.18",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "commitizen": "^4.3.1",
     "glob": "^11.0.2",
     "husky": "^9.1.7"
   }
