@@ -1,4 +1,4 @@
-import { onMounted, onActivated, nextTick } from 'vue';
+import { onMounted, onActivated, nextTick } from "vue";
 
 export function onMountedOrActivated(hook: () => any) {
 	let mounted: boolean;
