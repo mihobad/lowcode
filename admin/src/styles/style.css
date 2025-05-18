@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import "@lowcode/setter/dist/index.css";
-@import "@lowcode/els/dist/index.css";
+@import "@anfu/setter/dist/index.css";
 
 @theme {
 	--spacing: 4px;
