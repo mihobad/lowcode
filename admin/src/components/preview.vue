@@ -1,0 +1,59 @@
+<template>
+  <div class="lowcode-preview">
+    <div class="lowcode-preview-head">
+      <div class="lowcode-preview-head-text">{{ title }}</div>
+    </div>
+    <div class="lowcode-preview-body overflow-y-auto">
+      
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { useStore } from '@/store';
+  import { storeToRefs } from 'pinia';
+
+  defineOptions({
+    name: 'PreviewArea'
+  })
+
+  const store = useStore()
+  const {  } = storeToRefs(store)
+  const title = '预览'
+</script>
+
+<style scoped lang="scss">
+  .lowcode-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &-head {
+      flex-shrink: 0;
+      height: 88px;
+      padding-top: 50px;
+      text-align: center;
+      background: #fff url('@/assets/status_bar.png') no-repeat top center/contain;
+      border-bottom: 1px solid oklch(92.8% 0.006 264.531);
+
+      &-text {
+        width: 50%;
+        margin: 0 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    &-body {
+      flex: 1;
+      padding: 20px 16px 20px 16px;
+
+      &::-webkit-scrollbar {
+        display: none;
+        opacity: 0;
+      }
+    }
+  }
+</style>
