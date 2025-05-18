@@ -1,0 +1,12 @@
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      // 'base': #50cbd4,
+    ),
+  ),
+  $table: (
+    
+  ),
+);
+
+@use "element-plus/theme-chalk/src/index.scss" as *;

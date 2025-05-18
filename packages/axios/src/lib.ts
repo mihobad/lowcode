@@ -2,7 +2,7 @@ import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type { FetchConfig, ResponseData, ResponseException, ToastOptions } from './type';
 import { showToast } from '@anfu/toast';
 
-const SUCCESS_CODE: string = '0';
+const SUCCESS_CODE: number = 0;
 const defaultErrMsg = '网络错误，请稍后再试';
 let toast: any = null;
 let pendingCount = 0;
@@ -189,7 +189,7 @@ export async function handleResponseCommon<T>(
 
 	const res = responseOrPromise;
 
-	if (String(res.data?.retcode) !== SUCCESS_CODE) {
+	if (res.data?.retcode !== SUCCESS_CODE) {
 		// success 表示成功 其他都进入异常逻辑
 		if (showError) {
 			(res as any)[needAttention] = true;

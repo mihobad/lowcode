@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "@lowcode/setter/dist/index.css";
+@import "@lowcode/els/dist/index.css";
+
+@theme {
+	--spacing: 4px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#app {
+	height: 100%;
+}
