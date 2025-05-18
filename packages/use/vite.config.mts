@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 import { globSync } from 'glob'
-import mergeStyle from '@anfu/vite-plugin-css-merge'
 
 const inputs = Object.fromEntries(
   globSync('src/*/index.ts').map(file => {
@@ -16,7 +15,6 @@ export default defineConfig({
   plugins: [
     vue(), 
     vueJsx(),
-    mergeStyle()
   ],
   resolve: {
     alias: {
@@ -26,18 +24,16 @@ export default defineConfig({
   build: {
     minify: true,
     lib: {
-      name: 'setter',
+      name: 'use',
       entry: {
         ...inputs,
-        index: path.resolve(__dirname, 'src/index.ts')
+        'index': path.resolve(__dirname, 'src/index.ts')
       },
       formats: ['es'],
       fileName: (format, chunk) => chunk === 'index' ? `index.${format}.js` : `${chunk}/index.js`,
-      cssFileName: 'index'
     },
-    cssCodeSplit: true,
     rollupOptions: {
-      external: ['vue', 'element-plus', '@element-plus/icons-vue'],
+      external: ['vue', '@anfu/utils'],
       treeshake: {
         moduleSideEffects: false,
       },

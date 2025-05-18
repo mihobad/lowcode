@@ -1,10 +1,10 @@
 {
-  "name": "@anfu/vite-plugin-css-merge",
+  "name": "@anfu/modal",
   "version": "1.0.0",
-  "description": "vite-plugin-css-merge",
+  "description": "modal",
   "type": "module",
   "keywords": [
-    "vite-plugin-css-merge"
+    "modal"
   ],
   "files": [
     "dist"
@@ -17,6 +17,7 @@
   "author": "yuanjie.dong",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
+  "style": "dist/index.css",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf ./dist",
@@ -28,10 +29,15 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.8.1",
-    "typescript": "^5.8.3"
+    "vue": "^3.4.27",
+    "@anfu/utils": "workspace:^",
+    "@anfu/use": "workspace:^",
+    "@anfu/overlay": "workspace:^"
   },
   "peerDependencies": {
-
+    "vue": "^3.4.27",
+    "@anfu/utils": "workspace:^",
+    "@anfu/use": "workspace:^",
+    "@anfu/overlay": "workspace:^"
   }
 }

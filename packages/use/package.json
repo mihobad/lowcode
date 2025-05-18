@@ -1,10 +1,10 @@
 {
-  "name": "@anfu/vite-plugin-css-merge",
+  "name": "@anfu/use",
   "version": "1.0.0",
-  "description": "vite-plugin-css-merge",
+  "description": "use",
   "type": "module",
   "keywords": [
-    "vite-plugin-css-merge"
+    "use"
   ],
   "files": [
     "dist"
@@ -28,10 +28,11 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.8.1",
-    "typescript": "^5.8.3"
+    "vue": "^3.4.27",
+    "@anfu/utils": "workspace:^"
   },
   "peerDependencies": {
-
+    "vue": "^3.4.27",
+    "@anfu/utils": "workspace:^"
   }
 }

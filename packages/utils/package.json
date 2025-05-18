@@ -1,23 +1,24 @@
 {
-  "name": "@anfu/vite-plugin-css-merge",
+  "name": "@anfu/utils",
   "version": "1.0.0",
-  "description": "vite-plugin-css-merge",
+  "description": "utils",
   "type": "module",
-  "keywords": [
-    "vite-plugin-css-merge"
-  ],
-  "files": [
-    "dist"
-  ],
   "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
+  "keywords": [
+    "utils"
+  ],
+  "files": [
+    "dist"
+  ],
   "author": "yuanjie.dong",
-  "main": "dist/index.es.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "typings": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "clean": "rimraf ./dist",
     "dev": "vite build -w",
@@ -28,10 +29,9 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.8.1",
-    "typescript": "^5.8.3"
+    "vue": "^3.5.14"
   },
   "peerDependencies": {
-
+    "vue": "^3.5.14"
   }
 }

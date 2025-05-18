@@ -1,0 +1,135 @@
+:root,
+:host {
+  --l-toast-max-width: 70%;
+  --l-toast-font-size: 14px;
+  --l-toast-text-color: #fff;
+  --l-toast-loading-icon-color: #fff;
+  --l-toast-line-height: 20px;
+  --l-toast-radius: 8px;
+  --l-toast-background: rgba(0, 0, 0, 0.7);
+  --l-toast-icon-size: 36px;
+  --l-toast-text-min-width: 96px;
+  --l-toast-text-padding: 8px 12px;
+  --l-toast-default-padding: 16px;
+  --l-toast-default-width: 88px;
+  --l-toast-default-min-height: 88px;
+  --l-toast-position-top-distance: 20%;
+  --l-toast-position-bottom-distance: 20%;
+  --l-padding-xs: 8px;
+  --l-padding-base: 4px;
+}
+
+@keyframes l-rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes l-circular {
+  0% {
+    stroke-dasharray: 1 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -40px;
+  }
+  100% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -120px;
+  }
+}
+
+.l-toast {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  transition: all var(--l-duration-fast);
+
+  // hack for avoid max-width when use left & fixed
+  width: var(--l-toast-default-width);
+  max-width: var(--l-toast-max-width);
+  min-height: var(--l-toast-default-min-height);
+  padding: var(--l-toast-default-padding);
+  color: var(--l-toast-text-color);
+  font-size: var(--l-toast-font-size);
+  line-height: var(--l-toast-line-height);
+
+  // allow newline character
+  white-space: pre-wrap;
+  text-align: center;
+  background: var(--l-toast-background);
+  border-radius: var(--l-toast-radius);
+
+  &--top {
+    top: var(--l-toast-position-top-distance);
+  }
+
+  &--middle {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &--bottom {
+    bottom: var(--l-toast-position-bottom-distance);
+  }
+
+  &--transparent {
+    opacity: 0;
+  }
+
+  &--text {
+    width: fit-content;
+    min-width: var(--l-toast-text-min-width);
+    min-height: 0;
+    padding: var(--l-toast-text-padding);
+
+    .l-toast__text {
+      margin-top: 0;
+    }
+  }
+
+  &__icon {
+    width: 38px;
+    height: 38px;
+    padding: var(--l-padding-base);
+    color: var(--l-toast-text-color);
+    animation: l-rotate 2s linear infinite;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__loading {
+    width: 38px;
+    height: 38px;
+    color: var(--l-toast-text-color);
+    padding: var(--l-padding-base);
+    animation: l-rotate 2s linear infinite;
+
+    circle {
+      stroke: currentColor;
+      stroke-width: 3px;
+      stroke-linecap: round;
+      animation: l-circular 1.5s ease-in-out infinite;
+    }
+  }
+
+  &__text {
+    margin-top: var(--l-padding-xs);
+    user-select: none;
+    white-space: pre-wrap;
+  }
+}

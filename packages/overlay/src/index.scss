@@ -1,0 +1,50 @@
+:root,
+:host {
+  --l-overlay-z-index: 100;
+  --l-overlay-background: rgba(0, 0, 0, 0.7);
+}
+
+@keyframes l-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes l-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.l-fade {
+  &-enter-active {
+    animation: 0.3s l-fade-in both ease-out;
+  }
+
+  &-leave-active {
+    animation: 0.3s l-fade-out both ease-in;
+  }
+}
+
+.l-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--l-overlay-z-index);
+  width: 100%;
+  height: 100%;
+  background: var(--l-overlay-background);
+  pointer-events: none;
+
+  &--forbid {
+    pointer-events: auto;
+  }
+}
