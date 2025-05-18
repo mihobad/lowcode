@@ -1,10 +1,5 @@
 import { createNamespace } from '@anfu/utils';
-import {
-	defineComponent,
-	type ExtractPropTypes,
-	type PropType,
-	type CSSProperties,
-} from 'vue';
+import { defineComponent, type ExtractPropTypes, type PropType, type CSSProperties } from 'vue';
 import LOverlay from '@anfu/overlay';
 
 const [name, bem] = createNamespace('modal');
@@ -26,8 +21,6 @@ export default defineComponent({
 			return <div class={bem()}>{slots['default']?.()}</div>;
 		};
 
-		return () => (
-			<LOverlay {...props} v-slots={{ default: renderModal }}></LOverlay>
-		);
+		return () => <LOverlay {...props} v-slots={{ default: renderModal }}></LOverlay>;
 	},
 });

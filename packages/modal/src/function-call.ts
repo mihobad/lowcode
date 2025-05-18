@@ -26,12 +26,7 @@ export function showModal<T extends Component>(
 		[key: string]: any;
 	},
 ) {
-	const {
-		props,
-		methods = {},
-		overlayStyle = {},
-		...rest
-	} = options || { id: '' };
+	const { props, methods = {}, overlayStyle = {}, ...rest } = options || { id: '' };
 	const { id, once = true, lockScroll = true } = rest;
 	const { onClose } = methods;
 	const visible = ref(true);

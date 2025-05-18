@@ -1,11 +1,4 @@
-import {
-	createNamespace,
-	isDef,
-	makeNumberProp,
-	makeStringProp,
-	numericProp,
-	pick,
-} from '@anfu/utils';
+import { createNamespace, isDef, makeNumberProp, makeStringProp, numericProp, pick } from '@anfu/utils';
 import { defineComponent, watch } from 'vue';
 import { ToastPosition, ToastType } from './types';
 import Loading from './loading-svg';

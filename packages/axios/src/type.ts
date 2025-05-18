@@ -13,10 +13,7 @@ export interface ResponseException {
 export interface FetchOptions {
 	toastPending?: boolean | ToastOptions;
 	toastError?: boolean | Omit<ToastOptions, 'message'>;
-	errorMessageHandler?: (
-		retcode: number | string,
-		message: string,
-	) => string | undefined;
+	errorMessageHandler?: (retcode: number | string, message: string) => string | undefined;
 }
 
 export type FetchConfig = FetchOptions & Omit<AxiosRequestConfig, 'url'>;

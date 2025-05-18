@@ -5,14 +5,7 @@ import { SelectSetter } from './select-setter';
 import { SwitchSetter } from './switch-setter';
 import { NumberSetter } from './number-setter';
 
-export {
-	InputSetter,
-	ColorSetter,
-	RadioSetter,
-	SelectSetter,
-	SwitchSetter,
-	NumberSetter,
-};
+export { InputSetter, ColorSetter, RadioSetter, SelectSetter, SwitchSetter, NumberSetter };
 
 const install = (app: any) => {
 	app.component('InputSetter', InputSetter);

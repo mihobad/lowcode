@@ -1,12 +1,4 @@
-import {
-	Ref,
-	isRef,
-	onDeactivated,
-	onUnmounted,
-	unref,
-	watch,
-	type WatchStopHandle,
-} from 'vue';
+import { Ref, isRef, onDeactivated, onUnmounted, unref, watch, type WatchStopHandle } from 'vue';
 import { onMountedOrActivated } from '../onMountedOrActivated';
 import { isBrowser } from '../utils';
 
@@ -23,16 +15,8 @@ export function useEventListener<K extends keyof DocumentEventMap>(
 	listener: (event: DocumentEventMap[K]) => void,
 	options?: UseEventListenerOptions,
 ): () => void;
-export function useEventListener(
-	type: string,
-	listener: EventListener,
-	options?: UseEventListenerOptions,
-): () => void;
-export function useEventListener(
-	type: string,
-	listener: EventListener,
-	options: UseEventListenerOptions = {},
-) {
+export function useEventListener(type: string, listener: EventListener, options?: UseEventListenerOptions): () => void;
+export function useEventListener(type: string, listener: EventListener, options: UseEventListenerOptions = {}) {
 	if (!isBrowser) {
 		return;
 	}

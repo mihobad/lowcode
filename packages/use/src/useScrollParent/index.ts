@@ -7,17 +7,10 @@ const defaultRoot = window;
 
 function isElement(node: Element) {
 	const ELEMENT_NODE_TYPE = 1;
-	return (
-		node.tagName !== 'HTML' &&
-		node.tagName !== 'BODY' &&
-		node.nodeType === ELEMENT_NODE_TYPE
-	);
+	return node.tagName !== 'HTML' && node.tagName !== 'BODY' && node.nodeType === ELEMENT_NODE_TYPE;
 }
 
-export function getScrollParent(
-	el: Element,
-	root: ScrollElement | undefined = defaultRoot,
-) {
+export function getScrollParent(el: Element, root: ScrollElement | undefined = defaultRoot) {
 	let node = el;
 
 	while (node && node !== root && isElement(node)) {
@@ -31,10 +24,7 @@ export function getScrollParent(
 	return root;
 }
 
-export function useScrollParent(
-	el: Ref<Element | undefined>,
-	root: ScrollElement | undefined = defaultRoot,
-) {
+export function useScrollParent(el: Ref<Element | undefined>, root: ScrollElement | undefined = defaultRoot) {
 	const scrollParent = ref<Element | Window>();
 
 	onMounted(() => {

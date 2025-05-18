@@ -16,9 +16,7 @@ export default function styleMerge() {
 			});
 
 			// 合并 CSS 内容（按遍历顺序拼接）
-			const mergedCss = cssContents
-				.join('\n')
-				.replace(/\/\*(\$vite\$:.*?)\*\//g, '');
+			const mergedCss = cssContents.join('\n').replace(/\/\*(\$vite\$:.*?)\*\//g, '');
 
 			// 添加合并后的 index.css 到 bundle
 			bundle['index.css'] = {

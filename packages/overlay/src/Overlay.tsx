@@ -1,20 +1,6 @@
-import {
-	defineComponent,
-	Transition,
-	type CSSProperties,
-	type PropType,
-	type ExtractPropTypes,
-} from 'vue';
+import { defineComponent, Transition, type CSSProperties, type PropType, type ExtractPropTypes } from 'vue';
 import { useLazyRender } from '@anfu/use';
-import {
-	createNamespace,
-	truthProp,
-	numericProp,
-	extend,
-	getZIndexStyle,
-	unknownProp,
-	isDef,
-} from '@anfu/utils';
+import { createNamespace, truthProp, numericProp, extend, getZIndexStyle, unknownProp, isDef } from '@anfu/utils';
 
 const [name, bem] = createNamespace('overlay');
 
@@ -43,10 +29,7 @@ export default defineComponent({
 		};
 
 		const renderOverlay = lazyRender(() => {
-			const style: CSSProperties = extend(
-				getZIndexStyle(props.zIndex),
-				props.customStyle,
-			);
+			const style: CSSProperties = extend(getZIndexStyle(props.zIndex), props.customStyle);
 
 			if (isDef(props.duration)) {
 				style.animationDuration = `${props.duration}s`;
@@ -64,8 +47,6 @@ export default defineComponent({
 			);
 		});
 
-		return () => (
-			<Transition v-slots={{ default: renderOverlay }} name="l-fade" appear />
-		);
+		return () => <Transition v-slots={{ default: renderOverlay }} name="l-fade" appear />;
 	},
 });

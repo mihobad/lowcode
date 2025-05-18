@@ -1,10 +1,5 @@
 import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import type {
-	FetchConfig,
-	ResponseData,
-	ResponseException,
-	ToastOptions,
-} from './type';
+import type { FetchConfig, ResponseData, ResponseException, ToastOptions } from './type';
 import { showToast } from '@anfu/toast';
 
 const SUCCESS_CODE: string = '0';
@@ -73,13 +68,7 @@ axios.interceptors.response.use(
 
 export async function fetch<R>(
 	url: string,
-	{
-		errorMessageHandler,
-		toastPending = false,
-		toastError = true,
-		method = 'get',
-		...axiosConfig
-	}: FetchConfig = {},
+	{ errorMessageHandler, toastPending = false, toastError = true, method = 'get', ...axiosConfig }: FetchConfig = {},
 ) {
 	const toastPendingOptions: ToastOptions | undefined =
 		toastPending === true
@@ -123,9 +112,7 @@ export async function fetch<R>(
 			let msg: string | undefined = '';
 			if (isResponseException(e)) {
 				const { message, retcode } = e?.data || {};
-				msg = errorMessageHandler
-					? errorMessageHandler(retcode, message)
-					: message;
+				msg = errorMessageHandler ? errorMessageHandler(retcode, message) : message;
 			} else if (e?.code === 'ERR_CANCELED') {
 				msg = '';
 			} else {
@@ -145,9 +132,7 @@ export async function fetch<R>(
 	}
 }
 
-export function isRetry(
-	e: AxiosError | AxiosResponse<{ retcode: number; message: string }>,
-) {
+export function isRetry(e: AxiosError | AxiosResponse<{ retcode: number; message: string }>) {
 	const axiosError = e as AxiosError;
 
 	// 断网(ERR NETWORK)+超时取消(ECONNABORTED)
@@ -182,9 +167,7 @@ export function isAxiosError(error: any): error is
 			[k: string]: unknown;
 	  }
 	| { [isResponseError]?: false; response: undefined; [k: string]: unknown } {
-	return (
-		error[isNetworkError] || error[isRequestError] || error[isResponseError]
-	);
+	return error[isNetworkError] || error[isRequestError] || error[isResponseError];
 }
 
 // 处理 response 的通用逻辑 只有在retcode === 0 时返回 res.data.data, 否则抛出异常
@@ -197,9 +180,7 @@ export function handleResponseCommon<T>(
 	options?: { showError?: boolean },
 ): Promise<T>;
 export async function handleResponseCommon<T>(
-	responseOrPromise: MaybePromise<
-		AxiosResponse<ResponseData<T> & ResponseException>
-	>,
+	responseOrPromise: MaybePromise<AxiosResponse<ResponseData<T> & ResponseException>>,
 	{ showError = false } = {},
 ): Promise<T> {
 	if (isPromise(responseOrPromise)) {
