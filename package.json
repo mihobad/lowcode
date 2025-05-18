@@ -38,6 +38,7 @@
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "commitizen": "^4.3.1",
     "glob": "^11.0.2",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "sass-embedded": "^1.89.0"
   }
 }
