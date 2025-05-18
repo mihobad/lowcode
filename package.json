@@ -4,7 +4,9 @@
   "description": "lowcode",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "format": "pnpm biome format --write"
   },
   "keywords": [
     "lowcode"
@@ -17,9 +19,11 @@
     "vite": "^6.3.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.0.0-beta.4",
     "@types/node": "^22.15.18",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
-    "glob": "^11.0.2"
+    "glob": "^11.0.2",
+    "husky": "^9.1.7"
   }
 }

@@ -6,12 +6,12 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'ColorSetter'
-})
+	name: 'ColorSetter',
+});
 
 const { id } = defineProps({
-  id: String
-})
+	id: String,
+});
 
-const modelValue = defineModel<string>()
+const modelValue = defineModel<string>();
 </script>

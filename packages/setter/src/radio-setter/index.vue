@@ -10,20 +10,20 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'RadioSetter'
-})
+	name: 'RadioSetter',
+});
 
 interface Option {
-  label: string
-  value: string | number | boolean
+	label: string;
+	value: string | number | boolean;
 }
 
 interface Props {
-  options: Option[]
+	options: Option[];
 }
 
-defineProps<Props>()
+defineProps<Props>();
 
 // 使用 defineModel 进行双向绑定
-const modelValue = defineModel<string | number | boolean>()
+const modelValue = defineModel<string | number | boolean>();
 </script>

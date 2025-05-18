@@ -12,22 +12,22 @@
 
 <script lang="ts" setup>
 defineOptions({
-  name: 'InputSetter'
-})
+	name: 'InputSetter',
+});
 
 interface Props {
-  maxLength?: number
-  showWordLimit?: boolean
-  type?: 'text' | 'textarea'
-  placeholder?: string
+	maxLength?: number;
+	showWordLimit?: boolean;
+	type?: 'text' | 'textarea';
+	placeholder?: string;
 }
 
 withDefaults(defineProps<Props>(), {
-  maxLength: 100,
-  showWordLimit: true,
-  type: 'text',
-  placeholder: '请输入'
-})
+	maxLength: 100,
+	showWordLimit: true,
+	type: 'text',
+	placeholder: '请输入',
+});
 
-const modelValue = defineModel<string>()
+const modelValue = defineModel<string>();
 </script>

@@ -1,6 +1,6 @@
-import axios from './lib'
-export * from './type'
+import axios from './lib';
+export * from './type';
 
-export { axios }
+export { axios };
 
-export default axios
+export default axios;

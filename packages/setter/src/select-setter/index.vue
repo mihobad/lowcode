@@ -8,28 +8,28 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'SelectSetter'
-})
+	name: 'SelectSetter',
+});
 
 interface Option {
-  label: string
-  value: string | number
+	label: string;
+	value: string | number;
 }
 
 interface Props {
-  options: Option[]
-  placeholder?: string
-  clearable?: boolean
-  multiple?: boolean
+	options: Option[];
+	placeholder?: string;
+	clearable?: boolean;
+	multiple?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
-  options: () => [],
-  placeholder: '请选择',
-  clearable: false,
-  multiple: false
-})
+	options: () => [],
+	placeholder: '请选择',
+	clearable: false,
+	multiple: false,
+});
 
 // 使用 defineModel 进行双向绑定
-const modelValue = defineModel<string | number | (string | number)[]>()
+const modelValue = defineModel<string | number | (string | number)[]>();
 </script>

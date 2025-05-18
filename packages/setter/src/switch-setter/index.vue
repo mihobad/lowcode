@@ -6,6 +6,6 @@
 import { defineModel } from 'vue';
 
 const modelValue = defineModel<boolean>('modelValue', {
-  default: false
+	default: false,
 });
 </script>

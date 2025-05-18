@@ -1,6 +1,6 @@
-import { showModal } from "./function-call";
-import './index.scss'
+import { showModal } from './function-call';
+import './index.scss';
 
 export { showModal };
 
-export default showModal
+export default showModal;
