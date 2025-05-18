@@ -10,16 +10,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useStore } from '@/store';
-  import { storeToRefs } from 'pinia';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
 
-  defineOptions({
-    name: 'PreviewArea'
-  })
+defineOptions({
+	name: 'PreviewArea',
+});
 
-  const store = useStore()
-  const {  } = storeToRefs(store)
-  const title = '预览'
+const store = useStore();
+const {} = storeToRefs(store);
+const title = '预览';
 </script>
 
 <style scoped lang="scss">

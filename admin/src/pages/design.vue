@@ -50,108 +50,102 @@ import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 
 defineOptions({
-  components: {
-    ClientPreview
-  }
-})
+	components: {
+		ClientPreview,
+	},
+});
 
 const { id } = defineProps({
-  id: String
-})
-const router = useRouter()
-const store = useStore()
-const json = ref({})
-const ui = ref([])
-const data = ref([])
+	id: String,
+});
+const router = useRouter();
+const store = useStore();
+const json = ref({});
+const ui = ref([]);
+const data = ref([]);
 
 const tabOptions = ref([
-  { label: '样式配置', name: 'ui' },
-  { label: '数据配置', name: 'data' }
-])
-const tabName = ref('ui') // 默认选中的选项卡 name
+	{ label: '样式配置', name: 'ui' },
+	{ label: '数据配置', name: 'data' },
+]);
+const tabName = ref('ui'); // 默认选中的选项卡 name
 const tabConfig = computed(() => {
-  return (tabName.value === 'ui' ? ui.value : data.value).map((it: any) => {
-    return {
-      ...it,
-      items: (it.items || []).map((item: any) => {
-        const { setter } = item
-        return {
-          ...item,
-          visible: setter?.condition ? setter.condition(json.value) : true,
-        }
-      }).filter((item: any) => item.visible)
-    }
-  })
-})
-const defaultCollapse = [1, 2, 3, 4, 5, 6]
-const collapses = ref([...defaultCollapse])
+	return (tabName.value === 'ui' ? ui.value : data.value).map((it: any) => {
+		return {
+			...it,
+			items: (it.items || [])
+				.map((item: any) => {
+					const { setter } = item;
+					return {
+						...item,
+						visible: setter?.condition ? setter.condition(json.value) : true,
+					};
+				})
+				.filter((item: any) => item.visible),
+		};
+	});
+});
+const defaultCollapse = [1, 2, 3, 4, 5, 6];
+const collapses = ref([...defaultCollapse]);
 watch(tabName, () => {
-  collapses.value = [...defaultCollapse]
-})
+	collapses.value = [...defaultCollapse];
+});
 
 // 返回
-const clkBack = (type: 'back' | '-1') => {
- 
-}
+const clkBack = (type: 'back' | '-1') => {};
 
-const clkSave = async () => {
- 
-}
+const clkSave = async () => {};
 
-const handlePostMessage = (info: any) => {
- 
-}
+const handlePostMessage = (info: any) => {};
 
 // 查询json
-const init = async () => {
+const init = async () => {};
+init();
 
-}
-init()
-
-const configWidth = ref(300) // 默认宽度
-const isDragging = ref(false)
-const startX = ref(0)
-const startWidth = ref(0)
+const configWidth = ref(300); // 默认宽度
+const isDragging = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
 const startDrag = (e: MouseEvent) => {
-  isDragging.value = true
-  startX.value = e.clientX
-  startWidth.value = configWidth.value
+	isDragging.value = true;
+	startX.value = e.clientX;
+	startWidth.value = configWidth.value;
 
-  // 添加拖拽时的样式
-  document.body.style.cursor = 'col-resize'
-  document.body.style.userSelect = 'none'
+	// 添加拖拽时的样式
+	document.body.style.cursor = 'col-resize';
+	document.body.style.userSelect = 'none';
 
-  document.addEventListener('mousemove', onDrag)
-  document.addEventListener('mouseup', stopDrag)
-}
+	document.addEventListener('mousemove', onDrag);
+	document.addEventListener('mouseup', stopDrag);
+};
 
 const onDrag = (e: MouseEvent) => {
-  if (!isDragging.value) return
+	if (!isDragging.value) return;
 
-  const deltaX = startX.value - e.clientX
-  const newWidth = startWidth.value + deltaX
+	const deltaX = startX.value - e.clientX;
+	const newWidth = startWidth.value + deltaX;
 
-  // 限制最小和最大宽度
-  if (newWidth >= 270 && newWidth <= 400) {
-    configWidth.value = newWidth
-  }
-}
+	// 限制最小和最大宽度
+	if (newWidth >= 270 && newWidth <= 400) {
+		configWidth.value = newWidth;
+	}
+};
 
 const stopDrag = () => {
-  isDragging.value = false
+	isDragging.value = false;
 
-  // 恢复默认样式
-  document.body.style.cursor = ''
-  document.body.style.userSelect = ''
+	// 恢复默认样式
+	document.body.style.cursor = '';
+	document.body.style.userSelect = '';
 
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
-}
+	document.removeEventListener('mousemove', onDrag);
+	document.removeEventListener('mouseup', stopDrag);
+};
 
 onUnmounted(() => {
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
-})
+	document.removeEventListener('mousemove', onDrag);
+	document.removeEventListener('mouseup', stopDrag);
+});
 </script>
 
 <style lang="scss" scoped>

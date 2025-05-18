@@ -10,20 +10,20 @@
 <script lang="ts" setup>
 import { type PropType } from 'vue';
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change']);
 
 defineProps({
-  options: {
-    type: Array as PropType<Array<{ label: string; name: string }>>,
-    default: () => []
-  }
-})
-const name = defineModel<string>()
+	options: {
+		type: Array as PropType<Array<{ label: string; name: string }>>,
+		default: () => [],
+	},
+});
+const name = defineModel<string>();
 
 const changeTab = (item: { label: string; name: string }) => {
-  name.value = item.name
-  emit('change', item.name)
-}
+	name.value = item.name;
+	emit('change', item.name);
+};
 </script>
 
 <style scoped lang="scss">

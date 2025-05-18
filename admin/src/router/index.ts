@@ -11,7 +11,7 @@ const routes = [
 		name: 'design',
 		props: true,
 		component: () => import('@/pages/design.vue'),
-	}
+	},
 ];
 
 export const router = createRouter({
