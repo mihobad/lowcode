@@ -1,0 +1,5 @@
+---
+"@anfu/utils": patch
+---
+
+mapProps
