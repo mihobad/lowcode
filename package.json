@@ -9,8 +9,9 @@
     "pub:changeset": "pnpm changeset add",
     "pub:version": "pnpm changeset version",
     "pub:release": "pnpm changeset publish",
-    "format": "pnpm biome format --write",
-    "commit": "cz"
+    "format": "pnpm biome format --write .",
+    "commit": "cz",
+    "plop": "plop --plopfile=./scripts/plopfile.mjs"
   },
   "keywords": [
     "lowcode"
@@ -39,6 +40,7 @@
     "commitizen": "^4.3.1",
     "glob": "^11.0.2",
     "husky": "^9.1.7",
+    "plop": "^4.0.1",
     "sass-embedded": "^1.89.0"
   }
 }

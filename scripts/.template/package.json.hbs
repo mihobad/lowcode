@@ -1,0 +1,51 @@
+{
+  "name": "@lowcode/{{ name }}",
+  "version": "1.0.0",
+  "description": "{{ name }}",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://devops.digitalvolvo.com/nexus/repository/frontend-npm-hosted/"
+  },
+  "keywords": [
+    "{{ name }}"
+  ],
+  "author": "yuanjie.dong",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "style": "dist/index.css",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "vite build -w",
+    "build:types": "tsc -p ./tsconfig.json",
+    "build:bundle": "vite build",
+    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "prepare": "pnpm build"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@lowcode/axios": "workspace:^",
+    "@lowcode/els": "workspace:^",
+    "@lowcode/vite-plugin-css-merge": "workspace:^",
+    "@lowcode/utils": "workspace:^",
+    "@vh5/axios": "^2.0.11",
+    "@vh5/bridge": "^0.1.9",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@lowcode/axios": "workspace:^",
+    "@lowcode/els": "workspace:^",
+    "@vh5/axios": "^2.0.11",
+    "@vh5/bridge": "^0.1.9",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  }
+}

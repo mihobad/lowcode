@@ -1,0 +1,14 @@
+// Schema 扩展默认值相关处理
+import uiConfig from './merchant/ui-config/index';
+import { mapProps } from '@lowcode/utils';
+
+const {{name}}SchemaJson = {
+	name: '{{ name }}',
+	version: '1.0.0',
+	description: '{{name}}',
+	props: mapProps(uiConfig),
+	data: {},
+	events: {},
+};
+
+export { {{name}}SchemaJson };
