@@ -80,11 +80,7 @@ export default defineComponent({
 			const overlayDuration = isMask ? 0 : 0.3;
 
 			return (
-				<Overlay
-					duration={overlayDuration}
-					customStyle={{ background: 'transparent' }}
-					{...pick(props, overlayInheritProps)}
-				>
+				<Overlay duration={overlayDuration} customStyle={{ background: 'transparent' }} {...pick(props, overlayInheritProps)}>
 					<div class={bem([props.position, props.type, transparentClass])}>
 						{renderIcon()}
 						{renderMessage()}

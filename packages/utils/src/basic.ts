@@ -12,7 +12,6 @@ export const isDef = <T>(val: T): val is NonNullable<T> => val !== undefined && 
 
 export const isFunction = (val: unknown): val is () => any => typeof val === 'function';
 
-export const isPromise = <T = any>(val: unknown): val is Promise<T> =>
-	isObject(val) && isFunction(val.then) && isFunction(val.catch);
+export const isPromise = <T = any>(val: unknown): val is Promise<T> => isObject(val) && isFunction(val.then) && isFunction(val.catch);
 
 export type Numeric = number | string;

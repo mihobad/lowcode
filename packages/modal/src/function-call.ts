@@ -1,13 +1,4 @@
-import {
-	render,
-	createVNode,
-	type Component,
-	h,
-	watchEffect,
-	ref,
-	type ExtractPropTypes,
-	ComponentPublicInstance,
-} from 'vue';
+import { render, createVNode, type Component, h, watchEffect, ref, type ExtractPropTypes, ComponentPublicInstance } from 'vue';
 import { useLockBodyScroll } from '@anfu/use';
 import Modal from './Modal';
 
@@ -50,11 +41,7 @@ export function showModal<T extends Component>(
 		onClose?.();
 	}
 
-	const vm = createVNode(
-		h(Modal, { show: visible.value, customStyle: overlayStyle }, () =>
-			h(component, { ...props, ...methods, onClose: close }),
-		),
-	);
+	const vm = createVNode(h(Modal, { show: visible.value, customStyle: overlayStyle }, () => h(component, { ...props, ...methods, onClose: close })));
 
 	const el = document.createElement('div');
 	document.body.appendChild(el);

@@ -36,12 +36,7 @@ export default defineComponent({
 			}
 
 			return (
-				<div
-					v-show={props.show}
-					style={style}
-					class={[bem([props.forbidClick ? 'forbid' : '']), props.className]}
-					onClick={onClickOverlay}
-				>
+				<div v-show={props.show} style={style} class={[bem([props.forbidClick ? 'forbid' : '']), props.className]} onClick={onClickOverlay}>
 					{slots.default?.()}
 				</div>
 			);

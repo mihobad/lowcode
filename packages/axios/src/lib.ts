@@ -119,9 +119,7 @@ export async function fetch<R>(
 				msg = defaultErrMsg;
 			}
 
-			const toastErrorOptions: ToastOptions | undefined = msg
-				? { message: msg, transparent: false, type: 'text' }
-				: undefined;
+			const toastErrorOptions: ToastOptions | undefined = msg ? { message: msg, transparent: false, type: 'text' } : undefined;
 
 			if (toastErrorOptions) {
 				showToast(toastErrorOptions);
@@ -137,9 +135,7 @@ export function isRetry(e: AxiosError | AxiosResponse<{ retcode: number; message
 
 	// 断网(ERR NETWORK)+超时取消(ECONNABORTED)
 	return (
-		axiosError?.isAxiosError &&
-		['ERR_NETWORK', 'ECONNABORTED'].includes(axiosError?.code || '') &&
-		((e as any)[isResponseError] || (e as any)[isNetworkError])
+		axiosError?.isAxiosError && ['ERR_NETWORK', 'ECONNABORTED'].includes(axiosError?.code || '') && ((e as any)[isResponseError] || (e as any)[isNetworkError])
 	);
 }
 
@@ -171,14 +167,8 @@ export function isAxiosError(error: any): error is
 }
 
 // 处理 response 的通用逻辑 只有在retcode === 0 时返回 res.data.data, 否则抛出异常
-export function handleResponseCommon<T>(
-	response: AxiosResponse<ResponseData<T> & ResponseException>,
-	options?: { showError?: boolean },
-): T;
-export function handleResponseCommon<T>(
-	response: Promise<AxiosResponse<ResponseData<T> & ResponseException>>,
-	options?: { showError?: boolean },
-): Promise<T>;
+export function handleResponseCommon<T>(response: AxiosResponse<ResponseData<T> & ResponseException>, options?: { showError?: boolean }): T;
+export function handleResponseCommon<T>(response: Promise<AxiosResponse<ResponseData<T> & ResponseException>>, options?: { showError?: boolean }): Promise<T>;
 export async function handleResponseCommon<T>(
 	responseOrPromise: MaybePromise<AxiosResponse<ResponseData<T> & ResponseException>>,
 	{ showError = false } = {},

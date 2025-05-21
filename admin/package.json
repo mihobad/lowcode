@@ -9,23 +9,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@anfu/axios": "workspace:^",
+    "@anfu/modal": "workspace:^",
+    "@anfu/overlay": "workspace:^",
+    "@anfu/setter": "workspace:^",
+    "@anfu/toast": "workspace:^",
+    "@anfu/use": "workspace:^",
+    "@anfu/utils": "workspace:^",
     "@element-plus/icons-vue": "^2.3.1",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
     "axios-mock-adapter": "^2.1.0",
-    "element-plus": "^2.9.10",
+    "element-plus": "^2.9.9",
     "lodash-es": "^4.17.21",
     "pinia": "^3.0.2",
+    "reset-css": "^5.0.2",
     "tailwindcss": "^4.1.7",
+    "unplugin-element-plus": "^0.10.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.1",
-    "@anfu/axios": "workspace:^",
-    "@anfu/overlay": "workspace:^",
-    "@anfu/use": "workspace:^",
-    "@anfu/utils": "workspace:^",
-    "@anfu/toast": "workspace:^",
-    "@anfu/modal": "workspace:^",
-    "@anfu/setter": "workspace:^"
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.4",
@@ -33,7 +35,6 @@
     "@vue/tsconfig": "^0.7.0",
     "typescript": "~5.8.3",
     "unplugin-auto-import": "^19.2.0",
-    "unplugin-element-plus": "^0.10.0",
     "unplugin-vue-components": "^28.5.0",
     "vite": "^6.3.5",
     "vue-tsc": "^2.2.8"
