@@ -37,6 +37,8 @@
                 v-model:current-page="pagination.current" @change="clkSearch" />
         </div>
     </div>
+
+	<Create v-model="createDialogVisible"/>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +48,7 @@ import { CompStatus } from '@/constants/index';
 import { useRouter } from 'vue-router';
 import { fetchPageList } from '@/api';
 import { arr2map } from '@/utils';
+import Create from '@/components/create.vue';
 
 const router = useRouter();
 
@@ -62,7 +65,7 @@ const pagination = reactive<{ current: number; size: number; total: number }>({
 const tableColumns = [
 	{
 		label: 'id',
-		prop: 'page_id',
+		prop: 'id',
 	},
 	{
 		label: '名称',
@@ -82,6 +85,7 @@ const tableColumns = [
 	},
 ];
 const tableData = ref<TableData[]>([]);
+const createDialogVisible = ref(false);
 
 // 查询
 const clkSearch = async () => {
@@ -115,12 +119,7 @@ const clkReset = () => {
 
 // 新建
 const clkCreate = () => {
-	router.push({
-		name: 'edit-base',
-		params: {
-			id: 0,
-		},
-	});
+	createDialogVisible.value = true;
 };
 
 // 编辑
