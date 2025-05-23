@@ -36,3 +36,11 @@ export const fetchDeletePage = (config: FetchConfig = {}): Promise<any> => {
 		...config,
 	});
 };
+
+// 上下架
+export const fetchUpdateStatus = (config: FetchConfig = {}): Promise<any> => {
+	return axios(`${API_BASE}/updateStatus`, {
+		method: 'post',
+		...config,
+	});
+};

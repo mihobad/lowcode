@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "@anfu/setter/dist/index.css";
+@import "@anfu/toast/dist/index.css";
+@import "@anfu/overlay/dist/index.css";
+@import "@anfu/modal/dist/index.css";
 
 @theme {
 	--spacing: 4px;

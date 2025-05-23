@@ -47,7 +47,7 @@ import { reactive, ref } from 'vue';
 import type { Search, TableData } from '@/types';
 import { CompStatus } from '@/constants/index';
 import { useRouter } from 'vue-router';
-import { fetchPageList, fetchDeletePage } from '@/api';
+import { fetchPageList, fetchDeletePage, fetchUpdateStatus } from '@/api';
 import { arr2map } from '@/utils';
 import Create from '@/components/create.vue';
 
@@ -145,7 +145,14 @@ const handleEdit = (row: TableData) => {
 
 // 发布/下架
 const handleStatus = async (row: TableData) => {
-	console.log(row);
+	await fetchUpdateStatus({
+		toastPending: true,
+		data: {
+			id: row.id,
+			status: row.status === 0 ? 1 : 0,
+		},
+	});
+	clkSearch();
 };
 </script>
 
