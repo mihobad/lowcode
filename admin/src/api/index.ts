@@ -28,3 +28,11 @@ export const fetchCreatePage = (config: FetchConfig = {}): Promise<any> => {
 		...config,
 	});
 };
+
+// 删除页面
+export const fetchDeletePage = (config: FetchConfig = {}): Promise<any> => {
+	return axios(`${API_BASE}/delete`, {
+		method: 'post',
+		...config,
+	});
+};

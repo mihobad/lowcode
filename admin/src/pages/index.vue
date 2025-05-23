@@ -25,10 +25,11 @@
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template #default="scope">
-                    <el-button type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-                    <el-button type="primary" @click="handleStatus(scope.row)">
+                    <el-button link type="primary" @click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button link type="primary" @click="handleStatus(scope.row)">
                         <span>{{ scope.row.status === 0 ? '上架' : '下架' }}</span>
                     </el-button>
+					<el-button link type="primary" @click="handleDel(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -46,7 +47,7 @@ import { reactive, ref } from 'vue';
 import type { Search, TableData } from '@/types';
 import { CompStatus } from '@/constants/index';
 import { useRouter } from 'vue-router';
-import { fetchPageList } from '@/api';
+import { fetchPageList, fetchDeletePage } from '@/api';
 import { arr2map } from '@/utils';
 import Create from '@/components/create.vue';
 
@@ -120,6 +121,16 @@ const clkReset = () => {
 // 新建
 const clkCreate = () => {
 	createDialogVisible.value = true;
+};
+
+const handleDel = async (row: TableData) => {
+	await fetchDeletePage({
+		toastPending: true,
+		data: {
+			id: row.id,
+		},
+	});
+	clkSearch();
 };
 
 // 编辑
