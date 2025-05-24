@@ -52,3 +52,11 @@ export const fetchGetJson = (config: FetchConfig = {}): Promise<any> => {
 		...config,
 	});
 };
+
+// 保存json
+export const fetchSaveJson = (config: FetchConfig = {}): Promise<any> => {
+	return axios(`${API_BASE}/updateJson`, {
+		method: 'post',
+		...config,
+	});
+};

@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 h-full flex flex-col layout">
     <div class="flex justify-end">
-      <el-button plain @click="clkBack('back')">返回</el-button>
+      <el-button plain @click="clkBack">返回</el-button>
       <el-button type="primary" @click="clkSave">保存</el-button>
     </div>
     <div class="flex mt-2 pt-2 gap-2 flex-1">
@@ -48,7 +48,8 @@ import ClientPreview from '@/components/preview.vue';
 import TabRadio from '@/components/tab-radio.vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { fetchGetJson } from '@/api';
+import { fetchGetJson, fetchSaveJson } from '@/api';
+import { ElMessage } from 'element-plus';
 
 defineOptions({
 	components: {
@@ -93,9 +94,20 @@ watch(tabName, () => {
 });
 
 // 返回
-const clkBack = (type: 'back' | '-1') => {};
+const clkBack = () => {
+	router.back();
+};
 
-const clkSave = async () => {};
+const clkSave = async () => {
+	await fetchSaveJson({
+		toastPending: true,
+		data: {
+			id,
+			json: '{}',
+		},
+	});
+	ElMessage.success('保存成功');
+};
 
 const handlePostMessage = (info: any) => {};
 
