@@ -136,7 +136,7 @@ const handleDel = async (row: TableData) => {
 // 编辑
 const handleEdit = (row: TableData) => {
 	router.push({
-		name: 'edit-base',
+		name: 'design',
 		params: {
 			id: row.id,
 		},

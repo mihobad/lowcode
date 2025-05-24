@@ -48,6 +48,7 @@ import ClientPreview from '@/components/preview.vue';
 import TabRadio from '@/components/tab-radio.vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
+import { fetchGetJson } from '@/api';
 
 defineOptions({
 	components: {
@@ -99,7 +100,14 @@ const clkSave = async () => {};
 const handlePostMessage = (info: any) => {};
 
 // 查询json
-const init = async () => {};
+const init = async () => {
+	const res = await fetchGetJson({
+		params: {
+			id,
+		},
+	});
+	console.log(res);
+};
 init();
 
 const configWidth = ref(300); // 默认宽度

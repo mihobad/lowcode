@@ -44,3 +44,11 @@ export const fetchUpdateStatus = (config: FetchConfig = {}): Promise<any> => {
 		...config,
 	});
 };
+
+// 获取json
+export const fetchGetJson = (config: FetchConfig = {}): Promise<any> => {
+	return axios(`${API_BASE}/getJson`, {
+		method: 'get',
+		...config,
+	});
+};
