@@ -5,7 +5,9 @@
       <el-button type="primary" @click="clkSave">保存</el-button>
     </div>
     <div class="flex mt-2 pt-2 gap-2 flex-1">
-      <div class="border-l border-gray-200 p-4 left-pane"></div>
+      <div class="border-l border-gray-200 p-4 left-pane">
+        <LeftPane />
+      </div>
       <div class="flex-1 flex justify-center items-center center-pane">
         <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
           <ClientPreview />
@@ -50,6 +52,7 @@ import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import { fetchGetJson, fetchSaveJson } from '@/api';
 import { ElMessage } from 'element-plus';
+import LeftPane from '@/components/left-pane.vue';
 
 defineOptions({
 	components: {
