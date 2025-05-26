@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
+import { defineAsyncComponent } from 'vue';
 
 defineOptions({
 	name: 'PreviewArea',
@@ -27,9 +28,14 @@ const handleDragOver = (event: DragEvent) => {
 	event.preventDefault();
 };
 
-const handleDrop = (event: DragEvent) => {
+const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
 	const data = event.dataTransfer?.getData('text/plain');
+
+	// @ts-ignore
+	// const res = await import('https://unpkg.com/@anfu/text?module')
+	// console.log(res.textUiConfig)
+
 	store.$patch({
 		json: {
 			...json.value,
