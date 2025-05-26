@@ -2,13 +2,13 @@
 import uiConfig from './merchant/ui-config/index';
 import { mapProps } from '@anfu/utils';
 
-const {{name}}SchemaJson = {
-	name: '{{ name }}',
+const textSchemaJson = {
+	name: 'text',
 	version: '1.0.0',
-	description: '{{name}}',
+	description: 'text',
 	props: mapProps(uiConfig),
 	data: {},
 	events: {},
 };
 
-export { {{name}}SchemaJson };
+export { textSchemaJson };

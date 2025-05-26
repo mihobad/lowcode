@@ -4,3 +4,4 @@ export * from './with-install';
 export * from './props';
 export * from './bem';
 export * from './time';
+export * from './map';

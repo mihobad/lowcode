@@ -4,7 +4,9 @@
       <div class="lowcode-preview-head-text">{{ title }}</div>
     </div>
     <div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop">
-
+      <div v-for="item in json.children" :key="item">
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
@@ -18,7 +20,7 @@ defineOptions({
 });
 
 const store = useStore();
-const {} = storeToRefs(store);
+const { json } = storeToRefs(store);
 const title = '预览';
 
 const handleDragOver = (event: DragEvent) => {
@@ -28,7 +30,12 @@ const handleDragOver = (event: DragEvent) => {
 const handleDrop = (event: DragEvent) => {
 	event.preventDefault();
 	const data = event.dataTransfer?.getData('text/plain');
-	console.log('Dropped data:', data);
+	store.$patch({
+		json: {
+			...json.value,
+			children: [...json.value.children, data],
+		},
+	} as any);
 };
 </script>
 

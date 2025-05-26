@@ -26,7 +26,7 @@ export default defineConfig({
   build: {
     minify: true,
     lib: {
-      name: '{{ name }}',
+      name: 'text',
       entry: {
         ...inputs,
         index: path.resolve(__dirname, 'src/index.ts')

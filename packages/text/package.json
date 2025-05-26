@@ -1,13 +1,13 @@
 {
-  "name": "@anfu/{{ name }}",
+  "name": "@anfu/text",
   "version": "1.0.0",
-  "description": "{{ name }}",
+  "description": "text",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
-    "{{ name }}"
+    "text"
   ],
   "author": "yuanjie.dong",
   "main": "dist/index.es.js",

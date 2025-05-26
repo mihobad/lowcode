@@ -49,7 +49,6 @@ import { useRouter } from 'vue-router';
 import ClientPreview from '@/components/preview.vue';
 import TabRadio from '@/components/tab-radio.vue';
 import { useStore } from '@/store';
-import { storeToRefs } from 'pinia';
 import { fetchGetJson, fetchSaveJson } from '@/api';
 import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
@@ -106,7 +105,7 @@ const clkSave = async () => {
 		toastPending: true,
 		data: {
 			id,
-			json: '{}',
+			json: JSON.stringify({ children: [] }),
 		},
 	});
 	ElMessage.success('保存成功');
@@ -116,12 +115,16 @@ const handlePostMessage = (info: any) => {};
 
 // 查询json
 const init = async () => {
-	const res = await fetchGetJson({
+	const data = await fetchGetJson({
 		params: {
 			id,
 		},
 	});
-	console.log(res);
+	store.$patch({
+		json: data || {
+			children: [],
+		},
+	});
 };
 init();
 
