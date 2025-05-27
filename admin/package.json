@@ -24,6 +24,7 @@
     "lodash-es": "^4.17.21",
     "pinia": "^3.0.2",
     "reset-css": "^5.0.2",
+    "systemjs": "^6.15.1",
     "tailwindcss": "^4.1.7",
     "unplugin-element-plus": "^0.10.0",
     "vue": "^3.5.13",

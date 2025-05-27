@@ -7,6 +7,15 @@
     <title>Vite + Vue + TS</title>
   </head>
   <body>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "@vue/shared": "https://unpkg.com/@vue/shared@3/dist/shared.esm-bundler.js",
+          "@vue/reactivity": "https://unpkg.com/@vue/reactivity@3/dist/reactivity.esm-bundler.js"
+        }
+      }
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

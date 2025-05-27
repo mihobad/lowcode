@@ -6,6 +6,7 @@
     <div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop">
       <div v-for="item in json.children" :key="item">
         {{ item }}
+        <component :is="comps.TextClient" />
       </div>
     </div>
   </div>
@@ -14,7 +15,7 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { defineAsyncComponent } from 'vue';
+import { shallowRef } from 'vue';
 
 defineOptions({
 	name: 'PreviewArea',
@@ -28,13 +29,14 @@ const handleDragOver = (event: DragEvent) => {
 	event.preventDefault();
 };
 
+const comps = shallowRef<any>({});
 const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
 	const data = event.dataTransfer?.getData('text/plain');
 
 	// @ts-ignore
-	// const res = await import('https://unpkg.com/@anfu/text?module')
-	// console.log(res.textUiConfig)
+	const res = await import('https://unpkg.com/@anfu/text');
+	comps.value.TextClient = res.TextClient;
 
 	store.$patch({
 		json: {
