@@ -1,7 +1,7 @@
 import { TextClient } from './client';
-import { textUiConfig, textBusinessConfig, textInit } from './merchant';
+import { textPropConfig, textBusinessConfig, textInit } from './merchant';
 import { textSchemaJson } from './schema';
 
-export { TextClient, textUiConfig, textBusinessConfig, textInit, textSchemaJson };
+export { TextClient, textPropConfig, textBusinessConfig, textInit, textSchemaJson };
 
 export default TextClient;

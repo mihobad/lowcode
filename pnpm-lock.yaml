@@ -72,6 +72,9 @@ importers:
       '@anfu/setter':
         specifier: workspace:^
         version: link:../packages/setter
+      '@anfu/text':
+        specifier: workspace:^
+        version: link:../packages/text
       '@anfu/toast':
         specifier: workspace:^
         version: link:../packages/toast
