@@ -1,17 +1,14 @@
 <template>
-  <div>{{name}}</div>
+  <div>page</div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
 defineOptions({
-  name: '{{pascalCase name}}Client',
-  components: {
-    
-  }
-})
-
+	name: 'PageClient',
+	components: {},
+});
 </script>
 
 <style scoped lang="scss"></style>

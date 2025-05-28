@@ -13,7 +13,7 @@
           <ClientPreview />
         </div>
       </div>
-      <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: configWidth + 'px' }">
+      <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: dragWidth + 'px' }">
         <div class="right-pane__wrapper">
           <div class="resize-handle" @mousedown="startDrag"></div>
           <tab-radio :options="tabOptions" v-model="tabName"></tab-radio>
@@ -22,10 +22,10 @@
               <el-collapse-item :title="it.label" :name="i + 1" v-for="(it, i) in tabConfig">
                 <div v-for="item in it.items" :key="item.name"
                   :class="['mb-4 last:mb-0 relative', item.full ? '' : 'flex items-start flex-wrap']">
-                  <div class="w-25 flex items-center ui-left">
-                    <div class="ui-label">{{ item.label }}</div>
+                  <div class="w-25 flex items-center prop-left">
+                    <div class="prop-label">{{ item.label }}</div>
                     <el-tooltip :content="item.tip" placement="top" v-if="item.tip">
-                      <el-icon class="ui-icon ml-0.5">
+                      <el-icon class="prop-icon ml-0.5">
                         <Warning />
                       </el-icon>
                     </el-tooltip>
@@ -52,6 +52,9 @@ import { useStore } from '@/store';
 import { fetchGetJson, fetchSaveJson } from '@/api';
 import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
+import { getImport } from '@/import';
+import { generateRandomString } from '@/utils';
+import { useDrag } from '@/use';
 
 defineOptions({
 	components: {
@@ -64,17 +67,19 @@ const { id } = defineProps({
 });
 const router = useRouter();
 const store = useStore();
+const { dragWidth, startDrag } = useDrag();
 const json = ref({});
-const ui = ref([]);
+const prop = ref([]);
 const data = ref([]);
 
 const tabOptions = ref([
-	{ label: '样式配置', name: 'ui' },
-	{ label: '数据配置', name: 'data' },
+	{ label: '属性', name: 'prop' },
+	{ label: '数据', name: 'data' },
+	{ label: '事件', name: 'event' },
 ]);
-const tabName = ref('ui'); // 默认选中的选项卡 name
+const tabName = ref('prop'); // 默认选中的选项卡 name
 const tabConfig = computed(() => {
-	return (tabName.value === 'ui' ? ui.value : data.value).map((it: any) => {
+	return (tabName.value === 'prop' ? prop.value : data.value).map((it: any) => {
 		return {
 			...it,
 			items: (it.items || [])
@@ -105,7 +110,7 @@ const clkSave = async () => {
 		toastPending: true,
 		data: {
 			id,
-			json: JSON.stringify({ children: [] }),
+			json: null,
 		},
 	});
 	ElMessage.success('保存成功');
@@ -120,58 +125,16 @@ const init = async () => {
 			id,
 		},
 	});
+	const _id = generateRandomString(8);
 	store.$patch({
+		currentId: data?.id || _id,
 		json: data || {
-			children: [],
+			id: _id,
+			...getImport('page', 'schema'),
 		},
 	});
 };
 init();
-
-const configWidth = ref(300); // 默认宽度
-const isDragging = ref(false);
-const startX = ref(0);
-const startWidth = ref(0);
-const startDrag = (e: MouseEvent) => {
-	isDragging.value = true;
-	startX.value = e.clientX;
-	startWidth.value = configWidth.value;
-
-	// 添加拖拽时的样式
-	document.body.style.cursor = 'col-resize';
-	document.body.style.userSelect = 'none';
-
-	document.addEventListener('mousemove', onDrag);
-	document.addEventListener('mouseup', stopDrag);
-};
-
-const onDrag = (e: MouseEvent) => {
-	if (!isDragging.value) return;
-
-	const deltaX = startX.value - e.clientX;
-	const newWidth = startWidth.value + deltaX;
-
-	// 限制最小和最大宽度
-	if (newWidth >= 270 && newWidth <= 400) {
-		configWidth.value = newWidth;
-	}
-};
-
-const stopDrag = () => {
-	isDragging.value = false;
-
-	// 恢复默认样式
-	document.body.style.cursor = '';
-	document.body.style.userSelect = '';
-
-	document.removeEventListener('mousemove', onDrag);
-	document.removeEventListener('mouseup', stopDrag);
-};
-
-onUnmounted(() => {
-	document.removeEventListener('mousemove', onDrag);
-	document.removeEventListener('mouseup', stopDrag);
-});
 </script>
 
 <style lang="scss" scoped>
@@ -273,14 +236,14 @@ onUnmounted(() => {
   border-top: none !important;
 }
 
-.ui-left {
+.prop-left {
   display: flex;
   align-items: center;
   height: 32px;
   flex-shrink: 0;
 }
 
-.ui-label {
+.prop-label {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -289,7 +252,7 @@ onUnmounted(() => {
   font-style: normal;
 }
 
-.ui-icon {
+.prop-icon {
   font-size: 12px;
 }
 </style>

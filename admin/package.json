@@ -16,6 +16,7 @@
     "@anfu/toast": "workspace:^",
     "@anfu/use": "workspace:^",
     "@anfu/utils": "workspace:^",
+    "@anfu/page": "workspace:^",
     "@anfu/text": "workspace:^",
     "@element-plus/icons-vue": "^2.3.1",
     "@tailwindcss/vite": "^4.1.7",

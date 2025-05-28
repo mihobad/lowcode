@@ -32,16 +32,14 @@ const handleDragOver = (event: DragEvent) => {
 const comps = shallowRef<any>({});
 const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
-	const data = event.dataTransfer?.getData('text/plain');
+	const name = event.dataTransfer?.getData('text/plain');
 
-	// @ts-ignore
-	const res = await import('https://unpkg.com/@anfu/text');
-	comps.value.TextClient = res.TextClient;
+	console.log(name);
 
 	store.$patch({
 		json: {
 			...json.value,
-			children: [...json.value.children, data],
+			children: [...json.value.children, name],
 		},
 	} as any);
 };
