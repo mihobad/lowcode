@@ -26,7 +26,7 @@ const useDrag = () => {
 		const newWidth = startWidth.value + deltaX;
 
 		// 限制最小和最大宽度
-		if (newWidth >= 270 && newWidth <= 400) {
+		if (newWidth >= 270 && newWidth <= 480) {
 			dragWidth.value = newWidth;
 		}
 	};

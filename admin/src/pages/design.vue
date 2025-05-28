@@ -8,9 +8,12 @@
       <div class="border-l border-gray-200 p-4 left-pane">
         <LeftPane />
       </div>
-      <div class="flex-1 flex justify-center items-center center-pane">
-        <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
-          <ClientPreview />
+      <div class="flex-1 flex justify-center items-center center-pane relative" ref="dragContainer">
+        <div class="absolute left-pane-content" ref="dragTarget" :style="dragStyle">
+          <div ref="dragHandler"><PageTool /></div>
+          <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
+            <ClientPreview />
+          </div>
         </div>
       </div>
       <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: dragWidth + 'px' }">
@@ -31,7 +34,7 @@
                     </el-tooltip>
                   </div>
                   <div class="flex flex-1 justify-end w-full">
-                    
+
                   </div>
                 </div>
               </el-collapse-item>
@@ -44,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import ClientPreview from '@/components/preview.vue';
 import TabRadio from '@/components/tab-radio.vue';
@@ -54,7 +57,8 @@ import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
 import { getImport } from '@/import';
 import { generateRandomString } from '@/utils';
-import { useDrag } from '@/use';
+import { useDrag, useDraggable } from '@/use';
+import PageTool from '@/components/page-tool.vue';
 
 defineOptions({
 	components: {
@@ -68,6 +72,19 @@ const { id } = defineProps({
 const router = useRouter();
 const store = useStore();
 const { dragWidth, startDrag } = useDrag();
+const dragContainer = ref<HTMLElement>();
+const dragTarget = ref<HTMLElement>();
+const dragHandler = ref<HTMLElement>();
+const { pos } = useDraggable(dragTarget, {
+	boundaryRef: dragContainer,
+	handlerRef: dragHandler,
+});
+const dragStyle = computed(() => {
+	return {
+		left: pos.value.x + 'px',
+		top: pos.value.y + 'px',
+	};
+});
 const json = ref({});
 const prop = ref([]);
 const data = ref([]);
