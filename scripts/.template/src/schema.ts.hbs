@@ -1,12 +1,14 @@
 // Schema 扩展默认值相关处理
-import uiConfig from './merchant/ui-config/index';
+import propConfig from './merchant/prop-config/index';
 import { mapProps } from '@anfu/utils';
+import { version } from '../package.json';
 
 const {{name}}SchemaJson = {
 	name: '{{ name }}',
-	version: '1.0.0',
+	version: version,
 	description: '{{name}}',
-	props: mapProps(uiConfig),
+	group: false,
+	props: mapProps(propConfig),
 	data: {},
 	events: {},
 };

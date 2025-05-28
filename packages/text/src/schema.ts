@@ -7,6 +7,7 @@ const textSchemaJson = {
 	name: 'text',
 	version: version,
 	description: 'text',
+	group: false,
 	props: mapProps(propConfig),
 	data: {},
 	events: {},
