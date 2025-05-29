@@ -9,16 +9,20 @@
         <LeftPane />
       </div>
       <div class="flex-1 flex justify-center items-center center-pane relative" ref="dragContainer">
-        <div class="absolute center-pane-wrapper" ref="dragTarget" :style="dragStyle">
-          <div ref="dragHandler"><PageTool /></div>
-          <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
-            <ClientPreview />
+        <div class="relative w-full h-full">
+          <div class="absolute center-pane-wrapper" ref="dragTarget" :style="dragStyle">
+            <div ref="dragHandler">
+              <PageTool />
+            </div>
+            <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
+              <ClientPreview />
+            </div>
           </div>
         </div>
       </div>
-      <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: dragWidth + 'px' }">
+      <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: dragXWidth + 'px' }">
         <div class="right-pane-wrapper">
-          <div class="resize-handle" @mousedown="startDrag"></div>
+          <div class="resize-handle" @mousedown="startDragX"></div>
           <tab-radio :options="tabOptions" v-model="tabName"></tab-radio>
           <div class="collapse-wrapper" v-if="json">
             <el-collapse v-model="collapses" class="bt-none">
@@ -57,7 +61,7 @@ import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
 import { getImport } from '@/import';
 import { generateRandomString } from '@/utils';
-import { useDrag, useDraggable } from '@/use';
+import { useDragX, useDraggable } from '@/use';
 import PageTool from '@/components/page-tool.vue';
 
 defineOptions({
@@ -71,7 +75,7 @@ const { id } = defineProps({
 });
 const router = useRouter();
 const store = useStore();
-const { dragWidth, startDrag } = useDrag();
+const { dragXWidth, startDragX } = useDragX();
 const dragContainer = ref<HTMLElement>();
 const dragTarget = ref<HTMLElement>();
 const dragHandler = ref<HTMLElement>();

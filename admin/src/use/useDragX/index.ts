@@ -1,15 +1,15 @@
 import { ref, onUnmounted } from 'vue';
 
-const useDrag = () => {
-	const dragWidth = ref(300);
+const useDragX = () => {
+	const dragXWidth = ref(300);
 	const isDragging = ref(false);
 	const startX = ref(0);
 	const startWidth = ref(0);
 
-	const startDrag = (e: MouseEvent) => {
+	const startDragX = (e: MouseEvent) => {
 		isDragging.value = true;
 		startX.value = e.clientX;
-		startWidth.value = dragWidth.value;
+		startWidth.value = dragXWidth.value;
 
 		// 添加拖拽时的样式
 		document.body.style.cursor = 'col-resize';
@@ -27,7 +27,7 @@ const useDrag = () => {
 
 		// 限制最小和最大宽度
 		if (newWidth >= 270 && newWidth <= 480) {
-			dragWidth.value = newWidth;
+			dragXWidth.value = newWidth;
 		}
 	};
 
@@ -48,9 +48,9 @@ const useDrag = () => {
 	});
 
 	return {
-		dragWidth,
-		startDrag,
+		dragXWidth,
+		startDragX,
 	};
 };
 
-export { useDrag };
+export { useDragX };

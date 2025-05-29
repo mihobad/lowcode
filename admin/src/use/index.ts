@@ -1,2 +1,3 @@
-export * from './useDrag';
+export * from './useDragX';
 export * from './useDraggable';
+export * from './useZoomCanvas';
