@@ -31,8 +31,6 @@
     "@anfu/axios": "workspace:^",
     "@anfu/vite-plugin-css-merge": "workspace:^",
     "@anfu/utils": "workspace:^",
-    "@vh5/axios": "^2.0.11",
-    "@vh5/bridge": "^0.1.9",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "element-plus": "^2.9.9",
@@ -41,8 +39,6 @@
   "peerDependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@anfu/axios": "workspace:^",
-    "@vh5/axios": "^2.0.11",
-    "@vh5/bridge": "^0.1.9",
     "element-plus": "^2.9.9",
     "vue": "^3.4.27"
   }
