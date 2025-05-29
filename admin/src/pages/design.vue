@@ -9,7 +9,7 @@
         <LeftPane />
       </div>
       <div class="flex-1 flex justify-center items-center center-pane relative" ref="dragContainer">
-        <div class="absolute left-pane-content" ref="dragTarget" :style="dragStyle">
+        <div class="absolute center-pane-wrapper" ref="dragTarget" :style="dragStyle">
           <div ref="dragHandler"><PageTool /></div>
           <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
             <ClientPreview />
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="border-l border-gray-200 p-4 right-pane" :style="{ width: dragWidth + 'px' }">
-        <div class="right-pane__wrapper">
+        <div class="right-pane-wrapper">
           <div class="resize-handle" @mousedown="startDrag"></div>
           <tab-radio :options="tabOptions" v-model="tabName"></tab-radio>
           <div class="collapse-wrapper" v-if="json">
@@ -180,6 +180,7 @@ init();
 .center-pane {
   background-color: rgb(6 7 9 / 3%);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .iframe-container {
@@ -225,7 +226,7 @@ init();
   min-width: 200px;
   height: calc(100vh - 64px);
 
-  &__wrapper {
+  &-wrapper {
     height: 100%;
     overflow: hidden;
     display: flex;

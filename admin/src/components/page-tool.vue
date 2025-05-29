@@ -28,6 +28,12 @@
     top: -36px;
     transform-origin: bottom left;
     transition: transform .2s ease-in-out;
+    user-select: none;
+
+    &:hover {
+        color: rgb(61 121 242);
+        background-color: rgb(153 187 255 / 30%);
+    }
 
     &-drag {
         width: 16px;
@@ -39,7 +45,6 @@
         height: 16px;
         line-height: 16px;
         font-size: 12px;
-        color: rgb(15 21 40 / 82%);
     }
 
     &-line {
@@ -49,7 +54,6 @@
     }
 
     &-size {
-        color: rgb(55 67 106 / 38%);
         font-size: 12px;
         height: 16px;
         line-height: 16px;
