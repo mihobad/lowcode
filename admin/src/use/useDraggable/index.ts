@@ -66,16 +66,16 @@ export function useDraggable(targetRef: any, options: UseDraggableOptions = {}) 
 		let nextX = x - startX;
 		let nextY = y - startY;
 
-		// 边界判断
-		const boundary = getBoundaryRect();
-		const target = getTargetRect();
-		const minX = 0;
-		const maxX = boundary.width - (target.width || 0);
-		const minY = 0;
-		const maxY = boundary.height - (target.height || 0);
-
-		nextX = Math.min(Math.max(nextX, minX), maxX);
-		nextY = Math.min(Math.max(nextY, minY), maxY);
+		// 边界判断（已注释）
+		// const boundary = getBoundaryRect();
+		// const target = getTargetRect();
+		// const minX = 0;
+		// const maxX = boundary.width - (target.width || 0);
+		// const minY = 0;
+		// const maxY = boundary.height - (target.height || 0);
+		//
+		// nextX = Math.min(Math.max(nextX, minX), maxX);
+		// nextY = Math.min(Math.max(nextY, minY), maxY);
 
 		pos.value.x = nextX;
 		pos.value.y = nextY;
