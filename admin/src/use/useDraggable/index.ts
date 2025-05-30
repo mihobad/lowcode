@@ -1,14 +1,21 @@
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick, computed, type Ref } from 'vue';
 
 interface UseDraggableOptions {
 	initialX?: number;
 	initialY?: number;
 	boundaryRef?: any;
 	handlerRef?: any;
+	scale?: Ref<number>;
 }
 
 export function useDraggable(targetRef: any, options: UseDraggableOptions = {}) {
 	const pos = ref({ x: options.initialX ?? 0, y: options.initialY ?? 0 });
+	const posStyle = computed(() => {
+		return {
+			top: `${pos.value.y / (options.scale?.value || 1)}px`,
+			left: `${pos.value.x / (options.scale?.value || 1)}px`,
+		};
+	});
 	let startX = 0;
 	let startY = 0;
 	let dragging = false;
@@ -89,8 +96,8 @@ export function useDraggable(targetRef: any, options: UseDraggableOptions = {}) 
 			dragEl.addEventListener('mousedown', onDragStart);
 		}
 		if (boundaryRef.value) {
-			resizeObserver = new ResizeObserver(centerPosition);
-			resizeObserver.observe(boundaryRef.value);
+			// resizeObserver = new ResizeObserver(centerPosition);
+			// resizeObserver.observe(boundaryRef.value);
 		}
 	});
 
@@ -101,10 +108,10 @@ export function useDraggable(targetRef: any, options: UseDraggableOptions = {}) 
 			dragEl.removeEventListener('mousedown', onDragStart);
 		}
 		if (resizeObserver) {
-			resizeObserver.disconnect();
-			resizeObserver = null;
+			// resizeObserver.disconnect();
+			// resizeObserver = null;
 		}
 	});
 
-	return { pos, centerPosition };
+	return { pos, posStyle, centerPosition };
 }

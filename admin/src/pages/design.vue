@@ -9,8 +9,8 @@
         <LeftPane />
       </div>
       <div class="flex-1 flex justify-center items-center center-pane relative" ref="dragContainer">
-        <div class="relative w-full h-full">
-          <div class="absolute center-pane-wrapper" ref="dragTarget" :style="dragStyle">
+        <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle">
+          <div class="absolute center-pane-wrapper" ref="dragTarget" :style="posStyle">
             <div ref="dragHandler">
               <PageTool />
             </div>
@@ -61,7 +61,7 @@ import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
 import { getImport } from '@/import';
 import { generateRandomString } from '@/utils';
-import { useDragX, useDraggable } from '@/use';
+import { useDragX, useDraggable, useZoomCanvas } from '@/use';
 import PageTool from '@/components/page-tool.vue';
 
 defineOptions({
@@ -77,18 +77,15 @@ const router = useRouter();
 const store = useStore();
 const { dragXWidth, startDragX } = useDragX();
 const dragContainer = ref<HTMLElement>();
+const dragCanvas = ref<HTMLElement>();
 const dragTarget = ref<HTMLElement>();
 const dragHandler = ref<HTMLElement>();
-const { pos } = useDraggable(dragTarget, {
-	boundaryRef: dragContainer,
+const { transformStyle } = useZoomCanvas(dragContainer);
+const { posStyle } = useDraggable(dragTarget, {
+	boundaryRef: dragCanvas,
 	handlerRef: dragHandler,
 });
-const dragStyle = computed(() => {
-	return {
-		left: pos.value.x + 'px',
-		top: pos.value.y + 'px',
-	};
-});
+
 const json = ref({});
 const prop = ref([]);
 const data = ref([]);
