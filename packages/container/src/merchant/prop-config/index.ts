@@ -1,0 +1,18 @@
+const config: { label: string; items: any[] }[] = [
+	{
+		label: '常用设置',
+		items: [
+			{
+				label: '来源',
+				name: 'src',
+				defaultValue: '',
+				full: true,
+				setter: {
+					name: 'InputSetter',
+				},
+			},
+		],
+	},
+];
+
+export default config;

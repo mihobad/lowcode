@@ -3,15 +3,14 @@ import propConfig from './merchant/prop-config/index';
 import { mapProps } from '@anfu/utils';
 import { version } from '../package.json';
 
-const textSchemaJson = {
-	name: 'text',
-	type: 'text',
+const containerSchemaJson = {
+	name: 'container',
 	version: version,
-	description: 'text',
-	group: false,
+	description: 'container',
+	group: true,
 	props: mapProps(propConfig),
 	data: {},
 	events: {},
 };
 
-export { textSchemaJson };
+export { containerSchemaJson };

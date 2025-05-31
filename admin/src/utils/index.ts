@@ -1,3 +1,5 @@
+import { type ComponentJson } from '../store';
+
 // array -> map
 export const arr2map = (arr: Record<string, any>[], key: string = 'value', valueKey: string = 'label') => {
 	return arr.reduce(
@@ -34,4 +36,22 @@ export const loadImg = (url: string) => {
 		};
 		img.src = url;
 	});
+};
+
+// 深度遍历查找当前组件
+export const findComponent = (id: string, json: ComponentJson): ComponentJson => {
+	if (json.id === id) {
+		return json;
+	}
+
+	if (json.children) {
+		for (const child of json.children) {
+			const result = findComponent(id, child);
+			if (result) {
+				return result;
+			}
+		}
+	}
+
+	return json;
 };

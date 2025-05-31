@@ -10,20 +10,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TabRadio from './tab-radio.vue';
-import CompList from './comp-list.vue';
-import PageTree from './page-tree.vue';
+import LeftPaneList from './left-pane-list.vue';
+import LeftPaneTree from './left-pane-tree.vue';
 
 defineOptions({
 	components: {
 		TabRadio,
-		CompList,
-		PageTree,
+		LeftPaneList,
+		LeftPaneTree,
 	},
 });
 
 const tabOptions = [
-	{ label: '组件', name: 'comp-list' },
-	{ label: '结构', name: 'page-tree' },
+	{ label: '组件', name: 'left-pane-list' },
+	{ label: '结构', name: 'left-pane-tree' },
 ];
-const tabName = ref('comp-list');
+const tabName = ref('left-pane-list');
 </script>

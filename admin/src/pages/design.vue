@@ -14,7 +14,7 @@
             <div ref="dragHandler">
               <PageTool />
             </div>
-            <div class="iframe-container border border-gray-200 rounded-md overflow-hidden">
+            <div class="iframe-container overflow-hidden">
               <ClientPreview />
             </div>
           </div>
@@ -60,7 +60,7 @@ import { fetchGetJson, fetchSaveJson } from '@/api';
 import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
 import { getImport } from '@/import';
-import { generateRandomString } from '@/utils';
+import { findComponent, generateRandomString } from '@/utils';
 import { useDragX, useDraggable, useZoomCanvas } from '@/use';
 import PageTool from '@/components/page-tool.vue';
 
@@ -136,20 +136,23 @@ const clkSave = async () => {
 
 // const handlePostMessage = (info: any) => {};
 
-// 查询json
+// 查询json. 默认到page
 const init = async () => {
 	const data = await fetchGetJson({
 		params: {
 			id,
 		},
 	});
-	const _id = generateRandomString(8);
+	const randomStr = generateRandomString(8);
+	const _id = data?.id || randomStr;
+	const _json = data || {
+		id: _id,
+		...getImport('page', 'schema'),
+	};
 	store.$patch({
-		currentId: data?.id || _id,
-		json: data || {
-			id: _id,
-			...getImport('page', 'schema'),
-		},
+		currentId: _id,
+		json: _json,
+		current: _json,
 	});
 };
 init();
@@ -188,7 +191,6 @@ init();
   width: 375px;
   height: 667px;
   box-sizing: content-box;
-  background-color: #f5f5f5;
 }
 
 .resize-handle {

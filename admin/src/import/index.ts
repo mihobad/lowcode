@@ -1,7 +1,15 @@
 import { TextClient, textPropConfig, textBusinessConfig, textInit, textSchemaJson } from '@anfu/text';
 import { PageClient, pagePropConfig, pageBusinessConfig, pageInit, pageSchemaJson } from '@anfu/page';
+import { ContainerClient, containerPropConfig, containerBusinessConfig, containerInit, containerSchemaJson } from '@anfu/container';
 
 const importMap: Record<string, any> = {
+	container: {
+		component: ContainerClient,
+		prop: containerPropConfig,
+		business: containerBusinessConfig,
+		initial: containerInit,
+		schema: containerSchemaJson,
+	},
 	page: {
 		component: PageClient,
 		prop: pagePropConfig,
