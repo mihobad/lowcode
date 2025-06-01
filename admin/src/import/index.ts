@@ -30,4 +30,12 @@ const getImport = (name: string, key: string) => {
 	return importMap[name][key];
 };
 
-export { importMap, getImport };
+// 导出所有组件 component [{ name: text, component: TextClient }]
+const components = Object.keys(importMap).map((name) => {
+	return {
+		name,
+		component: importMap[name].component,
+	};
+});
+
+export { importMap, getImport, components };

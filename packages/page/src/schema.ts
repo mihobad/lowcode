@@ -32,6 +32,12 @@ const pageSchemaJson = {
 					version: '1.0.0',
 					description: 'text',
 				},
+				{
+					name: 'text',
+					type: 'text',
+					version: '1.0.0',
+					description: 'text',
+				},
 			],
 		},
 	],
