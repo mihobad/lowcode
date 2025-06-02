@@ -5,22 +5,22 @@ import { ContainerClient, containerPropConfig, containerBusinessConfig, containe
 const importMap: Record<string, any> = {
 	container: {
 		component: ContainerClient,
-		prop: containerPropConfig,
-		business: containerBusinessConfig,
+		props: containerPropConfig,
+		data: containerBusinessConfig,
 		initial: containerInit,
 		schema: containerSchemaJson,
 	},
 	page: {
 		component: PageClient,
-		prop: pagePropConfig,
-		business: pageBusinessConfig,
+		props: pagePropConfig,
+		data: pageBusinessConfig,
 		initial: pageInit,
 		schema: pageSchemaJson,
 	},
 	text: {
 		component: TextClient,
-		prop: textPropConfig,
-		business: textBusinessConfig,
+		props: textPropConfig,
+		data: textBusinessConfig,
 		initial: textInit,
 		schema: textSchemaJson,
 	},
