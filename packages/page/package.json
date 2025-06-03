@@ -1,6 +1,6 @@
 {
   "name": "@anfu/page",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "page",
   "type": "module",
   "publishConfig": {
@@ -10,16 +10,23 @@
     "page"
   ],
   "author": "yuanjie.dong",
-  "main": "dist/index.es.js",
-  "module": "dist/index.es.js",
-  "style": "dist/index.css",
-  "typings": "dist/index.d.ts",
+  "main": "dist/umd/index.umd.js",
+  "module": "dist/es/index.es.js",
+  "style": "dist/umd/index.css",
+  "typings": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.es.js",
+      "require": "./dist/umd/index.umd.js"
+    }
+  },
   "scripts": {
     "clean": "rimraf ./dist",
     "dev": "vite build -w",
     "build:types": "tsc -p ./tsconfig.json",
-    "build:bundle": "vite build",
-    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "build:es": "vite build --config vite.config.es.mts",
+    "build:umd": "vite build --config vite.config.umd.mts",
+    "build": "pnpm clean && pnpm build:es && pnpm build:umd && pnpm build:types",
     "prepare": "pnpm build"
   },
   "files": [

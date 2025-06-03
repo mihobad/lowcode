@@ -1,5 +1,7 @@
 import { type ComponentJson } from '../store';
 
+export * from './umd';
+
 // array -> map
 export const arr2map = (arr: Record<string, any>[], key: string = 'value', valueKey: string = 'label') => {
 	return arr.reduce(

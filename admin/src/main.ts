@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import * as Vue from 'vue';
 import { router } from './router';
 import { createPinia } from 'pinia';
 import * as Icons from '@element-plus/icons-vue';
@@ -29,4 +30,7 @@ for (const [key, component] of Object.entries(Icons)) {
 for (const component of components) {
 	app.component(component.name, component.component);
 }
+window.Vue = Vue;
 app.mount('#app');
+
+export { app };

@@ -1,6 +1,6 @@
 {
   "name": "@anfu/text",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "text",
   "type": "module",
   "publishConfig": {
@@ -17,8 +17,7 @@
   "exports": {
     ".": {
       "import": "./dist/es/index.es.js",
-      "require": "./dist/umd/index.umd.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/umd/index.umd.js"
     }
   },
   "scripts": {

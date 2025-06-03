@@ -6,41 +6,13 @@ import { version } from '../package.json';
 const pageSchemaJson = {
 	name: 'page',
 	type: 'page',
-	version: version,
+	version: version.replaceAll('.', '_'),
 	description: 'page',
 	props: mapProps(propConfig),
 	data: {},
 	events: {},
 	group: true,
-	children: [
-		{
-			name: 'text',
-			type: 'text',
-			version: '1.0.0',
-			description: 'text',
-		},
-		{
-			name: 'container',
-			type: 'container',
-			version: '1.0.0',
-			description: 'container',
-			group: true,
-			children: [
-				{
-					name: 'text',
-					type: 'text',
-					version: '1.0.0',
-					description: 'text',
-				},
-				{
-					name: 'text',
-					type: 'text',
-					version: '1.0.0',
-					description: 'text',
-				},
-			],
-		},
-	],
+	children: [],
 };
 
 export { pageSchemaJson };

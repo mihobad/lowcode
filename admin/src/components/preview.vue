@@ -9,8 +9,9 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { shallowRef } from 'vue';
 import RenderComponent from './render-component.vue';
+import { loadScript } from '@/utils';
+import { ref } from 'vue';
 
 defineOptions({
 	name: 'PreviewArea',
@@ -18,15 +19,19 @@ defineOptions({
 
 const store = useStore();
 const { json } = storeToRefs(store);
+let flag = ref(false);
 
 const handleDragOver = (event: DragEvent) => {
 	event.preventDefault();
 };
 
-const comps = shallowRef<any>({});
 const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
 	const name = event.dataTransfer?.getData('text/plain');
+
+	await loadScript(`${name}`);
+	flag.value = true;
+	console.log(window['@anfu/text' as any]);
 
 	store.$patch({
 		json: {
