@@ -9,7 +9,7 @@
         :step-strictly="stepStrictly"
         :disabled="disabled"
         :placeholder="placeholder"
-        controls-position="right"
+        :controls="false"
     />
   </div>
 </template>

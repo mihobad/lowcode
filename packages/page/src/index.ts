@@ -1,5 +1,7 @@
 import { PageClient } from './client';
-import { pagePropConfig, pageBusinessConfig, pageInit } from './merchant';
+import { pagePropsConfig, pageDataConfig, pageInit } from './merchant';
 import { pageSchemaJson } from './schema';
 
-export { PageClient, pagePropConfig, pageBusinessConfig, pageInit, pageSchemaJson };
+export { PageClient, pagePropsConfig, pageDataConfig, pageInit, pageSchemaJson };
+
+export default PageClient;

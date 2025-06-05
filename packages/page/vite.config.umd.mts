@@ -16,7 +16,7 @@ export default defineConfig({
     build: {
         minify: true,
         lib: {
-            name: '@anfu/text',
+            name: '@anfu/page',
             entry: path.resolve(__dirname, 'src/index.ts'),
             formats: ['umd'],
             fileName: (format) => `index.${format}.js`,

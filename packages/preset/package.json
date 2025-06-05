@@ -1,0 +1,36 @@
+{
+  "name": "@anfu/preset",
+  "version": "1.0.0",
+  "description": "preset",
+  "type": "module",
+  "keywords": [
+    "preset"
+  ],
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "author": "yuanjie.dong",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "vite build -w",
+    "build:types": "tsc -p ./tsconfig.json",
+    "build:bundle": "vite build",
+    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "prepare": "pnpm build"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    
+  },
+  "peerDependencies": {
+    
+  }
+}

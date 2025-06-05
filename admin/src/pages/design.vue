@@ -33,8 +33,7 @@ import { useStore } from '@/store';
 import { fetchGetJson, fetchSaveJson } from '@/api';
 import { ElMessage } from 'element-plus';
 import LeftPane from '@/components/left-pane.vue';
-import { getImport } from '@/import';
-import { generateRandomString } from '@/utils';
+import { generateRandomString, loadAnfuScript } from '@/utils';
 import { useDraggable, useZoomCanvas } from '@/use';
 import PageTool from '@/components/page-tool.vue';
 import RightPane from '@/components/right-pane.vue';
@@ -85,11 +84,19 @@ const init = async () => {
 			id,
 		},
 	});
+	let pageJson = null;
+	if (!data) {
+		// 初始化加载page
+		const page = await loadAnfuScript('page');
+		pageJson = page['pageSchemaJson'];
+	} else {
+		// TODO: 加载配置的所有组件 type
+	}
 	const randomStr = generateRandomString(8);
 	const _id = data?.id || randomStr;
 	const _json = data || {
 		id: _id,
-		...getImport('page', 'schema'),
+		...pageJson,
 	};
 	store.$patch({
 		currentId: _id,

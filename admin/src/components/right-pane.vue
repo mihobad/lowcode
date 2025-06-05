@@ -8,7 +8,7 @@
                     <el-collapse-item :title="it.label" :name="i + 1" v-for="(it, i) in tabConfig">
                         <div v-for="item in it.items" :key="item.name"
                             :class="['mb-4 last:mb-0 relative', item.full ? '' : 'flex items-start flex-wrap']">
-                            <div class="w-25 flex items-center prop-left">
+                            <div class="w-20 flex items-center prop-left">
                                 <div class="prop-label">{{ item.label }}</div>
                                 <el-tooltip :content="item.tip" placement="top" v-if="item.tip">
                                     <el-icon class="prop-icon ml-0.5">
@@ -17,7 +17,11 @@
                                 </el-tooltip>
                             </div>
                             <div class="flex flex-1 justify-end w-full">
-
+                                <component 
+                                    :is="item.setter.name || item.setter.component" 
+                                    v-bind="{...(item.setter.props || {}), _current: {...filterCssVariables(current[tabName])}, _json: json}"
+                                    v-model="current[tabName][item.name]"
+                                    />
                             </div>
                         </div>
                     </el-collapse-item>
@@ -33,15 +37,11 @@ import { useDragX } from '@/use';
 import TabRadio from '@/components/tab-radio.vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { importMap } from '@/import';
+import { filterCssVariables, toPascalCase } from '@/utils';
 
 const store = useStore();
-const { current } = storeToRefs(store);
+const { current, pane, json } = storeToRefs(store);
 const { dragXWidth, startDragX } = useDragX();
-const config = computed(() => {
-	const { type } = current.value || {};
-	return importMap[type as string] || {};
-});
 
 const tabOptions = ref([
 	{ label: '属性', name: 'props' },
@@ -51,10 +51,12 @@ const tabOptions = ref([
 
 const tabName = ref<'props' | 'data' | 'events'>('props'); // 默认选中的选项卡 name
 const tabConfig = computed(() => {
-	if (!config.value) {
+	if (!current.value || !pane.value) {
 		return [];
 	}
-	return (config.value[tabName.value] || []).map((it: any) => {
+	const { type } = current.value;
+	const config = pane.value[`${type}${toPascalCase(tabName.value)}Config`];
+	return config.map((it: any) => {
 		return {
 			...it,
 			items: (it.items || [])
@@ -69,10 +71,10 @@ const tabConfig = computed(() => {
 		};
 	});
 });
-const defaultCollapse = [1, 2, 3, 4, 5, 6];
-const collapses = ref([...defaultCollapse]);
-watch(tabName, () => {
-	collapses.value = [...defaultCollapse];
+const defaultCollapse = computed(() => Array.from({ length: tabConfig.value.length }, (_, i) => i + 1));
+const collapses = ref();
+watch([tabName, defaultCollapse], () => {
+	collapses.value = [...defaultCollapse.value];
 });
 </script>
 
@@ -142,6 +144,7 @@ watch(tabName, () => {
 }
 
 .prop-left {
+    position: relative;
     display: flex;
     align-items: center;
     height: 32px;

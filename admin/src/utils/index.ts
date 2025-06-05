@@ -57,3 +57,23 @@ export const findComponent = (id: string, json: ComponentJson): ComponentJson =>
 
 	return json;
 };
+
+// page -> Page
+export const toPascalCase = (str: string) => {
+	return str.replace(/(^|[-_])(\w)/g, (_, p1, p2) => {
+		return p2.toUpperCase();
+	});
+};
+
+// 过滤掉 -- 开头的属性
+export const filterCssVariables = (obj: Record<string, any>) => {
+	return Object.keys(obj).reduce(
+		(acc, key) => {
+			if (!key.startsWith('--')) {
+				acc[key] = obj[key];
+			}
+			return acc;
+		},
+		{} as Record<string, any>,
+	);
+};

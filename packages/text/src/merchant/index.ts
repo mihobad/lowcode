@@ -1,5 +1,5 @@
-import textPropConfig from './prop-config/index';
-import textBusinessConfig from './business-data/index';
+import textPropsConfig from './prop-config/index';
+import textDataConfig from './business-data/index';
 import textInit from './init';
 
-export { textPropConfig, textBusinessConfig, textInit };
+export { textPropsConfig, textDataConfig, textInit };

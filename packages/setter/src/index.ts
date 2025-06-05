@@ -4,8 +4,25 @@ import { RadioSetter } from './radio-setter';
 import { SelectSetter } from './select-setter';
 import { SwitchSetter } from './switch-setter';
 import { NumberSetter } from './number-setter';
+import { LayoutSetter } from './layout-setter';
+import { TabRadioSetter } from './tab-radio-setter';
+import { BorderRadiusSetter } from './border-radius-setter';
+import { PaddingSetter } from './padding-setter';
+import { MarginSetter } from './margin-setter';
 
-export { InputSetter, ColorSetter, RadioSetter, SelectSetter, SwitchSetter, NumberSetter };
+export {
+	InputSetter,
+	ColorSetter,
+	RadioSetter,
+	SelectSetter,
+	SwitchSetter,
+	NumberSetter,
+	LayoutSetter,
+	TabRadioSetter,
+	BorderRadiusSetter,
+	PaddingSetter,
+	MarginSetter,
+};
 
 const install = (app: any) => {
 	app.component('InputSetter', InputSetter);
@@ -14,6 +31,11 @@ const install = (app: any) => {
 	app.component('SelectSetter', SelectSetter);
 	app.component('SwitchSetter', SwitchSetter);
 	app.component('NumberSetter', NumberSetter);
+	app.component('LayoutSetter', LayoutSetter);
+	app.component('TabRadioSetter', TabRadioSetter);
+	app.component('BorderRadiusSetter', BorderRadiusSetter);
+	app.component('PaddingSetter', PaddingSetter);
+	app.component('MarginSetter', MarginSetter);
 };
 
 export default install;

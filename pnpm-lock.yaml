@@ -235,6 +235,9 @@ importers:
       '@anfu/axios':
         specifier: workspace:^
         version: link:../axios
+      '@anfu/preset':
+        specifier: workspace:^
+        version: link:../preset
       '@anfu/utils':
         specifier: workspace:^
         version: link:../utils
@@ -256,6 +259,8 @@ importers:
       vue:
         specifier: ^3.4.27
         version: 3.5.14(typescript@5.8.3)
+
+  packages/preset: {}
 
   packages/setter:
     devDependencies:

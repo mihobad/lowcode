@@ -8,7 +8,6 @@ import './styles/var.scss';
 import App from './App.vue';
 import ElementPlus from 'element-plus';
 import Setter from '@anfu/setter';
-import { components } from './import';
 
 // mock
 const mock = async () => {
@@ -27,9 +26,7 @@ app.use(pinia);
 for (const [key, component] of Object.entries(Icons)) {
 	app.component(key, component);
 }
-for (const component of components) {
-	app.component(component.name, component.component);
-}
+
 window.Vue = Vue;
 app.mount('#app');
 

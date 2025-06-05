@@ -6,7 +6,7 @@ import { version } from '../package.json';
 const pageSchemaJson = {
 	name: 'page',
 	type: 'page',
-	version: version.replaceAll('.', '_'),
+	version: version,
 	description: 'page',
 	props: mapProps(propConfig),
 	data: {},

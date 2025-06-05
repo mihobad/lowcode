@@ -1,6 +1,6 @@
 {
   "name": "@anfu/page",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "page",
   "type": "module",
   "publishConfig": {
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "dev": "vite build -w",
+    "dev": "vite build -w --config vite.config.es.mts",
     "build:types": "tsc -p ./tsconfig.json",
     "build:es": "vite build --config vite.config.es.mts",
     "build:umd": "vite build --config vite.config.umd.mts",
@@ -38,6 +38,7 @@
     "@anfu/axios": "workspace:^",
     "@anfu/vite-plugin-css-merge": "workspace:^",
     "@anfu/utils": "workspace:^",
+    "@anfu/preset": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "element-plus": "^2.9.9",

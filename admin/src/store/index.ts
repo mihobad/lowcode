@@ -17,18 +17,31 @@ export interface ComponentJson extends ComponentProps {
 }
 
 interface State {
-	currentId: string;
 	json: Record<string, any>;
 	oldJson: string;
+	currentId: string;
 	current: ComponentJson | null;
+}
+
+interface Getter {
+	pane: Record<string, any>;
 }
 
 export const useStore = defineStore('store', {
 	state: (): State => ({
-		currentId: '',
 		json: {},
 		oldJson: '',
+		currentId: '',
 		current: null,
 	}),
-	getters: {},
+	getters: {
+		pane: (state: State): Getter['pane'] => {
+			const { type, version } = state.current || {};
+			if (type && version) {
+				return window[`${type}_${version.replace(/\./g, '_')}`];
+			}
+
+			return {};
+		},
+	},
 });

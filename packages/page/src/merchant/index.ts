@@ -1,5 +1,5 @@
-import pagePropConfig from './prop-config/index';
-import pageBusinessConfig from './business-data/index';
+import pagePropsConfig from './prop-config/index';
+import pageDataConfig from './business-data/index';
 import pageInit from './init';
 
-export { pagePropConfig, pageBusinessConfig, pageInit };
+export { pagePropsConfig, pageDataConfig, pageInit };

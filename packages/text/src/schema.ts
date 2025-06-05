@@ -6,7 +6,7 @@ import { version } from '../package.json';
 const textSchemaJson = {
 	name: 'text',
 	type: 'text',
-	version: version.replaceAll('.', '_'),
+	version: version,
 	description: 'text',
 	group: false,
 	props: mapProps(propConfig),

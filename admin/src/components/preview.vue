@@ -10,7 +10,7 @@
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
-import { loadScript } from '@/utils';
+import { loadAnfuScript } from '@/utils';
 import { ref } from 'vue';
 
 defineOptions({
@@ -29,7 +29,7 @@ const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
 	const name = event.dataTransfer?.getData('text/plain');
 
-	await loadScript(`${name}`);
+	await loadAnfuScript(`${name}`);
 	flag.value = true;
 	console.log(window['@anfu/text' as any]);
 

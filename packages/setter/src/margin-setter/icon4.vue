@@ -1,0 +1,3 @@
+<template>
+    <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21 22C21.5523 22 22 21.5523 22 21V3C22 2.44772 21.5523 2 21 2C20.4477 2 20 2.44772 20 3L20 21C20 21.5523 20.4477 22 21 22Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 3C17.6046 3 18.5 3.89543 18.5 5V19C18.5 20.1046 17.6046 21 16.5 21H3C1.89543 21 1 20.1046 1 19L1 5C1 3.89543 1.89543 3 3 3L16.5 3ZM16.5 5L16.5 19H3L3 5L16.5 5Z"></path></svg>
+</template>

@@ -1,3 +1,5 @@
+import { LayoutConfig, ContainerStyleConfig } from '@anfu/preset';
+
 const config: { label: string; items: any[] }[] = [
 	{
 		label: '常用设置',
@@ -8,9 +10,20 @@ const config: { label: string; items: any[] }[] = [
 				defaultValue: '',
 				setter: {
 					name: 'InputSetter',
+					props: {
+						maxLength: 5,
+					},
 				},
 			},
 		],
+	},
+	{
+		label: '布局',
+		items: LayoutConfig,
+	},
+	{
+		label: '容器样式',
+		items: ContainerStyleConfig,
 	},
 ];
 
