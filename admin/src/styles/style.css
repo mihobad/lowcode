@@ -25,3 +25,7 @@ body {
 #app {
 	height: 100%;
 }
+
+.el-popper__arrow::before {
+	display: none !important;
+}

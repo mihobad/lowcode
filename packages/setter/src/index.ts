@@ -9,6 +9,7 @@ import { TabRadioSetter } from './tab-radio-setter';
 import { BorderRadiusSetter } from './border-radius-setter';
 import { PaddingSetter } from './padding-setter';
 import { MarginSetter } from './margin-setter';
+import { BorderStyleSetter } from './border-style-setter';
 
 export {
 	InputSetter,
@@ -22,6 +23,7 @@ export {
 	BorderRadiusSetter,
 	PaddingSetter,
 	MarginSetter,
+	BorderStyleSetter,
 };
 
 const install = (app: any) => {
@@ -36,6 +38,7 @@ const install = (app: any) => {
 	app.component('BorderRadiusSetter', BorderRadiusSetter);
 	app.component('PaddingSetter', PaddingSetter);
 	app.component('MarginSetter', MarginSetter);
+	app.component('BorderStyleSetter', BorderStyleSetter);
 };
 
 export default install;

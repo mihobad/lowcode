@@ -55,6 +55,44 @@ export const ContainerStyleConfig = [
 			name: 'MarginSetter',
 		},
 	},
+	{
+		label: '边框',
+		name: 'border',
+		full: true,
+		defaultValue: {
+			none: true,
+			borderWidth: 1,
+			borderStyle: 'solid',
+			borderColor: '#fff',
+		},
+		setter: {
+			name: 'BorderStyleSetter',
+		},
+	},
+	{
+		label: '溢出',
+		name: 'overflow',
+		defaultValue: 'visible',
+		setter: {
+			name: 'TabRadioSetter',
+			props: {
+				options: [
+					{
+						label: '可见',
+						value: 'visible',
+					},
+					{
+						label: '隐藏',
+						value: 'hidden',
+					},
+					{
+						label: '滚动',
+						value: 'scroll',
+					},
+				],
+			},
+		},
+	},
 ];
 
 export const generateContainerStyle = (style: any) => {
