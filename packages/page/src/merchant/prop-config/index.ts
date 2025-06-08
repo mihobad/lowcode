@@ -25,6 +25,22 @@ const config: { label: string; items: any[] }[] = [
 		label: '容器样式',
 		items: ContainerStyleConfig,
 	},
+	{
+		label: '位置',
+		items: [
+			{
+				label: '类型',
+				name: 'position',
+				full: true,
+				defaultValue: {
+					positionType: 'static',
+				},
+				setter: {
+					name: 'PositionSetter',
+				},
+			},
+		],
+	},
 ];
 
 export default config;

@@ -10,6 +10,7 @@ import { BorderRadiusSetter } from './border-radius-setter';
 import { PaddingSetter } from './padding-setter';
 import { MarginSetter } from './margin-setter';
 import { BorderStyleSetter } from './border-style-setter';
+import { PositionSetter } from './position-setter';
 
 export {
 	InputSetter,
@@ -24,6 +25,7 @@ export {
 	PaddingSetter,
 	MarginSetter,
 	BorderStyleSetter,
+	PositionSetter,
 };
 
 const install = (app: any) => {
@@ -39,6 +41,7 @@ const install = (app: any) => {
 	app.component('PaddingSetter', PaddingSetter);
 	app.component('MarginSetter', MarginSetter);
 	app.component('BorderStyleSetter', BorderStyleSetter);
+	app.component('PositionSetter', PositionSetter);
 };
 
 export default install;
