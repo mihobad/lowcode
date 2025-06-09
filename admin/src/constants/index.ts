@@ -29,16 +29,9 @@ export const CompList = [
 		defaultJson: null,
 	},
 	{
-		id: 3,
-		label: 'markdown',
-		value: 'markdown',
-		icon: new URL('@/assets/markdown_icon.jpg', import.meta.url).href,
-		defaultJson: null,
-	},
-	{
 		id: 4,
 		label: '图片',
-		value: 'image',
+		value: 'picture',
 		icon: new URL('@/assets/image_icon.jpg', import.meta.url).href,
 		defaultJson: null,
 	},

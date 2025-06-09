@@ -16,6 +16,7 @@
     "@anfu/page": "workspace:^",
     "@anfu/setter": "workspace:^",
     "@anfu/text": "workspace:^",
+    "@anfu/picture": "workspace:^",
     "@anfu/toast": "workspace:^",
     "@anfu/use": "workspace:^",
     "@anfu/utils": "workspace:^",

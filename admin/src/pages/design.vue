@@ -12,7 +12,7 @@
         <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle">
           <div class="absolute center-pane-wrapper" ref="dragTarget" :style="posStyle">
             <div ref="dragHandler">
-              <PageTool />
+              <PageTool @click="selectPage"/>
             </div>
             <div class="iframe-container overflow-hidden">
               <ClientPreview />
@@ -76,6 +76,10 @@ const clkSave = async () => {
 };
 
 // const handlePostMessage = (info: any) => {};
+
+const selectPage = () => {
+	store.$patch({});
+};
 
 // 查询json. 默认到page
 const init = async () => {

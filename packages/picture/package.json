@@ -1,0 +1,45 @@
+{
+  "name": "@anfu/picture",
+  "version": "1.0.0",
+  "description": "picture",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "picture"
+  ],
+  "author": "yuanjie.dong",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "style": "dist/index.css",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "dev": "vite build -w",
+    "build:types": "tsc -p ./tsconfig.json",
+    "build:bundle": "vite build",
+    "build": "pnpm clean && pnpm build:bundle && pnpm build:types",
+    "prepare": "pnpm build"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@anfu/axios": "workspace:^",
+    "@anfu/vite-plugin-css-merge": "workspace:^",
+    "@anfu/utils": "workspace:^",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@anfu/axios": "workspace:^",
+    "element-plus": "^2.9.9",
+    "vue": "^3.4.27"
+  }
+}

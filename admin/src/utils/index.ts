@@ -40,24 +40,6 @@ export const loadImg = (url: string) => {
 	});
 };
 
-// 深度遍历查找当前组件
-export const findComponent = (id: string, json: ComponentJson): ComponentJson => {
-	if (json.id === id) {
-		return json;
-	}
-
-	if (json.children) {
-		for (const child of json.children) {
-			const result = findComponent(id, child);
-			if (result) {
-				return result;
-			}
-		}
-	}
-
-	return json;
-};
-
 // page -> Page
 export const toPascalCase = (str: string) => {
 	return str.replace(/(^|[-_])(\w)/g, (_, p1, p2) => {
@@ -76,4 +58,35 @@ export const filterCssVariables = (obj: Record<string, any>) => {
 		},
 		{} as Record<string, any>,
 	);
+};
+
+// 深度遍历查找当前组件
+export const findComponent = (id: string, json: ComponentJson): ComponentJson => {
+	if (json.id === id) {
+		return json;
+	}
+
+	if (json.children) {
+		for (const child of json.children) {
+			const result = findComponent(id, child);
+			if (result) {
+				return result;
+			}
+		}
+	}
+
+	return json;
+};
+
+// updateJson
+export const updateJson = (json: ComponentJson, id: string, update: Partial<ComponentJson>): ComponentJson => {
+	if (json.id === id) {
+		return { ...json, ...update };
+	}
+
+	if (!json.children) return json;
+
+	const updatedChildren = json.children.map((child) => updateJson(child, id, update));
+
+	return { ...json, children: updatedChildren };
 };

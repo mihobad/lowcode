@@ -10,7 +10,7 @@
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
-import { loadAnfuScript } from '@/utils';
+import { generateRandomString, loadAnfuScript } from '@/utils';
 import { ref } from 'vue';
 
 defineOptions({
@@ -29,15 +29,22 @@ const handleDrop = async (event: DragEvent) => {
 	event.preventDefault();
 	const name = event.dataTransfer?.getData('text/plain');
 
-	await loadAnfuScript(`${name}`);
+	const res = await loadAnfuScript(`${name}`);
 	flag.value = true;
-	console.log(window['@anfu/text' as any]);
 
+	const randomStr = generateRandomString(8);
+	const _id = randomStr;
+	const _json = {
+		id: _id,
+		...res[`${name}SchemaJson`],
+	};
 	store.$patch({
+		currentId: _id,
 		json: {
 			...json.value,
-			children: [...json.value.children, name],
+			children: [...json.value.children, res[`${name}SchemaJson`]],
 		},
+		current: _json,
 	} as any);
 };
 </script>
