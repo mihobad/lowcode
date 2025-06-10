@@ -26,7 +26,6 @@ export default defineConfig({
   build: {
     minify: true,
     lib: {
-      name: 'picture',
       entry: {
         ...inputs,
         index: path.resolve(__dirname, 'src/index.ts')
@@ -42,9 +41,7 @@ export default defineConfig({
         moduleSideEffects: false,
       },
       output: {
-        globals: {
-          vue: 'Vue',
-        },
+        dir: "dist/es",
         exports: 'named',
       },
     },

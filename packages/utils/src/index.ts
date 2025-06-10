@@ -6,3 +6,4 @@ export * from './bem';
 export * from './time';
 export * from './map';
 export * from './qs';
+export * from './style';

@@ -1,9 +1,10 @@
 <template>
   <component
     :is="name"
-    v-bind="json.props"
+    :json="json"
+    v-if="name"
   >
-    <template v-for="child in json.children" :key="child.id">
+    <template v-for="child in json.children || []" :key="child.id">
       <render-component :json="child" />
     </template>
   </component>
