@@ -12,7 +12,7 @@
         <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle">
           <div class="absolute center-pane-wrapper" ref="dragTarget" :style="posStyle">
             <div ref="dragHandler">
-              <PageTool @click="selectPage"/>
+              <PageTool @click="selectPage" :data-id="pageId"/>
             </div>
             <div class="iframe-container overflow-hidden">
               <ClientPreview />
@@ -37,6 +37,8 @@ import { generateRandomString, loadAnfuScript } from '@/utils';
 import { useDraggable, useZoomCanvas } from '@/use';
 import PageTool from '@/components/page-tool.vue';
 import RightPane from '@/components/right-pane.vue';
+import { storeToRefs } from 'pinia';
+import { findComponent, findDataId } from '@/utils';
 
 defineOptions({
 	components: {
@@ -49,6 +51,7 @@ const { id } = defineProps({
 });
 const router = useRouter();
 const store = useStore();
+const { pageId, json } = storeToRefs(store);
 const dragContainer = ref<HTMLElement>();
 const dragCanvas = ref<HTMLElement>();
 const dragTarget = ref<HTMLElement>();
@@ -77,8 +80,12 @@ const clkSave = async () => {
 
 // const handlePostMessage = (info: any) => {};
 
-const selectPage = () => {
-	store.$patch({});
+const selectPage = (e: Event) => {
+	const id = findDataId(e.target as HTMLElement)!;
+	const data = findComponent(id, json.value);
+	store.$patch({
+		current: data,
+	});
 };
 
 // 查询json. 默认到page
@@ -103,7 +110,6 @@ const init = async () => {
 		...pageJson,
 	};
 	store.$patch({
-		currentId: _id,
 		json: _json,
 		current: _json,
 	});

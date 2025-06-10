@@ -17,9 +17,8 @@ export interface ComponentJson extends ComponentProps {
 }
 
 interface State {
-	json: Record<string, any>;
+	json: ComponentJson;
 	oldJson: string;
-	currentId: string;
 	current: ComponentJson | null;
 }
 
@@ -29,9 +28,8 @@ interface Getter {
 
 export const useStore = defineStore('store', {
 	state: (): State => ({
-		json: {},
+		json: {} as ComponentJson,
 		oldJson: '',
-		currentId: '',
 		current: null,
 	}),
 	getters: {
@@ -42,6 +40,12 @@ export const useStore = defineStore('store', {
 			}
 
 			return {};
+		},
+		pageId: (state: State): string => {
+			return state.json.id;
+		},
+		currentId: (state: State): string => {
+			return state.current?.id || '';
 		},
 	},
 });

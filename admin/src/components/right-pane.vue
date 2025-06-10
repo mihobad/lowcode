@@ -21,7 +21,9 @@
                                     :is="item.setter.name || item.setter.component" 
                                     v-bind="{...(item.setter.props || {}), _current: {...filterCssVariables(current[tabName])}, _json: json}"
                                     v-model="current[tabName][item.name]"
-                                    />
+                                    v-model:props="current['props']"
+                                    v-model:data="current['data']"
+                                />
                             </div>
                         </div>
                     </el-collapse-item>

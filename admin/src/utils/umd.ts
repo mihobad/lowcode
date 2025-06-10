@@ -4,7 +4,6 @@ import { qs } from '@anfu/utils';
 const QS = qs();
 
 export const loadAnfuScript = (name: any, version: string = 'latest'): Promise<any> => {
-	console.log('loadAnfuScriptStart', name, version);
 	return new Promise(async (resolve, reject) => {
 		const pkgName: any = `@anfu/${name}`;
 
@@ -17,11 +16,11 @@ export const loadAnfuScript = (name: any, version: string = 'latest'): Promise<a
 		if (QS.DEV) {
 			// 开发环境
 			const devPkg = await import(`../../node_modules/@anfu/${name}`);
-			const version = devPkg[`${name}SchemaJson`]['version'];
-			app.component(`${globalName}`, devPkg['default']);
-			window[globalName] = devPkg;
-			window[`${name}_${version.replace(/\./g, '_')}`] = devPkg;
-			resolve(window[globalName]);
+			const _version = devPkg[`${name}SchemaJson`]['version'];
+			const _globalName = `${name}_${_version.replace(/\./g, '_')}`;
+			app.component(`${_globalName}`, devPkg['default']);
+			window[_globalName] = devPkg;
+			resolve(window[_globalName]);
 			return;
 		}
 		const pkg = await fetch(`https://registry.npmjs.org/${pkgName}`);

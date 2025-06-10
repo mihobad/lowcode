@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="json.type"
+    :is="name"
     v-bind="json.props"
   >
     <template v-for="child in json.children" :key="child.id">
@@ -9,18 +9,26 @@
   </component>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-export default defineComponent({
+defineOptions({
 	name: 'RenderComponent',
-	props: {
-		json: {
-			type: Object,
-			required: true,
-		},
+});
+
+const { json } = defineProps({
+	json: {
+		type: Object,
+		required: true,
 	},
-	setup() {},
+});
+
+const name = computed(() => {
+	const { type, version } = json;
+	if (!type || !version) {
+		return '';
+	}
+	return `${type}_${version.replace(/\./g, '_')}`;
 });
 </script>
 

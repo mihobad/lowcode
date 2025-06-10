@@ -90,3 +90,15 @@ export const updateJson = (json: ComponentJson, id: string, update: Partial<Comp
 
 	return { ...json, children: updatedChildren };
 };
+
+// findElementParent data-id="xxx"
+export const findDataId = (element: HTMLElement) => {
+	let parent = element.parentElement;
+	while (parent) {
+		if (parent.hasAttribute('data-id')) {
+			return parent.getAttribute('data-id');
+		}
+		parent = parent.parentElement;
+	}
+	return element.getAttribute('data-id');
+};

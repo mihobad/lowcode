@@ -39,10 +39,9 @@ const handleDrop = async (event: DragEvent) => {
 		...res[`${name}SchemaJson`],
 	};
 	store.$patch({
-		currentId: _id,
 		json: {
 			...json.value,
-			children: [...json.value.children, res[`${name}SchemaJson`]],
+			children: [...(json.value.children || []), res[`${name}SchemaJson`]],
 		},
 		current: _json,
 	} as any);
