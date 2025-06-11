@@ -1,3 +1,4 @@
+// container style
 export const generateContainerStyle = (props: Record<string, any>) => {
 	const style: Record<string, string> = {};
 
@@ -28,4 +29,21 @@ export const generateContainerStyle = (props: Record<string, any>) => {
 	}
 
 	return style;
+};
+
+// layout style
+export const generateLayoutStyle = (props: Record<string, any>) => {
+	const style: Record<string, string> = {
+		display: 'flex',
+	};
+
+	const { flow, gapType, gap, justify } = props;
+
+	style.flexFlow = flow;
+
+	if (gapType === 'fixed') {
+		style.gap = `${gap}px`;
+	} else {
+		style.gap = 'unset';
+	}
 };

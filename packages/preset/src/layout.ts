@@ -58,13 +58,9 @@ export const LayoutConfig = [
 	{
 		label: '元素分布',
 		name: 'justify',
-		defaultValue: 'start_start',
+		defaultValue: ['flex-start', 'flex-start'],
 		setter: {
 			name: 'LayoutSetter',
 		},
 	},
 ];
-
-export const generateLayoutStyle = (style: any) => {
-	console.log(style);
-};
