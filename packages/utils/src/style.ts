@@ -46,4 +46,17 @@ export const generateLayoutStyle = (props: Record<string, any>) => {
 	} else {
 		style.gap = 'unset';
 	}
+
+	if (flow === 'column') {
+		// align-content, justify-content
+		const [alignContent, justifyContent] = justify;
+		style.placeContent = `${alignContent} ${justifyContent}`;
+		style.alignItems = alignContent;
+	} else {
+		const [alignContent] = justify;
+		style.placeContent = `${alignContent} space-between`;
+		style.alignItems = alignContent;
+	}
+
+	return style;
 };
