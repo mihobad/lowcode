@@ -1,5 +1,7 @@
 import { PictureClient } from './client';
-import { picturePropConfig, pictureBusinessConfig, pictureInit } from './merchant';
+import { picturePropsConfig, pictureDataConfig, pictureInit } from './merchant';
 import { pictureSchemaJson } from './schema';
 
-export { PictureClient, picturePropConfig, pictureBusinessConfig, pictureInit, pictureSchemaJson };
+export { PictureClient, picturePropsConfig, pictureDataConfig, pictureInit, pictureSchemaJson };
+
+export default PictureClient;

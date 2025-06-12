@@ -1,5 +1,5 @@
-import picturePropConfig from './prop-config/index';
-import pictureBusinessConfig from './business-data/index';
+import picturePropsConfig from './prop-config/index';
+import pictureDataConfig from './business-data/index';
 import pictureInit from './init';
 
-export { picturePropConfig, pictureBusinessConfig, pictureInit };
+export { picturePropsConfig, pictureDataConfig, pictureInit };

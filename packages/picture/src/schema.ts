@@ -5,6 +5,7 @@ import { version } from '../package.json';
 
 const pictureSchemaJson = {
 	name: 'picture',
+	type: 'picture',
 	version: version,
 	description: 'picture',
 	group: false,
