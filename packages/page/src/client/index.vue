@@ -1,13 +1,12 @@
 <template>
   <div :style="style">
-	page
 	<slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { generateContainerStyle } from '@anfu/utils';
+import { generateContainerStyle, generateLayoutStyle } from '@anfu/utils';
 
 defineOptions({
 	name: 'PageClient',
@@ -23,7 +22,9 @@ const { json } = defineProps({
 
 const style = computed(() => {
 	return {
+		'min-height': '667px',
 		...generateContainerStyle(json?.props),
+		...generateLayoutStyle(json?.props),
 	};
 });
 </script>

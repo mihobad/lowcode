@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { updateJson } from '@/utils';
 
 export interface ComponentProps {
 	id: string;
@@ -48,4 +49,14 @@ export const useStore = defineStore('store', {
 			return state.current?.id || '';
 		},
 	},
+});
+
+const store = useStore();
+
+store.$subscribe((mutation, { current, json }) => {
+	const { type } = mutation;
+	const { id } = current || {};
+	if (type === 'direct') {
+		updateJson(json, id!, current!);
+	}
 });

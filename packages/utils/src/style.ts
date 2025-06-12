@@ -41,18 +41,22 @@ export const generateLayoutStyle = (props: Record<string, any>) => {
 
 	style.flexFlow = flow;
 
-	if (gapType === 'fixed') {
-		style.gap = `${gap}px`;
-	} else {
-		style.gap = 'unset';
-	}
-
 	if (flow === 'column') {
+		// align-content, justify-content
+		const [justifyContent, alignContent] = justify;
+		style.placeContent = `${alignContent} ${justifyContent}`;
+		style.alignItems = alignContent;
+	} else {
 		// align-content, justify-content
 		const [alignContent, justifyContent] = justify;
 		style.placeContent = `${alignContent} ${justifyContent}`;
 		style.alignItems = alignContent;
+	}
+
+	if (gapType === 'fixed') {
+		style.gap = `${gap}px`;
 	} else {
+		style.gap = 'unset';
 		const [alignContent] = justify;
 		style.placeContent = `${alignContent} space-between`;
 		style.alignItems = alignContent;

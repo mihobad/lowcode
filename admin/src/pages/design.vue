@@ -148,7 +148,7 @@ init();
 
 .iframe-container {
   width: 375px;
-  height: 667px;
+  min-height: 667px;
   box-sizing: content-box;
 }
 </style>
