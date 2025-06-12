@@ -5,6 +5,7 @@ import { version } from '../package.json';
 
 const containerSchemaJson = {
 	name: 'container',
+	type: 'container',
 	version: version,
 	description: 'container',
 	group: true,

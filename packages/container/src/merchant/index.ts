@@ -1,5 +1,5 @@
-import containerPropConfig from './prop-config/index';
-import containerBusinessConfig from './business-data/index';
+import containerPropsConfig from './prop-config/index';
+import containerDataConfig from './business-data/index';
 import containerInit from './init';
 
-export { containerPropConfig, containerBusinessConfig, containerInit };
+export { containerPropsConfig, containerDataConfig, containerInit };
