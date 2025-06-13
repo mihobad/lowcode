@@ -2,7 +2,12 @@
     <div class="tabs">
       <div v-for="(item) in options" :key="item.label" :class="['tabs-item', { active: item.value === name }]"
         @click="changeTab(item)">
-        {{ item.label }}
+        <div v-if="item.icon" class="icon">
+          <img :src="item.icon" alt="">
+        </div>
+        <div v-else>
+          {{ item.label }}
+        </div>
       </div>
     </div>
   </template>
@@ -14,7 +19,7 @@ const emit = defineEmits(['change']);
 
 defineProps({
 	options: {
-		type: Array as PropType<Array<{ label: string; value: string }>>,
+		type: Array as PropType<Array<{ label: string; value: string; icon: string }>>,
 		default: () => [],
 	},
 });
@@ -50,6 +55,15 @@ const changeTab = (item: { label: string; value: string }) => {
       padding: 4px;
       flex: 1;
       cursor: pointer;
+
+      .icon {
+        padding: 4px;
+
+        img {
+          width: 14px;
+          height: 14px;
+        }
+      }
   
       &:hover {
         background: rgba(6, 7, 9,.04);

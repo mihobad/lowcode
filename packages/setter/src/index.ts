@@ -11,6 +11,7 @@ import { PaddingSetter } from './padding-setter';
 import { MarginSetter } from './margin-setter';
 import { BorderStyleSetter } from './border-style-setter';
 import { PositionSetter } from './position-setter';
+import { SizeSetter } from './size-setter';
 
 export {
 	InputSetter,
@@ -26,6 +27,7 @@ export {
 	MarginSetter,
 	BorderStyleSetter,
 	PositionSetter,
+	SizeSetter,
 };
 
 const install = (app: any) => {
@@ -42,6 +44,7 @@ const install = (app: any) => {
 	app.component('MarginSetter', MarginSetter);
 	app.component('BorderStyleSetter', BorderStyleSetter);
 	app.component('PositionSetter', PositionSetter);
+	app.component('SizeSetter', SizeSetter);
 };
 
 export default install;

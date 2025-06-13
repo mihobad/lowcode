@@ -1,5 +1,5 @@
 <template>
-  <div class="input-setter">
+  <div class="input-setter w-full">
     <el-input
       v-model="modelValue"
       :maxlength="maxLength"

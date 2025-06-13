@@ -1,48 +1,65 @@
 <template>
     <div class="line-setter w-full">
         <div class="flex justify-end">
-            <el-switch v-model="modelValue"></el-switch>
-        </div>
-        <div v-if="modelValue" class="line-setter-input">
-            <el-input-number v-model="line" :min="1" controls-position="right" @change="handleChange"/>
+            <div v-if="modelValue.enable" class="line-setter-input">
+                <el-input-number v-model="modelValue.value" :min="1" :controls="false" />
+            </div>
+            <div :class="['line-setter-icon', modelValue.enable && 'active']" @click="visibleChange">
+                <Add v-if="!modelValue.enable" />
+                <Minus v-else />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import Add from './images/add.vue';
+import Minus from './images/minus.vue';
 
-const modelValue = defineModel<boolean>();
-const { maxLine, json } = defineProps({
-	maxLine: {
-		type: Number,
-		default: 1,
-	},
-	json: {
-		type: Object,
-		default: {},
+const modelValue = defineModel<{ enable: boolean; value: number }>({
+	default: {
+		enable: false,
+		value: 1,
 	},
 });
 
 const emit = defineEmits(['post-message']);
-const line = ref(maxLine);
 
-console.log(json);
-const handleChange = (value: number | undefined) => {
-	emit('post-message', {
-		type: 'props',
-		data: {
-			maxLine: value,
-		},
-	});
+const visibleChange = () => {
+	modelValue.value = {
+		enable: !modelValue.value?.enable,
+		value: modelValue.value?.value ?? 1,
+	};
 };
 </script>
 
 <style lang="scss" scoped>
-    .line-setter-input {
+.line-setter {
+    &-input {
+        flex: 1;
+
         :deep(.el-input-number) {
             width: 100% !important;
             display: block !important;
         }
     }
+
+    &-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        margin-left: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+            background-color: rgb(87 104 161 / 8%);
+            color: rgb(81 71 255);
+        }
+    }
+}
 </style>

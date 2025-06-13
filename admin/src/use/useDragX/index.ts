@@ -1,7 +1,7 @@
 import { ref, onUnmounted } from 'vue';
 
 const useDragX = () => {
-	const dragXWidth = ref(300);
+	const dragXWidth = ref(320);
 	const isDragging = ref(false);
 	const startX = ref(0);
 	const startWidth = ref(0);
@@ -26,7 +26,7 @@ const useDragX = () => {
 		const newWidth = startWidth.value + deltaX;
 
 		// 限制最小和最大宽度
-		if (newWidth >= 270 && newWidth <= 480) {
+		if (newWidth >= 320 && newWidth <= 480) {
 			dragXWidth.value = newWidth;
 		}
 	};

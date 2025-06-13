@@ -19,7 +19,7 @@ const config: { label: string; items: any[] }[] = [
 	},
 	{
 		label: '布局',
-		items: LayoutConfig,
+		items: [...LayoutConfig],
 	},
 	{
 		label: '容器样式',

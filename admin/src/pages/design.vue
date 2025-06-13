@@ -39,6 +39,7 @@ import PageTool from '@/components/page-tool.vue';
 import RightPane from '@/components/right-pane.vue';
 import { storeToRefs } from 'pinia';
 import { findComponent, findDataId } from '@/utils';
+import { cloneDeep } from 'lodash-es';
 
 defineOptions({
 	components: {
@@ -111,7 +112,7 @@ const init = async () => {
 	};
 	store.$patch({
 		json: _json,
-		current: _json,
+		current: cloneDeep(_json),
 	});
 };
 init();

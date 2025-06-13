@@ -3,13 +3,13 @@
         <div class="flex items-center justify-end">
             <div class="position-setter-select">
                 <el-select v-model="position.positionType">
-                    <el-option label="相对定位" value="static" />
+                    <el-option label="相对定位" value="relative" />
                     <el-option label="绝对定位" value="absolute" />
                     <el-option label="固定定位" value="fixed" />
                 </el-select>
             </div>
         </div>
-        <div class="position-setter-rtlb mt-2" v-if="position.positionType !== 'static'">
+        <div class="position-setter-rtlb mt-2" v-if="position.positionType !== 'relative'">
             <div class="line1"></div>
             <div class="line2"></div>
             <div class="dot"></div>
@@ -58,7 +58,7 @@ const position = defineModel({
 	type: Object,
 	default: () => {
 		return {
-			positionType: 'static',
+			positionType: 'relative',
 		};
 	},
 });

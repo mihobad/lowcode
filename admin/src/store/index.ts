@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { updateJson } from '@/utils';
+import { cloneDeep } from 'lodash-es';
 
 export interface ComponentProps {
 	id: string;
@@ -57,6 +58,6 @@ store.$subscribe((mutation, { current, json }) => {
 	const { type } = mutation;
 	const { id } = current || {};
 	if (type === 'direct') {
-		updateJson(json, id!, current!);
+		updateJson(json, id!, cloneDeep(current!));
 	}
 });

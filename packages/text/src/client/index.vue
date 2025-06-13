@@ -1,63 +1,83 @@
 <template>
-  <div>text</div>
+	<div :style="wrapperStyle">
+		<div :style="textStyle" :class="[maxLineEnable && 'limit-line']">{{ json?.props?.value }}</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-// import { fetchJson } from '@/api/client';
+import { computed } from 'vue';
+import { generateContainerStyle, generateSizeStyle } from '@anfu/utils';
 
 defineOptions({
 	name: 'TextClient',
 	components: {},
 });
 
-const { json, componentCode } = defineProps({
-	componentCode: {
-		type: String,
-	},
+const { json } = defineProps({
 	json: {
 		type: Object,
+		required: true,
 	},
 });
 
-const jsonShema = ref();
-const list = ref<any>(null);
-
-const finialProps = computed(() => {
-	return (jsonShema.value || json)?.props || {};
-});
-const finialEvents = computed(() => {
-	return (jsonShema.value || json)?.events || {};
-});
-const finialData = computed(() => {
-	return list.value || json?.data?.list || [];
+const maxLineEnable = computed(() => {
+	return json.props?.maxLine?.enable;
 });
 
-const style = computed(() => {
-	const _sty = Object.fromEntries(Object.entries(finialProps.value).filter(([key]) => key.startsWith('--')));
+const wrapperStyle = computed(() => {
+	const props = json.props || {};
+	const style: any = {
+		...generateContainerStyle(props),
+	};
+
+	const { top, left, right, bottom, positionType, zIndex } = props.position || {};
+	style.position = positionType || 'relative';
+	style.top = top || 0;
+	style.left = left || 0;
+	style.right = right || 0;
+	style.bottom = bottom || 0;
+	style.zIndex = zIndex || 1;
+
+	style.justifyContent = props.justifyContent || 'flex-start';
+	style.fontSize = `${props.fontSize}px`;
+	style.fontWeight = props.fontWeight;
+	style.color = props.color;
+	style.lineHeight = `${props.lineHeight}px`;
+	style.letterSpacing = `${props.letterSpacing}px`;
 
 	return {
-		..._sty,
+		display: 'inline-flex',
+		'flex-direction': 'column',
+		'white-space': 'break-spaces',
+		...style,
+		...generateSizeStyle(props, 'width'),
+		...generateSizeStyle(props, 'height'),
 	};
 });
 
-const init = async () => {
-	// if (componentCode) {
-	//   const { componentBasicInfo } = await fetchJson({
-	//     toastError: false,
-	//     params: {
-	//       componentCode
-	//     }
-	//   })
-	//   try {
-	//     jsonShema.value = JSON.parse(componentBasicInfo || '{}')
-	//   } catch (error) {
-	//     console.error('jsonShema', error)
-	//   }
-	// }
-};
+const textStyle = computed(() => {
+	const props = json.props || {};
+	const style: any = {};
 
-init();
+	style.fontFamily = 'inherit';
+	style.textAlign = props.textAlign;
+
+	const { maxLine } = props;
+	if (maxLine?.enable) {
+		style['-webkit-line-clamp'] = maxLine.value;
+	}
+
+	return {
+		...style,
+	};
+});
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.limit-line {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>

@@ -12,6 +12,7 @@ import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
 import { generateRandomString, loadAnfuScript } from '@/utils';
 import { ref } from 'vue';
+import { cloneDeep } from 'lodash-es';
 
 defineOptions({
 	name: 'PreviewArea',
@@ -38,12 +39,13 @@ const handleDrop = async (event: DragEvent) => {
 		id: _id,
 		...res[`${name}SchemaJson`],
 	};
+	console.log(_json);
 	store.$patch({
 		json: {
 			...json.value,
 			children: [...(json.value.children || []), res[`${name}SchemaJson`]],
 		},
-		current: _json,
+		current: cloneDeep(_json),
 	} as any);
 };
 </script>

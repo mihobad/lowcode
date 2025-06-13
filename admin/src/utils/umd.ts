@@ -16,6 +16,7 @@ export const loadAnfuScript = (name: any, version: string = 'latest'): Promise<a
 		if (QS.DEV) {
 			// 开发环境
 			const devPkg = await import(`../../node_modules/@anfu/${name}`);
+			await import(`../../node_modules/@anfu/${name}/dist/es/index.css`);
 			const _version = devPkg[`${name}SchemaJson`]['version'];
 			const _globalName = `${name}_${_version.replace(/\./g, '_')}`;
 			app.component(`${_globalName}`, devPkg['default']);

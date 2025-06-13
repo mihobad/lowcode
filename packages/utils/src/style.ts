@@ -37,7 +37,7 @@ export const generateLayoutStyle = (props: Record<string, any>) => {
 		display: 'flex',
 	};
 
-	const { flow, gapType, gap, justify } = props;
+	const { flow, gapType, gap, justify = [] } = props;
 
 	style.flexFlow = flow;
 
@@ -63,4 +63,30 @@ export const generateLayoutStyle = (props: Record<string, any>) => {
 	}
 
 	return style;
+};
+
+// size style
+export const generateSizeStyle = (props: Record<string, any>, key: 'width' | 'height') => {
+	const { type, value } = props || {};
+	// type '1' '2' '3' '4' 固定 百分比 填充容器 适应内容
+	if (type === '1') {
+		return {
+			[key]: `${value}px`,
+		};
+	}
+	if (type === '2') {
+		return {
+			[key]: `${value}%`,
+		};
+	}
+	if (type === '3') {
+		return {
+			[key]: 'inherit',
+		};
+	}
+	if (type === '4') {
+		return {
+			[key]: 'auto',
+		};
+	}
 };
