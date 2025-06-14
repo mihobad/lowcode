@@ -31,6 +31,7 @@
     "@anfu/axios": "workspace:^",
     "@anfu/vite-plugin-css-merge": "workspace:^",
     "@anfu/utils": "workspace:^",
+    "@anfu/preset": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "element-plus": "^2.9.9",
