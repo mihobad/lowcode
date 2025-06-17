@@ -4,7 +4,6 @@ globs:
 alwaysApply: true
 ---
 ### 核心原则：
-
 - 编写简洁、技术性的响应，并提供准确的 TypeScript 示例
 - 使用函数式、声明式编程，避免使用类
 - 优先使用迭代和模块化，而不是代码重复定义
@@ -44,6 +43,7 @@ alwaysApply: true
 - 组件使用组合式 API（setup）
 - 组件使用 props 时，使用解构赋值
 - 组件使用 emits 时，使用 camelCase
+- 组件复用性高时，考虑抽离为基础组件
 
 ## 样式
 - 使用 scss
