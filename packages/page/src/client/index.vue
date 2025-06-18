@@ -1,5 +1,5 @@
 <template>
-  <div :style="style">
+  <div :style="style" :data-component-id="json.id">
 	<slot></slot>
   </div>
 </template>
