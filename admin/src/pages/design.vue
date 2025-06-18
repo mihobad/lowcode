@@ -12,7 +12,7 @@
         <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle">
           <div class="absolute center-pane-wrapper" ref="dragTarget" :style="posStyle">
             <div ref="dragHandler">
-              <PageTool @click="selectPage" :data-id="pageId"/>
+              <PageTool @click="selectPage" :data-component-id="pageId"/>
             </div>
             <div class="iframe-container overflow-hidden">
               <ClientPreview />
@@ -83,10 +83,7 @@ const clkSave = async () => {
 
 const selectPage = (e: Event) => {
 	const id = findDataId(e.target as HTMLElement)!;
-	const data = findComponent(id, json.value);
-	store.$patch({
-		current: data,
-	});
+	store.setCurrentComponent(id);
 };
 
 // 查询json. 默认到page
@@ -112,8 +109,8 @@ const init = async () => {
 	};
 	store.$patch({
 		json: _json,
-		current: cloneDeep(_json),
 	});
+	store.setCurrentComponent(_id);
 };
 init();
 </script>

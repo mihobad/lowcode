@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { updateJson } from '@/utils';
 import { cloneDeep } from 'lodash-es';
+import { findComponent } from '@/utils';
 
 export interface ComponentProps {
 	id: string;
@@ -20,8 +20,8 @@ export interface ComponentJson extends ComponentProps {
 
 interface State {
 	json: ComponentJson;
-	oldJson: string;
 	current: ComponentJson | null;
+	currentId: string;
 }
 
 interface Getter {
@@ -31,8 +31,8 @@ interface Getter {
 export const useStore = defineStore('store', {
 	state: (): State => ({
 		json: {} as ComponentJson,
-		oldJson: '',
 		current: null,
+		currentId: '',
 	}),
 	getters: {
 		pane: (state: State): Getter['pane'] => {
@@ -46,18 +46,28 @@ export const useStore = defineStore('store', {
 		pageId: (state: State): string => {
 			return state.json.id;
 		},
-		currentId: (state: State): string => {
-			return state.current?.id || '';
+	},
+	actions: {
+		setCurrentComponent(id: string) {
+			this.currentId = id;
+			this.current = findComponent(id, this.json);
+		},
+		addComponent(component: ComponentJson) {
+			if (!this.json.children) {
+				this.json.children = [];
+			}
+			this.json.children.push(component);
+			this.setCurrentComponent(component.id);
 		},
 	},
 });
 
-const store = useStore();
+// const store = useStore();
 
-store.$subscribe((mutation, { current, json }) => {
-	const { type } = mutation;
-	const { id } = current || {};
-	if (type === 'direct') {
-		updateJson(json, id!, cloneDeep(current!));
-	}
-});
+// store.$subscribe((mutation, { current, json }) => {
+// 	const { type } = mutation;
+// 	const { id } = current || {};
+// 	if (type === 'direct') {
+// 		updateJson(json, id!, cloneDeep(current!));
+// 	}
+// });

@@ -53,12 +53,13 @@ export function useDraggable(targetRef: any, options: UseDraggableOptions = {}) 
 		const mouse = e as MouseEvent;
 		startX = mouse.clientX - pos.value.x;
 		startY = mouse.clientY - pos.value.y;
-		window.addEventListener('mousemove', onDragging);
-		window.addEventListener('mouseup', onDragEnd);
+		window.addEventListener('mousemove', onDragging, { passive: false });
+		window.addEventListener('mouseup', onDragEnd, { passive: false });
 	}
 
 	function onDragging(e: MouseEvent | TouchEvent) {
 		if (!dragging) return;
+		e.preventDefault();
 		let x: number, y: number;
 		const mouse = e as MouseEvent;
 		x = mouse.clientX;

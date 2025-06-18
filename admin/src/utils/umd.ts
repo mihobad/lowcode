@@ -21,6 +21,7 @@ export const loadAnfuScript = (name: any, version: string = 'latest'): Promise<a
 			const _globalName = `${name}_${_version.replace(/\./g, '_')}`;
 			app.component(`${_globalName}`, devPkg['default']);
 			window[_globalName] = devPkg;
+			window[globalName] = devPkg;
 			resolve(window[_globalName]);
 			return;
 		}

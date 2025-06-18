@@ -61,7 +61,7 @@ export const filterCssVariables = (obj: Record<string, any>) => {
 };
 
 // 深度遍历查找当前组件
-export const findComponent = (id: string, json: ComponentJson): ComponentJson => {
+export const findComponent = (id: string, json: ComponentJson): ComponentJson | null => {
 	if (json.id === id) {
 		return json;
 	}
@@ -75,30 +75,34 @@ export const findComponent = (id: string, json: ComponentJson): ComponentJson =>
 		}
 	}
 
-	return json;
+	return null;
 };
 
-// updateJson
-export const updateJson = (json: ComponentJson, id: string, update: Partial<ComponentJson>): ComponentJson => {
+const updateJsonTree = (json: ComponentJson, id: string, update: Partial<ComponentJson>) => {
 	if (json.id === id) {
-		return { ...json, ...update };
+		Object.assign(json, update);
+		return true;
 	}
 
-	if (!json.children) return json;
+	if (json.children) {
+		for (const child of json.children) {
+			if (updateJsonTree(child, id, update)) {
+				return true;
+			}
+		}
+	}
 
-	const updatedChildren = json.children.map((child) => updateJson(child, id, update));
-
-	return { ...json, children: updatedChildren };
+	return false;
 };
 
-// findElementParent data-id="xxx"
+// findElementParent data-component-id="xxx"
 export const findDataId = (element: HTMLElement) => {
 	let parent = element.parentElement;
 	while (parent) {
-		if (parent.hasAttribute('data-id')) {
-			return parent.getAttribute('data-id');
+		if (parent.hasAttribute('data-component-id')) {
+			return parent.getAttribute('data-component-id');
 		}
 		parent = parent.parentElement;
 	}
-	return element.getAttribute('data-id');
+	return element.getAttribute('data-component-id');
 };
