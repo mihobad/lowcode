@@ -50,8 +50,8 @@ const wrapperStyle = computed(() => {
 		'flex-direction': 'column',
 		'white-space': 'break-spaces',
 		...style,
-		...generateSizeStyle(props, 'width'),
-		...generateSizeStyle(props, 'height'),
+		...generateSizeStyle(props.width, 'width'),
+		...generateSizeStyle(props.height, 'height'),
 	};
 });
 
