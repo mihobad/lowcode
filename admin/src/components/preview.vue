@@ -11,7 +11,6 @@ import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
 import { generateRandomString, loadAnfuScript } from '@/utils';
-import { ref } from 'vue';
 
 defineOptions({
 	name: 'PreviewArea',

@@ -11,6 +11,7 @@ alwaysApply: true
 - 目录使用小写字母加横线（如 components/auth-wizard）
 - 组件优先使用命名导出
 - 使用接收对象返回对象模式
+- 思考过程使用中文
 
 ### JavaScript/TypeScript 规范：
 - 纯函数使用 "function" 关键字。省略分号

@@ -106,3 +106,21 @@ export const findDataId = (element: HTMLElement) => {
 	}
 	return element.getAttribute('data-component-id');
 };
+
+export const safeSerializable = (data: any) => {
+	try {
+		return JSON.stringify(data);
+	} catch (e) {
+		console.error('Data serialization error:', e);
+		return null;
+	}
+};
+
+export const safeDeserialize = (data: string) => {
+	try {
+		return JSON.parse(data);
+	} catch (e) {
+		console.error('Data deserialization error:', e);
+		return null;
+	}
+};
