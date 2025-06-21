@@ -108,6 +108,9 @@ export const findDataId = (element: HTMLElement) => {
 };
 
 export const findParentAttr = (element: HTMLElement, attr: string) => {
+	if (element.hasAttribute(attr)) {
+		return element.getAttribute(attr);
+	}
 	let parent = element.parentElement;
 	while (parent) {
 		if (parent.hasAttribute(attr)) {

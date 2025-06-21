@@ -1,10 +1,10 @@
 <template>
 	<div class="lowcode-preview">
 		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop"
-			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
+			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
-			<PointerHover :position="hoverPosition" v-if="isHover"/>
-			<!-- <PointerResize /> -->
+			<PointerHover :position="hoverPosition" v-if="isHover" />
+			<PointerResize :position="resizePosition" v-if="currentId"/>
 		</div>
 	</div>
 </template>
@@ -15,7 +15,7 @@ import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
 import PointerHover from './pointer-hover.vue';
-// import PointerResize from './pointer-resize.vue';
+import PointerResize from './pointer-resize.vue';
 import { findParentAttr, generateRandomString, loadAnfuScript } from '@/utils';
 
 defineOptions({
@@ -23,7 +23,7 @@ defineOptions({
 });
 
 const store = useStore();
-const { json } = storeToRefs(store);
+const { json, currentId } = storeToRefs(store);
 const isHover = ref(false);
 const hoverPosition = ref({
 	x: 0,
@@ -31,18 +31,39 @@ const hoverPosition = ref({
 	width: 0,
 	height: 0,
 });
+const resizePosition = ref({
+	x: 0,
+	y: 0,
+	width: 0,
+	height: 0,
+});
 
-const handleMouseMove = (event: MouseEvent) => {
+const getComponentPosition = (event: MouseEvent) => {
 	const target = event.srcElement! as HTMLElement;
-	const rect = target.getBoundingClientRect();
+	const id = findParentAttr(target, 'data-component-id');
+	if (!id) return null;
+
+	const dom = document.querySelector(`[data-component-id="${id}"]`) as HTMLElement;
+	const rect = dom.getBoundingClientRect();
 	const rootDom = document.querySelector('.lowcode-preview-body') as HTMLElement;
 	const { top, left } = rootDom.getBoundingClientRect();
 	const scale = +(findParentAttr(rootDom, 'data-scale') || 1);
-	hoverPosition.value.x = rect.left - left;
-	hoverPosition.value.y = rect.top - top;
-	hoverPosition.value.width = rect.width / scale;
-	hoverPosition.value.height = rect.height / scale;
-	isHover.value = true;
+
+	return {
+		x: rect.left - left,
+		y: rect.top - top,
+		width: rect.width / scale,
+		height: rect.height / scale,
+		id,
+	};
+};
+
+const handleMouseMove = (event: MouseEvent) => {
+	const position = getComponentPosition(event);
+	if (position) {
+		hoverPosition.value = position;
+		isHover.value = true;
+	}
 };
 
 const handleMouseLeave = () => {
@@ -53,9 +74,16 @@ const handleMouseLeave = () => {
 	isHover.value = false;
 };
 
+const handleMouseDown = (event: MouseEvent) => {
+	const position = getComponentPosition(event);
+	if (position) {
+		resizePosition.value = position;
+		store.setCurrentComponent(position.id);
+	}
+};
+
 const handleDragOver = (event: DragEvent) => {
 	event.preventDefault();
-	console.log(event);
 };
 
 const handleDrop = async (event: DragEvent) => {
