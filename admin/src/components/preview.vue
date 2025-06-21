@@ -1,16 +1,22 @@
 <template>
 	<div class="lowcode-preview">
-		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop">
+		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop"
+			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
 			<RenderComponent :json="json" />
+			<PointerHover :position="hoverPosition" v-if="isHover"/>
+			<!-- <PointerResize /> -->
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
-import { generateRandomString, loadAnfuScript } from '@/utils';
+import PointerHover from './pointer-hover.vue';
+// import PointerResize from './pointer-resize.vue';
+import { findParentAttr, generateRandomString, loadAnfuScript } from '@/utils';
 
 defineOptions({
 	name: 'PreviewArea',
@@ -18,9 +24,38 @@ defineOptions({
 
 const store = useStore();
 const { json } = storeToRefs(store);
+const isHover = ref(false);
+const hoverPosition = ref({
+	x: 0,
+	y: 0,
+	width: 0,
+	height: 0,
+});
+
+const handleMouseMove = (event: MouseEvent) => {
+	const target = event.srcElement! as HTMLElement;
+	const rect = target.getBoundingClientRect();
+	const rootDom = document.querySelector('.lowcode-preview-body') as HTMLElement;
+	const { top, left } = rootDom.getBoundingClientRect();
+	const scale = +(findParentAttr(rootDom, 'data-scale') || 1);
+	hoverPosition.value.x = rect.left - left;
+	hoverPosition.value.y = rect.top - top;
+	hoverPosition.value.width = rect.width / scale;
+	hoverPosition.value.height = rect.height / scale;
+	isHover.value = true;
+};
+
+const handleMouseLeave = () => {
+	hoverPosition.value.x = 0;
+	hoverPosition.value.y = 0;
+	hoverPosition.value.width = 0;
+	hoverPosition.value.height = 0;
+	isHover.value = false;
+};
 
 const handleDragOver = (event: DragEvent) => {
 	event.preventDefault();
+	console.log(event);
 };
 
 const handleDrop = async (event: DragEvent) => {

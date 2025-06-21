@@ -107,6 +107,17 @@ export const findDataId = (element: HTMLElement) => {
 	return element.getAttribute('data-component-id');
 };
 
+export const findParentAttr = (element: HTMLElement, attr: string) => {
+	let parent = element.parentElement;
+	while (parent) {
+		if (parent.hasAttribute(attr)) {
+			return parent.getAttribute(attr);
+		}
+		parent = parent.parentElement;
+	}
+	return element.getAttribute(attr);
+};
+
 export const safeSerializable = (data: any) => {
 	try {
 		return JSON.stringify(data);

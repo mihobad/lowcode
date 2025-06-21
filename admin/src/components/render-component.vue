@@ -2,6 +2,7 @@
   <component
     :is="name"
     :json="json"
+    :data-component-id="json.id"
     v-if="name"
   >
     <template v-for="child in json.children || []" :key="child.id">
