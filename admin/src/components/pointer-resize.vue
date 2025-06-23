@@ -207,6 +207,8 @@ const handleMouseUp = (event: MouseEvent) => {
 </script>
 
 <style scoped lang="scss">
+@use "sass:math";
+
 .component-highlight {
     position: absolute;
     pointer-events: none;
@@ -253,19 +255,19 @@ const handleMouseUp = (event: MouseEvent) => {
     }
 
     &.top {
-        top: -$thickness/2;
+        top: math.div(-$thickness, 2);
     }
 
     &.bottom {
-        bottom: -$thickness/2;
+        bottom: math.div(-$thickness, 2);
     }
 
     &.left {
-        left: -$thickness/2;
+        left: math.div(-$thickness, 2);
     }
 
     &.right {
-        right: -$thickness/2;
+        right: math.div(-$thickness, 2);
     }
 }
 
@@ -288,26 +290,26 @@ const handleMouseUp = (event: MouseEvent) => {
     }
 
     &.top-left {
-        top: -$size/2;
-        left: -$size/2;
+        top: math.div(-$size, 2);
+        left: math.div(-$size, 2);
         cursor: nwse-resize;
     }
 
     &.top-right {
-        top: -$size/2;
-        right: -$size/2;
+        top: math.div(-$size, 2);
+        right: math.div(-$size, 2);
         cursor: nesw-resize;
     }
 
     &.bottom-left {
-        bottom: -$size/2;
-        left: -$size/2;
+        bottom: math.div(-$size, 2);
+        left: math.div(-$size, 2);
         cursor: nesw-resize;
     }
 
     &.bottom-right {
-        bottom: -$size/2;
-        right: -$size/2;
+        bottom: math.div(-$size, 2);
+        right: math.div(-$size, 2);
         cursor: nwse-resize;
     }
 }
