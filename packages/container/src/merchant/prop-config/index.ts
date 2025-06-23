@@ -1,17 +1,40 @@
+import { ContainerStyleConfig, PositionConfig } from '@anfu/preset';
+
 const config: { label: string; items: any[] }[] = [
 	{
-		label: '常用设置',
+		label: '位置',
+		items: [...PositionConfig],
+	},
+	{
+		label: '尺寸',
 		items: [
 			{
-				label: '来源',
-				name: 'src',
-				defaultValue: '',
-				full: true,
+				label: '宽度',
+				name: 'width',
+				defaultValue: {
+					type: '1',
+					value: 300,
+				},
 				setter: {
-					name: 'InputSetter',
+					name: 'SizeSetter',
+				},
+			},
+			{
+				label: '高度',
+				name: 'height',
+				defaultValue: {
+					type: '1',
+					value: 100,
+				},
+				setter: {
+					name: 'SizeSetter',
 				},
 			},
 		],
+	},
+	{
+		label: '容器样式',
+		items: [...ContainerStyleConfig(false)],
 	},
 ];
 
