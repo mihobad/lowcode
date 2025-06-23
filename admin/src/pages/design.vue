@@ -9,7 +9,8 @@
         <LeftPane />
       </div>
       <div class="flex-1 flex justify-center items-center center-pane relative" ref="dragContainer">
-        <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle" :data-scale="scale">
+        <div class="relative w-full h-full origin-top-left" ref="dragCanvas" :style="transformStyle"
+          :data-scale="scale">
           <div class="absolute center-pane-wrapper" ref="dragTarget" :style="posStyle">
             <div ref="dragHandler">
               <PageTool />
