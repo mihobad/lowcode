@@ -50,7 +50,13 @@ export const useStore = defineStore('store', {
 	actions: {
 		setCurrentComponent(id: string) {
 			this.currentId = id;
-			this.current = findComponent(id, this.json);
+			const foundComponent = findComponent(id, this.json);
+
+			if (foundComponent) {
+				this.current = foundComponent;
+			} else {
+				console.warn('Component not found:', id);
+			}
 		},
 		addComponent(component: ComponentJson) {
 			if (!this.json.children) {
@@ -59,15 +65,10 @@ export const useStore = defineStore('store', {
 			this.json.children.push(component);
 			this.setCurrentComponent(component.id);
 		},
+		updateCurrentComponent(update: Partial<ComponentJson>) {
+			if (this.current && this.currentId) {
+				Object.assign(this.current, update);
+			}
+		},
 	},
 });
-
-// const store = useStore();
-
-// store.$subscribe((mutation, { current, json }) => {
-// 	const { type } = mutation;
-// 	const { id } = current || {};
-// 	if (type === 'direct') {
-// 		updateJson(json, id!, cloneDeep(current!));
-// 	}
-// });
