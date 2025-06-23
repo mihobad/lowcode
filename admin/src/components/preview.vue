@@ -4,7 +4,7 @@
 			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
 			<PointerHover :position="hoverPosition" v-if="isHover" />
-			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" />
+			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" @double-click="handleDoubleClick" />
 		</div>
 	</div>
 </template>
@@ -216,6 +216,12 @@ const handlePositionUpdate = (newPosition: Position) => {
 			props: updatedProps,
 		});
 	}
+};
+
+const handleDoubleClick = () => {
+	// 实现双击事件的处理逻辑
+	console.log('双击事件触发');
+	// 可以在这里添加切换编辑模式等功能
 };
 </script>
 

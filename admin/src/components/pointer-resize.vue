@@ -5,17 +5,29 @@
         width: position.width + 'px',
         height: position.height + 'px'
     }">
-        <div class="highlight-border">
+        <div :class="['highlight-border', { 'none': isPageComponent }]" @mousedown="handleDragStart">
             <div v-for="edge in ['top', 'bottom', 'left', 'right']" :key="edge" class="resize-edge" :class="[edge]"
-                @mousedown="handleResizeStart(edge as ResizeDirection, $event)"></div>
+                @mousedown="handleResizeStart(edge as ResizeDirection, $event)">
+            </div>
         </div>
-        <div v-for="dir in ['top-left', 'top-right', 'bottom-left', 'bottom-right']" :key="dir" class="resize-corner"
-            :class="[dir]" @mousedown="handleResizeStart(dir as ResizeDirection, $event)"></div>
+
+        <div v-for="dir in ['top-left', 'top-right', 'bottom-left', 'bottom-right']" :key="dir"
+            :class="['resize-corner', dir]" @mousedown="handleResizeStart(dir as ResizeDirection, $event)">
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useStore } from '@/store';
+import { storeToRefs } from 'pinia';
+
+const store = useStore();
+const { current } = storeToRefs(store);
+
+const isPageComponent = computed(() => {
+	return current.value?.type === 'page';
+});
 
 interface Position {
 	x: number;
@@ -45,15 +57,36 @@ enum ResizeDirection {
 	TOP_RIGHT = 'top-right',
 	BOTTOM_LEFT = 'bottom-left',
 	BOTTOM_RIGHT = 'bottom-right',
+	MOVE = 'move',
 }
 
 const resizeDirection = ref<ResizeDirection>(ResizeDirection.BOTTOM_RIGHT);
 const isResizing = ref(false);
+const isDragging = ref(false);
 const startX = ref(0);
 const startY = ref(0);
 const startPosition = ref<Position>({ x: 0, y: 0, width: 0, height: 0 });
 
+// 处理拖拽移动开始
+const handleDragStart = (event: MouseEvent) => {
+	if (isPageComponent.value) return;
+	event.preventDefault();
+	event.stopPropagation();
+
+	resizeDirection.value = ResizeDirection.MOVE;
+	isDragging.value = true;
+	startX.value = event.clientX;
+	startY.value = event.clientY;
+	startPosition.value = { ...props.position };
+
+	document.addEventListener('mousemove', handleMouseMove);
+	document.addEventListener('mouseup', handleMouseUp);
+	document.body.style.cursor = 'move';
+};
+
+// 处理调整大小开始
 const handleResizeStart = (dir: ResizeDirection, event: MouseEvent) => {
+	if (isPageComponent.value) return;
 	event.preventDefault();
 	event.stopPropagation();
 
@@ -68,14 +101,29 @@ const handleResizeStart = (dir: ResizeDirection, event: MouseEvent) => {
 };
 
 const handleMouseMove = (event: MouseEvent) => {
-	if (!isResizing.value) return;
+	if (!isResizing.value && !isDragging.value) return;
 
 	event.preventDefault();
 
-	const MIN_SIZE = 20;
 	const deltaX = event.clientX - startX.value;
 	const deltaY = event.clientY - startY.value;
 
+	// 处理拖拽移动
+	if (isDragging.value && resizeDirection.value === ResizeDirection.MOVE) {
+		const newPosition: Position = {
+			x: Math.max(0, startPosition.value.x + deltaX),
+			y: Math.max(0, startPosition.value.y + deltaY),
+			width: startPosition.value.width,
+			height: startPosition.value.height,
+		};
+		emit('update:position', newPosition);
+		return;
+	}
+
+	// 处理调整大小
+	if (!isResizing.value) return;
+
+	const MIN_SIZE = 10;
 	let newX = startPosition.value.x;
 	let newY = startPosition.value.y;
 	let newWidth = startPosition.value.width;
@@ -145,14 +193,16 @@ const handleMouseMove = (event: MouseEvent) => {
 };
 
 const handleMouseUp = (event: MouseEvent) => {
-	if (!isResizing.value) return;
+	if (!isResizing.value && !isDragging.value) return;
 
 	event.preventDefault();
 	event.stopPropagation();
 
 	isResizing.value = false;
+	isDragging.value = false;
 	document.removeEventListener('mousemove', handleMouseMove);
 	document.removeEventListener('mouseup', handleMouseUp);
+	document.body.style.cursor = '';
 };
 </script>
 
@@ -167,16 +217,24 @@ const handleMouseUp = (event: MouseEvent) => {
         width: 100%;
         height: 100%;
         border: 1px solid rgb(81 71 255);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+        cursor: move; // 默认显示移动光标
+        pointer-events: all; // 允许交互
+        transition: all 0.2s ease;
+
+        &.none {
+            pointer-events: none;
+        }
     }
 }
 
 .resize-edge {
     position: absolute;
-    $thickness: 2px;
-    background: rgb(81 71 255);
-    opacity: 0;
+    $thickness: 8px; // 增加厚度，更容易点击
+    background: transparent; // 透明背景
+    opacity: 1;
     pointer-events: all;
-    transition: opacity 0.2s ease;
+    z-index: 1; // 确保在 highlight-border 之上
 
     &.top,
     &.bottom {
@@ -195,27 +253,19 @@ const handleMouseUp = (event: MouseEvent) => {
     }
 
     &.top {
-        top: -$thickness;
-        cursor: ns-resize;
+        top: -$thickness/2;
     }
 
     &.bottom {
-        bottom: -$thickness;
-        cursor: ns-resize;
+        bottom: -$thickness/2;
     }
 
     &.left {
-        left: -$thickness;
-        cursor: ew-resize;
+        left: -$thickness/2;
     }
 
     &.right {
-        right: -$thickness;
-        cursor: ew-resize;
-    }
-
-    &:hover {
-        opacity: 1;
+        right: -$thickness/2;
     }
 }
 
@@ -227,11 +277,14 @@ const handleMouseUp = (event: MouseEvent) => {
     border: 1px solid rgb(81 71 255);
     border-radius: 50%;
     position: absolute;
-    cursor: nwse-resize;
     pointer-events: auto;
+    transition: all 0.2s ease;
+    z-index: 1; // 确保在 highlight-border 之上
 
     &:hover {
-        background: #66b1ff;
+        transform: scale(1.1);
+        background: rgb(81 71 255);
+        border-color: rgb(71 61 245);
     }
 
     &.top-left {

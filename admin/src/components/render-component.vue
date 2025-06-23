@@ -3,6 +3,7 @@
     :is="name"
     :json="json"
     :data-component-id="json.id"
+    :data-component-group="json.group ? '1' : '0'"
     v-if="name"
   >
     <template v-for="child in json.children || []" :key="child.id">
