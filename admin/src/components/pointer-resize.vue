@@ -1,20 +1,20 @@
 <template>
-    <div class="component-highlight" :style="{
-        top: position.y + 'px',
-        left: position.x + 'px',
-        width: position.width + 'px',
-        height: position.height + 'px'
-    }">
-        <div :class="['highlight-border', { 'none': isPageComponent }]" @mousedown="handleDragStart">
-            <div v-for="edge in ['top', 'bottom', 'left', 'right']" :key="edge" class="resize-edge" :class="[edge]"
-                @mousedown="handleResizeStart(edge as ResizeDirection, $event)">
-            </div>
-        </div>
+	<div class="component-highlight" :style="{
+		top: position.y + 'px',
+		left: position.x + 'px',
+		width: position.width + 'px',
+		height: position.height + 'px'
+	}">
+		<div :class="['highlight-border', { 'none': isPageComponent }]" @mousedown="handleDragStart">
+			<div v-for="edge in ['top', 'bottom', 'left', 'right']" :key="edge" class="resize-edge" :class="[edge]"
+				@mousedown="handleResizeStart(edge as ResizeDirection, $event)">
+			</div>
+		</div>
 
-        <div v-for="dir in ['top-left', 'top-right', 'bottom-left', 'bottom-right']" :key="dir"
-            :class="['resize-corner', dir]" @mousedown="handleResizeStart(dir as ResizeDirection, $event)">
-        </div>
-    </div>
+		<div v-for="dir in ['top-left', 'top-right', 'bottom-left', 'bottom-right']" :key="dir"
+			:class="['resize-corner', dir]" @mousedown="handleResizeStart(dir as ResizeDirection, $event)">
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +27,11 @@ const { current } = storeToRefs(store);
 
 const isPageComponent = computed(() => {
 	return current.value?.type === 'page';
+});
+
+const canDrag = computed(() => {
+	const { position } = current.value?.props || {};
+	return position?.positionType !== 'relative';
 });
 
 interface Position {
@@ -69,7 +74,7 @@ const startPosition = ref<Position>({ x: 0, y: 0, width: 0, height: 0 });
 
 // 处理拖拽移动开始
 const handleDragStart = (event: MouseEvent) => {
-	if (isPageComponent.value) return;
+	if (isPageComponent.value || !canDrag.value) return;
 	event.preventDefault();
 	event.stopPropagation();
 
@@ -210,107 +215,107 @@ const handleMouseUp = (event: MouseEvent) => {
 @use "sass:math";
 
 .component-highlight {
-    position: absolute;
-    pointer-events: none;
-    z-index: 999;
+	position: absolute;
+	pointer-events: none;
+	z-index: 999;
 
-    .highlight-border {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 1px solid rgb(81 71 255);
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
-        cursor: move; // 默认显示移动光标
-        pointer-events: all; // 允许交互
-        transition: all 0.2s ease;
+	.highlight-border {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border: 1px solid rgb(81 71 255);
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+		cursor: move;
+		pointer-events: all; // 允许交互
+		transition: all 0.2s ease;
 
-        &.none {
-            pointer-events: none;
-        }
-    }
+		&.none {
+			pointer-events: none;
+		}
+	}
 }
 
 .resize-edge {
-    position: absolute;
-    $thickness: 8px; // 增加厚度，更容易点击
-    background: transparent; // 透明背景
-    opacity: 1;
-    pointer-events: all;
-    z-index: 1; // 确保在 highlight-border 之上
+	position: absolute;
+	$thickness: 8px; // 增加厚度，更容易点击
+	background: transparent; // 透明背景
+	opacity: 1;
+	pointer-events: all;
+	z-index: 1; // 确保在 highlight-border 之上
 
-    &.top,
-    &.bottom {
-        left: 0;
-        right: 0;
-        height: $thickness;
-        cursor: ns-resize;
-    }
+	&.top,
+	&.bottom {
+		left: 0;
+		right: 0;
+		height: $thickness;
+		cursor: ns-resize;
+	}
 
-    &.left,
-    &.right {
-        top: 0;
-        bottom: 0;
-        width: $thickness;
-        cursor: ew-resize;
-    }
+	&.left,
+	&.right {
+		top: 0;
+		bottom: 0;
+		width: $thickness;
+		cursor: ew-resize;
+	}
 
-    &.top {
-        top: math.div(-$thickness, 2);
-    }
+	&.top {
+		top: math.div(-$thickness, 2);
+	}
 
-    &.bottom {
-        bottom: math.div(-$thickness, 2);
-    }
+	&.bottom {
+		bottom: math.div(-$thickness, 2);
+	}
 
-    &.left {
-        left: math.div(-$thickness, 2);
-    }
+	&.left {
+		left: math.div(-$thickness, 2);
+	}
 
-    &.right {
-        right: math.div(-$thickness, 2);
-    }
+	&.right {
+		right: math.div(-$thickness, 2);
+	}
 }
 
 .resize-corner {
-    $size: 8px;
-    width: $size;
-    height: $size;
-    background: #fff;
-    border: 1px solid rgb(81 71 255);
-    border-radius: 50%;
-    position: absolute;
-    pointer-events: auto;
-    transition: all 0.2s ease;
-    z-index: 1; // 确保在 highlight-border 之上
+	$size: 8px;
+	width: $size;
+	height: $size;
+	background: #fff;
+	border: 1px solid rgb(81 71 255);
+	border-radius: 50%;
+	position: absolute;
+	pointer-events: auto;
+	transition: all 0.2s ease;
+	z-index: 1; // 确保在 highlight-border 之上
 
-    &:hover {
-        transform: scale(1.1);
-        background: rgb(81 71 255);
-        border-color: rgb(71 61 245);
-    }
+	&:hover {
+		transform: scale(1.1);
+		background: rgb(81 71 255);
+		border-color: rgb(71 61 245);
+	}
 
-    &.top-left {
-        top: math.div(-$size, 2);
-        left: math.div(-$size, 2);
-        cursor: nwse-resize;
-    }
+	&.top-left {
+		top: math.div(-$size, 2);
+		left: math.div(-$size, 2);
+		cursor: nwse-resize;
+	}
 
-    &.top-right {
-        top: math.div(-$size, 2);
-        right: math.div(-$size, 2);
-        cursor: nesw-resize;
-    }
+	&.top-right {
+		top: math.div(-$size, 2);
+		right: math.div(-$size, 2);
+		cursor: nesw-resize;
+	}
 
-    &.bottom-left {
-        bottom: math.div(-$size, 2);
-        left: math.div(-$size, 2);
-        cursor: nesw-resize;
-    }
+	&.bottom-left {
+		bottom: math.div(-$size, 2);
+		left: math.div(-$size, 2);
+		cursor: nesw-resize;
+	}
 
-    &.bottom-right {
-        bottom: math.div(-$size, 2);
-        right: math.div(-$size, 2);
-        cursor: nwse-resize;
-    }
+	&.bottom-right {
+		bottom: math.div(-$size, 2);
+		right: math.div(-$size, 2);
+		cursor: nwse-resize;
+	}
 }
 </style>
