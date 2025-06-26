@@ -1,16 +1,20 @@
 <template>
 	<div class="lowcode-preview">
-		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop"
-			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
+		<div class="lowcode-preview-body overflow-y-auto" 
+			@dragover="handleDragOver"
+			@drop="handleDrop"
+			@mousemove="handleMouseMove" 
+			@mouseleave="handleMouseLeave" 
+			@mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
 			<PointerHover :position="hoverPosition" v-if="isHover" />
-			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" @double-click="handleDoubleClick" />
+			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch, onUnmounted } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
@@ -75,11 +79,6 @@ watch(
 	{ immediate: true },
 );
 
-// 清理事件监听器
-onUnmounted(() => {
-	isHover.value = false;
-});
-
 const getComponentPosition = (event: MouseEvent, componentId?: string) => {
 	try {
 		const target = event.srcElement! as HTMLElement;
@@ -119,9 +118,6 @@ const getComponentPosition = (event: MouseEvent, componentId?: string) => {
 };
 
 const handleMouseMove = (event: MouseEvent) => {
-	// 如果正在调整大小，不处理hover
-	if (currentId.value) return;
-
 	const position = getComponentPosition(event);
 	if (position) {
 		hoverPosition.value = position;
@@ -173,14 +169,6 @@ const handleDrop = async (event: DragEvent) => {
 		const position = getComponentPosition(event, _id);
 		if (position) {
 			resizePosition.value = position;
-		} else {
-			// 如果无法获取位置，尝试延迟获取
-			setTimeout(async () => {
-				const retryPosition = getComponentPosition(event, _id);
-				if (retryPosition) {
-					resizePosition.value = retryPosition;
-				}
-			}, 100);
 		}
 	} catch (error) {
 		console.error('组件加载失败:', error);
@@ -216,12 +204,6 @@ const handlePositionUpdate = (newPosition: Position) => {
 			props: updatedProps,
 		});
 	}
-};
-
-const handleDoubleClick = () => {
-	// 实现双击事件的处理逻辑
-	console.log('双击事件触发');
-	// 可以在这里添加切换编辑模式等功能
 };
 </script>
 

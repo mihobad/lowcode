@@ -6,7 +6,7 @@
       @click="handleClick"
       @dblclick="startEdit"
     >
-      <span 
+      <span
         v-if="hasChildren" 
         :class="['expand-icon', { expanded }]"
         @click="toggleExpanded"
