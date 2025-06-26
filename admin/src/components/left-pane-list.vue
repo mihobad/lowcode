@@ -9,11 +9,22 @@
 
 <script setup lang="ts">
 import { CompList } from '@/constants';
+import { useStore } from '@/store';
+import { sleep } from '@anfu/utils';
+
+const store = useStore();
 
 const handleDragStart = async (e: DragEvent, item: any) => {
-	e.dataTransfer?.setData('text/plain', item.value);
+	const type = item.value;
+	e.dataTransfer?.setData('text/plain', type);
 	const img = document.getElementById(`drag-icon${item.id}`) as HTMLImageElement;
 	e.dataTransfer?.setDragImage(img, 27, 27);
+
+	await sleep(0);
+	store.$patch({
+		isDragging: true,
+		draggedComponentType: type,
+	});
 };
 </script>
 

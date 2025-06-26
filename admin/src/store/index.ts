@@ -21,6 +21,8 @@ interface State {
 	json: ComponentJson;
 	current: ComponentJson | null;
 	currentId: string;
+	isDragging: boolean;
+	draggedComponentType: string;
 }
 
 interface Getter {
@@ -32,6 +34,8 @@ export const useStore = defineStore('store', {
 		json: {} as ComponentJson,
 		current: null,
 		currentId: '',
+		isDragging: false,
+		draggedComponentType: '',
 	}),
 	getters: {
 		pane: (state: State): Getter['pane'] => {

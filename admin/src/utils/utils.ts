@@ -104,3 +104,7 @@ export const findDataId = (element: HTMLElement) => {
 	}
 	return element.getAttribute('data-component-id');
 };
+
+export const sleep = (ms: number) => {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+};
