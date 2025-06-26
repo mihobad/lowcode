@@ -23,6 +23,7 @@ interface State {
 	currentId: string;
 	isDragging: boolean;
 	draggedComponentType: string;
+	tabName: string;
 }
 
 interface Getter {
@@ -36,6 +37,7 @@ export const useStore = defineStore('store', {
 		currentId: '',
 		isDragging: false,
 		draggedComponentType: '',
+		tabName: 'left-pane-list',
 	}),
 	getters: {
 		pane: (state: State): Getter['pane'] => {

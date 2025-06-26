@@ -1,28 +1,40 @@
 <template>
   <div class="tree-node">
-    <div 
-      :class="['node-content', { 'selected': isSelected, 'page-node': node.type === 'page' }]"
-      :style="{ paddingLeft: (level * 16) + 'px' }"
-      @click="handleClick"
-      @dblclick="startEdit"
-    >
-      <span
-        v-if="hasChildren" 
-        :class="['expand-icon', { expanded }]"
-        @click="toggleExpanded"
-      >▶</span>
-      <span v-else class="expand-placeholder"></span>
-      <span v-if="!editing" class="component-name">{{ displayName }}</span>
-      <input 
-        v-else
-        v-model="editingName"
-        class="name-input"
-        @blur="finishEdit"
-        @keyup.enter="finishEdit"
-        @keyup.esc="cancelEdit"
-        @click.stop
-        ref="nameInput"
-      />
+    <div class="tree-node-wrapper">
+      <div 
+        :class="['node-content', { 'selected': isSelected, 'page-node': node.type === 'page', 'dashed': node.group && isPointerIng }]"
+        :style="{ paddingLeft: (level * 16) + 'px' }"
+        @click="handleClick"
+        @dblclick="startEdit"
+        @dragover="handleDragOver"
+        @drop="handleDrop"
+        @dragleave="handleDragLeave"
+      >
+        <span
+          v-if="hasChildren" 
+          :class="['expand-icon', { expanded }]"
+          @click="toggleExpanded"
+        >▶</span>
+        <span v-else class="expand-placeholder"></span>
+        <span v-if="!editing" class="component-name">{{ displayName }}</span>
+        <input 
+          v-else
+          v-model="editingName"
+          class="name-input"
+          @blur="finishEdit"
+          @keyup.enter="finishEdit"
+          @keyup.esc="cancelEdit"
+          @click.stop
+          ref="nameInput"
+        />
+      </div>
+      <div
+        v-if="node.type !== 'page'"
+        :class="['tree-node-line', isLineIng === 'after' && 'visible']"
+        @dragover="handleLineDragOver"
+        @drop="handleLineDrop"
+        @dragleave="handleLineDragLeave"
+        ></div>
     </div>
     
     <!-- 子节点 -->
@@ -43,7 +55,8 @@
 
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import type { ComponentJson } from '@/store';
+import { generateRandomString, loadAnfuScript } from '@/utils';
+import { useStore, type ComponentJson } from '@/store';
 
 interface Props {
 	node: ComponentJson;
@@ -62,11 +75,14 @@ const props = withDefaults(defineProps<Props>(), {
 	currentId: '',
 });
 
+const store = useStore();
 const emit = defineEmits<Emits>();
 
 const expanded = ref(true);
 const editing = ref(false);
 const editingName = ref('');
+const isPointerIng = ref(false);
+const isLineIng = ref('');
 const nameInput = ref<HTMLInputElement>();
 
 const hasChildren = computed(() => {
@@ -80,6 +96,47 @@ const isSelected = computed(() => {
 const displayName = computed(() => {
 	return props.node.name;
 });
+
+const handleDragOver = (e: DragEvent) => {
+	e.preventDefault();
+	isPointerIng.value = true;
+};
+
+const handleDrop = async (e: DragEvent) => {
+	e.preventDefault();
+	e.stopPropagation();
+	isPointerIng.value = false;
+	const name = e.dataTransfer?.getData('text/plain').trim();
+	if (!name) return;
+	const res = await loadAnfuScript(`${name}`);
+
+	const randomStr = generateRandomString(8);
+	const _id = randomStr;
+	const _json = {
+		id: _id,
+		...res[`${name}SchemaJson`],
+	};
+
+	store.addComponent(_json);
+	await nextTick();
+	emit('select', _id);
+};
+
+const handleDragLeave = () => {
+	isPointerIng.value = false;
+};
+
+const handleLineDragOver = () => {
+	isLineIng.value = 'after';
+};
+
+const handleLineDragLeave = () => {
+	isLineIng.value = '';
+};
+
+const handleLineDrop = () => {
+	isLineIng.value = '';
+};
 
 const handleClick = () => {
 	emit('select', props.node.id);
@@ -119,11 +176,32 @@ const cancelEdit = () => {
 
 <style lang="scss" scoped>
 .tree-node {
+  &-line {
+    position: relative;
+    height: 3px;
+
+    &.visible {
+      &::before {
+        visibility: visible;
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(61 121 242);
+      visibility: hidden;
+    }
+  }
+
   .node-content {
     display: flex;
     align-items: center;
     padding: 4px 8px;
-    margin: 1px 0;
     border-radius: 4px;
     cursor: pointer;
     user-select: none;
@@ -141,6 +219,10 @@ const cancelEdit = () => {
 
     &.page-node {
       font-weight: 600;
+    }
+
+    &.dashed {
+      border: 1px dashed #3730a3;
     }
 
     .expand-icon {

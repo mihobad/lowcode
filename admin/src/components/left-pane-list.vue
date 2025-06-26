@@ -24,6 +24,7 @@ const handleDragStart = async (e: DragEvent, item: any) => {
 	store.$patch({
 		isDragging: true,
 		draggedComponentType: type,
+		tabName: 'left-pane-tree',
 	});
 };
 </script>
