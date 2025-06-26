@@ -229,7 +229,8 @@ const handleMouseUp = (event: MouseEvent) => {
 		border: 1px solid rgb(81 71 255);
 		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
 		cursor: move;
-		pointer-events: all; // 允许交互
+		// pointer-events: all; // 允许交互
+		pointer-events: none;
 		transition: all 0.2s ease;
 
 		&.none {

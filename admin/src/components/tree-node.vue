@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import { generateRandomString, loadAnfuScript } from '@/utils';
+import { generateJson, generateRandomString, loadAnfuScript } from '@/utils';
 import { useStore, type ComponentJson } from '@/store';
 
 interface Props {
@@ -102,40 +102,46 @@ const handleDragOver = (e: DragEvent) => {
 	isPointerIng.value = true;
 };
 
+const handleDragLeave = (e: DragEvent) => {
+	e.preventDefault();
+	isPointerIng.value = false;
+};
+
 const handleDrop = async (e: DragEvent) => {
 	e.preventDefault();
 	e.stopPropagation();
 	isPointerIng.value = false;
 	const name = e.dataTransfer?.getData('text/plain').trim();
 	if (!name) return;
-	const res = await loadAnfuScript(`${name}`);
+	const json = await generateJson(name);
 
-	const randomStr = generateRandomString(8);
-	const _id = randomStr;
-	const _json = {
-		id: _id,
-		...res[`${name}SchemaJson`],
-	};
-
-	store.addComponent(_json);
+	store.addComponentToChildren(json, props.node.id);
 	await nextTick();
-	emit('select', _id);
+	emit('select', json.id);
 };
 
-const handleDragLeave = () => {
-	isPointerIng.value = false;
-};
-
-const handleLineDragOver = () => {
+const handleLineDragOver = (e: DragEvent) => {
+	e.preventDefault();
 	isLineIng.value = 'after';
 };
 
-const handleLineDragLeave = () => {
+const handleLineDragLeave = async (e: DragEvent) => {
+	e.preventDefault();
 	isLineIng.value = '';
 };
 
-const handleLineDrop = () => {
+const handleLineDrop = async (e: DragEvent) => {
+	e.stopPropagation();
+	e.preventDefault();
 	isLineIng.value = '';
+	const name = e.dataTransfer?.getData('text/plain').trim();
+	console.log(name);
+	if (!name) return;
+	const json = await generateJson(name);
+
+	store.addComponentToSibling(json, props.node.id, 'after');
+	await nextTick();
+	emit('select', json.id);
 };
 
 const handleClick = () => {

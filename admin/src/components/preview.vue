@@ -1,6 +1,6 @@
 <template>
 	<div class="lowcode-preview">
-		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop"
+		<div class="lowcode-preview-body overflow-y-auto"
 			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
 			<PointerHover :position="hoverPosition" v-if="hoverVisible" />
@@ -16,7 +16,7 @@ import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
 import PointerHover from './pointer-hover.vue';
 import PointerResize from './pointer-resize.vue';
-import { findComponentId, generateRandomString, getComponentPosition, loadAnfuScript } from '@/utils';
+import { findComponentId, getComponentPosition } from '@/utils';
 
 interface Position {
 	x: number;
@@ -78,40 +78,6 @@ const handleMouseDown = (event: MouseEvent) => {
 	const position = getComponentPosition(id);
 	resizePosition.value = position;
 	store.setCurrentComponent(position.id);
-};
-
-const handleDragOver = (event: DragEvent) => {
-	event.preventDefault();
-	event.dataTransfer!.dropEffect = 'copy';
-};
-
-const handleDrop = async (event: DragEvent) => {
-	event.preventDefault();
-	const name = event.dataTransfer?.getData('text/plain').trim();
-
-	if (!name) return;
-
-	try {
-		const res = await loadAnfuScript(`${name}`);
-
-		const randomStr = generateRandomString(8);
-		const _id = randomStr;
-		const _json = {
-			id: _id,
-			...res[`${name}SchemaJson`],
-		};
-
-		// 添加组件到store
-		store.addComponent(_json);
-
-		// 等待DOM更新完成
-		await nextTick();
-
-		const position = getComponentPosition(_id);
-		resizePosition.value = position;
-	} catch (error) {
-		console.error('组件加载失败:', error);
-	}
 };
 
 const handlePositionUpdate = async (nv: Position) => {

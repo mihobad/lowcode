@@ -1,4 +1,5 @@
 import { type ComponentJson } from '../store';
+import { loadAnfuScript } from './umd';
 
 // array -> map
 export const arr2map = (arr: Record<string, any>[], key: string = 'value', valueKey: string = 'label') => {
@@ -107,4 +108,17 @@ export const findDataId = (element: HTMLElement) => {
 
 export const sleep = (ms: number) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+export const generateJson = async (name: string) => {
+	const res = await loadAnfuScript(`${name}`);
+
+	const randomStr = generateRandomString(8);
+	const _id = randomStr;
+	const _json = {
+		id: _id,
+		...res[`${name}SchemaJson`],
+	};
+
+	return _json;
 };
