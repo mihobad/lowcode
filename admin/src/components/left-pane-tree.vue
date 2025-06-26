@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import type { ComponentJson } from '@/store';
 import TreeNode from './tree-node.vue';
+import { findComponentById } from '@/utils';
 
 const store = useStore();
 const { json, currentId } = storeToRefs(store);
@@ -37,23 +37,8 @@ const handleRenameNode = (nodeId: string, newName: string) => {
 	const target = findComponentById(component, nodeId);
 	if (target) {
 		target.name = newName;
-		// 触发更新
 		store.updateCurrentComponent({ name: newName });
 	}
-};
-
-// 辅助函数：查找组件
-const findComponentById = (component: ComponentJson, id: string): ComponentJson | null => {
-	if (component.id === id) {
-		return component;
-	}
-	if (component.children) {
-		for (const child of component.children) {
-			const result = findComponentById(child, id);
-			if (result) return result;
-		}
-	}
-	return null;
 };
 </script>
 

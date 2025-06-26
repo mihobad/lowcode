@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
@@ -49,6 +49,14 @@ const resizePosition = ref<Position>({
 	y: 0,
 	width: 0,
 	height: 0,
+});
+
+watch(currentId, async (nv) => {
+	if (nv) {
+		await nextTick();
+		const position = getComponentPosition(nv);
+		resizePosition.value = position;
+	}
 });
 
 const handleMouseMove = (event: MouseEvent) => {

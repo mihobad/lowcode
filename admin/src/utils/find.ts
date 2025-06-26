@@ -1,3 +1,5 @@
+import type { ComponentJson } from '@/store';
+
 export const findParentAttr = (element: HTMLElement, attr: string) => {
 	if (element.hasAttribute(attr)) {
 		return element.getAttribute(attr);
@@ -32,4 +34,17 @@ export const getComponentPosition = (id: string) => {
 		width: Math.max(10, rect.width / scale), // 最小宽度10px
 		height: Math.max(10, rect.height / scale), // 最小高度10px
 	};
+};
+
+export const findComponentById = (component: ComponentJson, id: string): ComponentJson | null => {
+	if (component.id === id) {
+		return component;
+	}
+	if (component.children) {
+		for (const child of component.children) {
+			const result = findComponentById(child, id);
+			if (result) return result;
+		}
+	}
+	return null;
 };

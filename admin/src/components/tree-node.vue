@@ -96,7 +96,6 @@ const toggleExpanded = (e: Event) => {
 const startEdit = async (e: Event) => {
 	e.stopPropagation();
 	if (props.node.type !== 'page') {
-		// 页面不可重命名
 		editing.value = true;
 		editingName.value = displayName.value;
 		await nextTick();
