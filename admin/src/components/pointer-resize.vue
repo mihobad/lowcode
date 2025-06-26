@@ -5,7 +5,13 @@
 		width: position.width + 'px',
 		height: position.height + 'px'
 	}">
-		<div :class="['highlight-border', { 'none': isPageComponent }]" @mousedown="handleDragStart">
+		<div v-if="!isPageComponent && canDrag" class="drag-icon" @mousedown="handleDragStart">
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M10 3L12 3L12 1L10 1L10 3ZM4 3L6 3L6 1L4 1L4 3ZM4 9L6 9L6 7L4 7L4 9ZM10 9L12 9L12 7L10 7L10 9ZM4 15L6 15L6 13L4 13L4 15ZM10 15L12 15L12 13L10 13L10 15Z" fill="currentColor"/>
+			</svg>
+		</div>
+
+		<div :class="['highlight-border', { 'none': isPageComponent }]">
 			<div v-for="edge in ['top', 'bottom', 'left', 'right']" :key="edge" class="resize-edge" :class="[edge]"
 				@mousedown="handleResizeStart(edge as ResizeDirection, $event)">
 			</div>
@@ -228,13 +234,36 @@ const handleMouseUp = (event: MouseEvent) => {
 		height: 100%;
 		border: 1px solid rgb(81 71 255);
 		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
-		cursor: move;
-		// pointer-events: all; // 允许交互
 		pointer-events: none;
 		transition: all 0.2s ease;
+	}
 
-		&.none {
-			pointer-events: none;
+	.drag-icon {
+		position: absolute;
+		top: -24px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 20px;
+		height: 20px;
+		background: rgb(81 71 255);
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		cursor: move;
+		pointer-events: all;
+		transition: all 0.2s ease;
+		z-index: 2;
+
+		&:hover {
+			background: rgb(71 61 245);
+			transform: translateX(-50%) scale(1.1);
+		}
+
+		svg {
+			width: 12px;
+			height: 12px;
 		}
 	}
 }
