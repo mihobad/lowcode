@@ -90,3 +90,21 @@ export const generateSizeStyle = (props: Record<string, any>, key: 'width' | 'he
 		};
 	}
 };
+
+// position style
+export const generatePositionStyle = (props: Record<string, any>) => {
+	const style: Record<string, string> = {};
+
+	const { top, left, right, bottom, positionType, zIndex } = props.position || {};
+
+	style.position = positionType || 'relative';
+	if (positionType !== 'relative') {
+		style.top = `${top ?? 0}px`;
+		style.left = `${left ?? 0}px`;
+		style.right = `${right ?? 0}px`;
+		style.bottom = `${bottom ?? 0}px`;
+	}
+	style.zIndex = zIndex ?? 1;
+
+	return style;
+};

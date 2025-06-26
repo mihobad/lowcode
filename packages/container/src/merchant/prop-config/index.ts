@@ -1,4 +1,4 @@
-import { ContainerStyleConfig, PositionConfig } from '@anfu/preset';
+import { ContainerStyleConfig, PositionConfig, LayoutConfig } from '@anfu/preset';
 
 const config: { label: string; items: any[] }[] = [
 	{
@@ -31,6 +31,10 @@ const config: { label: string; items: any[] }[] = [
 				},
 			},
 		],
+	},
+	{
+		label: '布局',
+		items: [...LayoutConfig],
 	},
 	{
 		label: '容器样式',

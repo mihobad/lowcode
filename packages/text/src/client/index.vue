@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { generateContainerStyle, generateSizeStyle } from '@anfu/utils';
+import { generateContainerStyle, generatePositionStyle, generateSizeStyle } from '@anfu/utils';
 
 defineOptions({
 	name: 'TextClient',
@@ -28,17 +28,10 @@ const wrapperStyle = computed(() => {
 	const props = json.props || {};
 	const style: any = {
 		...generateContainerStyle(props),
+		...generatePositionStyle(props),
+		...generateSizeStyle(props.width, 'width'),
+		...generateSizeStyle(props.height, 'height'),
 	};
-
-	const { top, left, right, bottom, positionType, zIndex } = props.position || {};
-	style.position = positionType || 'relative';
-	if (positionType !== 'relative') {
-		style.top = `${top ?? 0}px`;
-		style.left = `${left ?? 0}px`;
-		style.right = `${right ?? 0}px`;
-		style.bottom = `${bottom ?? 0}px`;
-	}
-	style.zIndex = zIndex ?? 1;
 
 	style.justifyContent = props.justifyContent || 'flex-start';
 	style.fontSize = `${props.fontSize}px`;
@@ -48,12 +41,10 @@ const wrapperStyle = computed(() => {
 	style.letterSpacing = `${props.letterSpacing}px`;
 
 	return {
+		...style,
 		display: 'inline-flex',
 		'flex-direction': 'column',
 		'white-space': 'break-spaces',
-		...style,
-		...generateSizeStyle(props.width, 'width'),
-		...generateSizeStyle(props.height, 'height'),
 	};
 });
 

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { generateContainerStyle, generateSizeStyle } from '@anfu/utils';
+import { generateContainerStyle, generatePositionStyle, generateSizeStyle, generateLayoutStyle } from '@anfu/utils';
 
 defineOptions({
 	name: 'ContainerClient',
@@ -22,22 +22,13 @@ const { json } = defineProps({
 
 const wrapperStyle = computed(() => {
 	const props = json.props || {};
-	const style: any = {
+
+	return {
 		...generateContainerStyle(props),
 		...generateSizeStyle(props.width, 'width'),
 		...generateSizeStyle(props.height, 'height'),
-	};
-
-	const { top, left, right, bottom, positionType, zIndex } = props.position || {};
-	style.position = positionType || 'relative';
-	style.top = top || 0;
-	style.left = left || 0;
-	style.right = right || 0;
-	style.bottom = bottom || 0;
-	style.zIndex = zIndex || 1;
-
-	return {
-		...style,
+		...generateLayoutStyle(props),
+		...generatePositionStyle(props),
 	};
 });
 </script>
