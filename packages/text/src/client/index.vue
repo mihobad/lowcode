@@ -32,11 +32,11 @@ const wrapperStyle = computed(() => {
 
 	const { top, left, right, bottom, positionType, zIndex } = props.position || {};
 	style.position = positionType || 'relative';
-	style.top = top || 0;
-	style.left = left || 0;
-	style.right = right || 0;
-	style.bottom = bottom || 0;
-	style.zIndex = zIndex || 1;
+	style.top = `${top ?? 0}px`;
+	style.left = `${left ?? 0}px`;
+	style.right = `${right ?? 0}px`;
+	style.bottom = `${bottom ?? 0}px`;
+	style.zIndex = zIndex ?? 1;
 
 	style.justifyContent = props.justifyContent || 'flex-start';
 	style.fontSize = `${props.fontSize}px`;

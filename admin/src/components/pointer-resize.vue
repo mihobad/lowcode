@@ -35,6 +35,7 @@ const canDrag = computed(() => {
 });
 
 interface Position {
+	id: string;
 	x: number;
 	y: number;
 	width: number;
@@ -50,7 +51,7 @@ interface Emits {
 	(e: 'update:position', position: Position): void;
 }
 
-const props = defineProps<Props>();
+const { position } = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 enum ResizeDirection {
@@ -70,7 +71,7 @@ const isResizing = ref(false);
 const isDragging = ref(false);
 const startX = ref(0);
 const startY = ref(0);
-const startPosition = ref<Position>({ x: 0, y: 0, width: 0, height: 0 });
+const startPosition = ref<Position>({ id: '', x: 0, y: 0, width: 0, height: 0 });
 
 // 处理拖拽移动开始
 const handleDragStart = (event: MouseEvent) => {
@@ -82,7 +83,7 @@ const handleDragStart = (event: MouseEvent) => {
 	isDragging.value = true;
 	startX.value = event.clientX;
 	startY.value = event.clientY;
-	startPosition.value = { ...props.position };
+	startPosition.value = { ...position };
 
 	document.addEventListener('mousemove', handleMouseMove);
 	document.addEventListener('mouseup', handleMouseUp);
@@ -99,7 +100,7 @@ const handleResizeStart = (dir: ResizeDirection, event: MouseEvent) => {
 	isResizing.value = true;
 	startX.value = event.clientX;
 	startY.value = event.clientY;
-	startPosition.value = { ...props.position };
+	startPosition.value = { ...position };
 
 	document.addEventListener('mousemove', handleMouseMove);
 	document.addEventListener('mouseup', handleMouseUp);
@@ -116,6 +117,7 @@ const handleMouseMove = (event: MouseEvent) => {
 	// 处理拖拽移动
 	if (isDragging.value && resizeDirection.value === ResizeDirection.MOVE) {
 		const newPosition: Position = {
+			id: position.id,
 			x: Math.max(0, startPosition.value.x + deltaX),
 			y: Math.max(0, startPosition.value.y + deltaY),
 			width: startPosition.value.width,
@@ -187,6 +189,7 @@ const handleMouseMove = (event: MouseEvent) => {
 
 	// 应用新的位置和尺寸
 	const newPosition: Position = {
+		id: position.id,
 		x: newX,
 		y: newY,
 		width: Math.max(newWidth, MIN_SIZE),

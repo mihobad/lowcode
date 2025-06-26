@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { cloneDeep } from 'lodash-es';
 import { findComponent } from '@/utils';
 
 export interface ComponentProps {

@@ -1,7 +1,7 @@
 const backgroundColor = {
 	label: '填充',
 	name: 'backgroundColor',
-	defaultValue: '#fff',
+	defaultValue: 'rgba(255, 255, 255, 0)',
 	setter: {
 		name: 'ColorSetter',
 	},

@@ -1,33 +1,29 @@
 <template>
 	<div class="lowcode-preview">
-		<div class="lowcode-preview-body overflow-y-auto" 
-			@dragover="handleDragOver"
-			@drop="handleDrop"
-			@mousemove="handleMouseMove" 
-			@mouseleave="handleMouseLeave" 
-			@mousedown="handleMouseDown">
+		<div class="lowcode-preview-body overflow-y-auto" @dragover="handleDragOver" @drop="handleDrop"
+			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
-			<PointerHover :position="hoverPosition" v-if="isHover" />
+			<PointerHover :position="hoverPosition" v-if="hoverVisible" />
 			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { useStore } from '@/store';
 import { storeToRefs } from 'pinia';
 import RenderComponent from './render-component.vue';
 import PointerHover from './pointer-hover.vue';
 import PointerResize from './pointer-resize.vue';
-import { findParentAttr, generateRandomString, loadAnfuScript } from '@/utils';
+import { findComponentId, generateRandomString, getComponentPosition, loadAnfuScript } from '@/utils';
 
 interface Position {
 	x: number;
 	y: number;
 	width: number;
 	height: number;
-	id?: string;
+	id: string;
 }
 
 defineOptions({
@@ -37,105 +33,43 @@ defineOptions({
 const store = useStore();
 const { json, currentId, current } = storeToRefs(store);
 const isHover = ref(false);
+const hoverVisible = computed(() => {
+	return isHover.value && hoverPosition.value.id !== currentId.value;
+});
 const hoverPosition = ref<Position>({
+	id: '',
 	x: 0,
 	y: 0,
 	width: 0,
 	height: 0,
 });
 const resizePosition = ref<Position>({
+	id: '',
 	x: 0,
 	y: 0,
 	width: 0,
 	height: 0,
 });
 
-// 监听currentId变化，同步更新resizePosition
-watch(
-	currentId,
-	async (newId) => {
-		if (newId && current.value) {
-			await nextTick();
-			// 尝试从DOM获取当前组件位置
-			const dom = document.querySelector(`[data-component-id="${newId}"]`) as HTMLElement;
-			if (dom) {
-				const rect = dom.getBoundingClientRect();
-				const rootDom = document.querySelector('.lowcode-preview-body') as HTMLElement;
-				if (rootDom) {
-					const { top, left } = rootDom.getBoundingClientRect();
-					const scale = +(findParentAttr(rootDom, 'data-scale') || 1);
-
-					resizePosition.value = {
-						x: Math.max(0, rect.left - left),
-						y: Math.max(0, rect.top - top),
-						width: Math.max(10, rect.width / scale),
-						height: Math.max(10, rect.height / scale),
-						id: newId,
-					};
-				}
-			}
-		}
-	},
-	{ immediate: true },
-);
-
-const getComponentPosition = (event: MouseEvent, componentId?: string) => {
-	try {
-		const target = event.srcElement! as HTMLElement;
-		const id = componentId || findParentAttr(target, 'data-component-id');
-		if (!id) return null;
-
-		const dom = document.querySelector(`[data-component-id="${id}"]`) as HTMLElement;
-		if (!dom) {
-			console.warn('组件DOM元素未找到:', id);
-			return null;
-		}
-
-		const rect = dom.getBoundingClientRect();
-		const rootDom = document.querySelector('.lowcode-preview-body') as HTMLElement;
-		if (!rootDom) {
-			console.warn('预览容器未找到');
-			return null;
-		}
-
-		const { top, left } = rootDom.getBoundingClientRect();
-		const scale = +(findParentAttr(rootDom, 'data-scale') || 1);
-
-		// 确保位置值是有效的
-		const position = {
-			x: Math.max(0, rect.left - left),
-			y: Math.max(0, rect.top - top),
-			width: Math.max(10, rect.width / scale), // 最小宽度10px
-			height: Math.max(10, rect.height / scale), // 最小高度10px
-			id,
-		};
-
-		return position;
-	} catch (error) {
-		console.error('获取组件位置失败:', error);
-		return null;
-	}
-};
-
 const handleMouseMove = (event: MouseEvent) => {
-	const position = getComponentPosition(event);
-	if (position) {
-		hoverPosition.value = position;
-		isHover.value = true;
-	}
+	const id = findComponentId(event);
+	if (!id) return;
+	const position = getComponentPosition(id);
+	hoverPosition.value = position;
+	isHover.value = true;
 };
 
 const handleMouseLeave = () => {
 	isHover.value = false;
-	hoverPosition.value = { x: 0, y: 0, width: 0, height: 0 };
+	hoverPosition.value = { id: '', x: 0, y: 0, width: 0, height: 0 };
 };
 
 const handleMouseDown = (event: MouseEvent) => {
-	const position = getComponentPosition(event);
-	if (position) {
-		resizePosition.value = position;
-		store.setCurrentComponent(position.id);
-	}
+	const id = findComponentId(event);
+	if (!id) return;
+	const position = getComponentPosition(id);
+	resizePosition.value = position;
+	store.setCurrentComponent(position.id);
 };
 
 const handleDragOver = (event: DragEvent) => {
@@ -165,45 +99,40 @@ const handleDrop = async (event: DragEvent) => {
 		// 等待DOM更新完成
 		await nextTick();
 
-		// 获取新添加组件的位置信息并设置调整手柄
-		const position = getComponentPosition(event, _id);
-		if (position) {
-			resizePosition.value = position;
-		}
+		const position = getComponentPosition(_id);
+		resizePosition.value = position;
 	} catch (error) {
 		console.error('组件加载失败:', error);
 	}
 };
 
-const handlePositionUpdate = (newPosition: Position) => {
-	// 更新本地位置状态
-	resizePosition.value = newPosition;
-	console.log('newPosition', newPosition);
-	// 同步位置信息到store中的当前组件
-	if (store.current) {
-		// 更新组件的样式属性 TODO: 这里需要优化
-		const updatedProps = {
-			...store.current.props,
-			position: {
-				...store.current.props.position,
-				top: newPosition.y,
-				left: newPosition.x,
-			},
-			width: {
-				type: '1',
-				value: newPosition.width,
-			},
-			height: {
-				type: '1',
-				value: newPosition.height,
-			},
-		};
+const handlePositionUpdate = async (nv: Position) => {
+	const { props } = current.value!;
+	const updatedProps = {
+		...props,
+		position: {
+			...props.position,
+			top: nv.y,
+			left: nv.x,
+		},
+		width: {
+			type: '1',
+			value: nv.width,
+		},
+		height: {
+			type: '1',
+			value: nv.height,
+		},
+	};
 
-		// 使用store的更新方法
-		store.updateCurrentComponent({
-			props: updatedProps,
-		});
-	}
+	// 使用store的更新方法
+	store.updateCurrentComponent({
+		props: updatedProps,
+	});
+
+	await nextTick();
+	const position = getComponentPosition(nv.id!);
+	resizePosition.value = position;
 };
 </script>
 
@@ -211,6 +140,7 @@ const handlePositionUpdate = (newPosition: Position) => {
 .lowcode-preview {
 	width: 100%;
 	height: 100%;
+	background: #f9f9f9;
 	display: flex;
 	flex-direction: column;
 
