@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import { generateJson, generateRandomString, loadAnfuScript } from '@/utils';
+import { generateJson } from '@/utils';
 import { useStore, type ComponentJson } from '@/store';
 
 interface Props {

@@ -51,13 +51,17 @@ const resizePosition = ref<Position>({
 	height: 0,
 });
 
-watch(currentId, async (nv) => {
-	if (nv) {
-		await nextTick();
-		const position = getComponentPosition(nv);
-		resizePosition.value = position;
-	}
-});
+watch(
+	[currentId, current],
+	async ([nv]) => {
+		if (nv) {
+			await nextTick();
+			const position = getComponentPosition(nv);
+			resizePosition.value = position;
+		}
+	},
+	{ immediate: true, deep: true },
+);
 
 const handleMouseMove = (event: MouseEvent) => {
 	const id = findComponentId(event);
