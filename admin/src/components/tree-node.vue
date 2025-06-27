@@ -2,10 +2,21 @@
   <div class="tree-node">
     <div class="tree-node-wrapper">
       <div 
-        :class="['node-content', { 'selected': isSelected, 'page-node': node.type === 'page', 'dashed': node.group && isPointerIng }]"
+        :class="['node-content', { 
+          'selected': isSelected, 
+          'page-node': node.type === 'page', 
+          'dashed': node.group && isPointerIng,  // 容器组件 + 拖拽悬浮时显示虚线边框
+          'drag-over-before': dragPosition === 'before',
+          'drag-over-after': dragPosition === 'after',
+          'drag-over-inside': dragPosition === 'inside',
+          'dragging': isDragSource
+        }]"
         :style="{ paddingLeft: (level * 16) + 'px' }"
+        :draggable="node.type !== 'page'"
         @click="handleClick"
         @dblclick="startEdit"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
         @dragover="handleDragOver"
         @drop="handleDrop"
         @dragleave="handleDragLeave"
@@ -16,6 +27,19 @@
           @click="toggleExpanded"
         >▶</span>
         <span v-else class="expand-placeholder"></span>
+        
+        <!-- 拖拽手柄 -->
+        <span v-if="node.type !== 'page'" class="drag-handle">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <circle cx="3" cy="3" r="1" fill="currentColor"/>
+            <circle cx="9" cy="3" r="1" fill="currentColor"/>
+            <circle cx="3" cy="6" r="1" fill="currentColor"/>
+            <circle cx="9" cy="6" r="1" fill="currentColor"/>
+            <circle cx="3" cy="9" r="1" fill="currentColor"/>
+            <circle cx="9" cy="9" r="1" fill="currentColor"/>
+          </svg>
+        </span>
+        
         <span v-if="!editing" class="component-name">{{ displayName }}</span>
         <input 
           v-else
@@ -85,6 +109,11 @@ const isPointerIng = ref(false);
 const isLineIng = ref('');
 const nameInput = ref<HTMLInputElement>();
 
+// 拖拽排序相关状态
+const isDragSource = ref(false);
+const dragPosition = ref<'before' | 'after' | 'inside' | ''>('');
+let draggedNodeId = '';
+
 const hasChildren = computed(() => {
 	return props.node.children && props.node.children.length > 0;
 });
@@ -100,24 +129,67 @@ const displayName = computed(() => {
 const handleDragOver = (e: DragEvent) => {
 	e.preventDefault();
 	isPointerIng.value = true;
+
+	const dragData = e.dataTransfer?.getData('text/plain');
+	if (!dragData) return;
+	// 区分是节点拖拽还是组件拖拽
+	if (dragData.startsWith('node:')) {
+		// 节点拖拽排序
+		const draggedId = dragData.replace('node:', '');
+		if (draggedId === props.node.id) return; // 不能拖拽到自己
+
+		const target = e.currentTarget as HTMLElement;
+		const position = getDragPosition(e, target);
+		dragPosition.value = position;
+	} else {
+		dragPosition.value = '';
+	}
 };
 
 const handleDragLeave = (e: DragEvent) => {
 	e.preventDefault();
 	isPointerIng.value = false;
+
+	// 使用relatedTarget检查是否离开了当前元素
+	const currentTarget = e.currentTarget as HTMLElement;
+	const relatedTarget = e.relatedTarget as HTMLElement;
+
+	// 如果relatedTarget不存在或不是当前元素的子元素，则清除状态
+	if (!relatedTarget || !currentTarget.contains(relatedTarget)) {
+		dragPosition.value = '';
+	}
 };
 
 const handleDrop = async (e: DragEvent) => {
 	e.preventDefault();
 	e.stopPropagation();
 	isPointerIng.value = false;
-	const name = e.dataTransfer?.getData('text/plain').trim();
-	if (!name) return;
-	const json = await generateJson(name);
 
-	store.addComponentToChildren(json, props.node.id);
-	await nextTick();
-	emit('select', json.id);
+	const dragData = e.dataTransfer?.getData('text/plain');
+	if (!dragData) return;
+
+	if (dragData.startsWith('node:')) {
+		// 节点拖拽排序
+		const draggedId = dragData.replace('node:', '');
+		if (draggedId === props.node.id) return;
+
+		const position = dragPosition.value;
+		if (position) {
+			store.moveComponent(draggedId, props.node.id, position);
+		}
+	} else {
+		// 组件拖拽添加（保持原有逻辑）
+		const name = dragData.trim();
+		if (!name) return;
+		const json = await generateJson(name);
+
+		store.addComponentToChildren(json, props.node.id);
+		await nextTick();
+		emit('select', json.id);
+	}
+
+	// 清理状态
+	dragPosition.value = '';
 };
 
 const handleLineDragOver = (e: DragEvent) => {
@@ -134,14 +206,26 @@ const handleLineDrop = async (e: DragEvent) => {
 	e.stopPropagation();
 	e.preventDefault();
 	isLineIng.value = '';
-	const name = e.dataTransfer?.getData('text/plain').trim();
-	console.log(name);
-	if (!name) return;
-	const json = await generateJson(name);
 
-	store.addComponentToSibling(json, props.node.id, 'after');
-	await nextTick();
-	emit('select', json.id);
+	const dragData = e.dataTransfer?.getData('text/plain');
+	if (!dragData) return;
+
+	if (dragData.startsWith('node:')) {
+		// 节点拖拽排序到after位置
+		const draggedId = dragData.replace('node:', '');
+		if (draggedId === props.node.id) return;
+
+		store.moveComponent(draggedId, props.node.id, 'after');
+	} else {
+		// 组件拖拽添加（保持原有逻辑）
+		const name = dragData.trim();
+		if (!name) return;
+		const json = await generateJson(name);
+
+		store.addComponentToSibling(json, props.node.id, 'after');
+		await nextTick();
+		emit('select', json.id);
+	}
 };
 
 const handleClick = () => {
@@ -178,13 +262,49 @@ const cancelEdit = () => {
 	editing.value = false;
 	editingName.value = '';
 };
+
+// 拖拽排序方法
+const handleDragStart = (e: DragEvent) => {
+	if (props.node.type === 'page') return;
+
+	isDragSource.value = true;
+	draggedNodeId = props.node.id;
+
+	if (e.dataTransfer) {
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', `node:${props.node.id}`);
+	}
+};
+
+const handleDragEnd = () => {
+	isPointerIng.value = false;
+	isDragSource.value = false;
+	dragPosition.value = '';
+	draggedNodeId = '';
+};
+
+const getDragPosition = (e: DragEvent, element: HTMLElement): 'before' | 'after' | 'inside' => {
+	const rect = element.getBoundingClientRect();
+	const y = e.clientY - rect.top;
+	const height = rect.height;
+
+	// 如果是容器组件，支持inside位置
+	if (props.node.group) {
+		if (y < height * 0.25) return 'before';
+		if (y > height * 0.75) return 'after';
+		return 'inside';
+	} else {
+		// 非容器组件只支持before和after
+		return y < height * 0.5 ? 'before' : 'after';
+	}
+};
 </script>
 
 <style lang="scss" scoped>
 .tree-node {
   &-line {
     position: relative;
-    height: 3px;
+    height: 4px;
 
     &.visible {
       &::before {
@@ -213,6 +333,7 @@ const cancelEdit = () => {
     user-select: none;
     min-height: 28px;
     transition: all 0.2s ease;
+    position: relative;
 
     &:hover {
       background-color: #f3f4f6;
@@ -229,6 +350,73 @@ const cancelEdit = () => {
 
     &.dashed {
       border: 1px dashed #3730a3;
+      background-color: #f0f9ff;
+    }
+
+    // 拖拽排序样式
+    &.dragging {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+
+    &.drag-over-before::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #3b82f6;
+      border-radius: 1px;
+      z-index: 1;
+    }
+
+    &.drag-over-after::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #3b82f6;
+      border-radius: 1px;
+      z-index: 1;
+    }
+
+    &.drag-over-inside {
+      background-color: #dbeafe;
+      border: 1px dashed #3b82f6;
+    }
+
+    // 当同时有dashed和drag-over-inside时，优先显示drag-over-inside
+    &.dashed.drag-over-inside {
+      border: 1px dashed #3b82f6;
+      background-color: #dbeafe;
+    }
+
+    .drag-handle {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 4px;
+      color: #9ca3af;
+      cursor: grab;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        color: #6b7280;
+      }
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &:hover .drag-handle {
+      opacity: 1;
     }
 
     .expand-icon {
