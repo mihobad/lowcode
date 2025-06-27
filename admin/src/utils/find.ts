@@ -22,6 +22,7 @@ export const findComponentId = (event: MouseEvent): string => {
 
 export const getComponentPosition = (id: string) => {
 	const dom = document.querySelector(`[data-component-id="${id}"]`) as HTMLElement;
+	if (!dom) return;
 	const rect = dom.getBoundingClientRect();
 	const rootDom = document.querySelector('.lowcode-preview-body') as HTMLElement;
 	const { top, left } = rootDom.getBoundingClientRect();

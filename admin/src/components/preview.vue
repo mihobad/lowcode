@@ -4,7 +4,7 @@
 			@mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @mousedown="handleMouseDown">
 			<RenderComponent :json="json" />
 			<PointerHover :position="hoverPosition" v-if="hoverVisible" />
-			<PointerResize :position="resizePosition" v-if="currentId" @update:position="handlePositionUpdate" />
+			<PointerResize :position="resizePosition" v-if="currentId && resizePosition" @update:position="handlePositionUpdate" />
 		</div>
 	</div>
 </template>
@@ -56,18 +56,18 @@ watch(
 	async ([nv]) => {
 		if (nv) {
 			await nextTick();
-			const position = getComponentPosition(nv);
-			resizePosition.value = position;
+			const position = getComponentPosition(nv as string);
+			resizePosition.value = position!;
 		}
 	},
-	{ immediate: true, deep: true },
+	{ deep: true },
 );
 
 const handleMouseMove = (event: MouseEvent) => {
 	const id = findComponentId(event);
 	if (!id) return;
 	const position = getComponentPosition(id);
-	hoverPosition.value = position;
+	hoverPosition.value = position!;
 	isHover.value = true;
 };
 
@@ -79,7 +79,7 @@ const handleMouseLeave = () => {
 const handleMouseDown = (event: MouseEvent) => {
 	const id = findComponentId(event);
 	if (!id) return;
-	const position = getComponentPosition(id);
+	const position = getComponentPosition(id)!;
 	resizePosition.value = position;
 	store.setCurrentComponent(position.id);
 };
@@ -109,7 +109,7 @@ const handlePositionUpdate = async (nv: Position) => {
 	});
 
 	await nextTick();
-	const position = getComponentPosition(nv.id!);
+	const position = getComponentPosition(nv.id!)!;
 	resizePosition.value = position;
 };
 </script>
